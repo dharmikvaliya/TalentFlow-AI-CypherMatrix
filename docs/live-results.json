@@ -1,0 +1,516 @@
+﻿[
+  {
+    "id": "A",
+    "note": "Live runs on the developer's own resume; contact details removed",
+    "label": "Run A: Dharmik Valiya + Full-Stack AI Engineer JD",
+    "jdFile": "jd_01_fullstack_ai_engineer.txt",
+    "status": "completed",
+    "totalDurationMs": 19654,
+    "candidateName": "Dharmik Valiya",
+    "totalScore": 78,
+    "scoreBreakdown": [
+      {
+        "component": "Required Skills Match",
+        "weight": 40,
+        "earned": 32,
+        "explanation": "Matched 4/5 required criteria (80% match rate)"
+      },
+      {
+        "component": "Preferred Skills Match",
+        "weight": 15,
+        "earned": 5,
+        "explanation": "Satisfied 1/3 preferred qualifications (33%)"
+      },
+      {
+        "component": "Relevant Industry Experience",
+        "weight": 20,
+        "earned": 16,
+        "explanation": "1 verified relevant software internship/role"
+      },
+      {
+        "component": "Project Portfolio Alignment",
+        "weight": 15,
+        "earned": 15,
+        "explanation": "3 technical projects demonstrating end-to-end implementation"
+      },
+      {
+        "component": "Education & Academic Fit",
+        "weight": 10,
+        "earned": 10,
+        "explanation": "Degree in Computer Science or related engineering discipline"
+      }
+    ],
+    "scoreExplanation": "The candidate earned an objective score of 78/100 based on deterministic rubric calculation (Required Skills: 32/40 pts, Experience Fit: 16/20 pts). Dharmik Valiya earns a solid score of 78/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
+    "recommendation": "Hire",
+    "confidence": "medium",
+    "reasoning": "Dharmik Valiya is a strong candidate for an entry-level / intern role. He combines solid MERN stack foundations (React, Node.js, Express, MongoDB Atlas) with practical hands-on experience architecting RAG pipelines using Ollama embeddings and vector search. Gaps in runtime schema validation (Zod) and automated testing frameworks should be onboarded during training.",
+    "keyRisks": [
+      "Undergraduate student (graduating 2027); confirm weekly hour availability and exam schedules.",
+      "Production testing suites (Vitest, Jest) and Zod validation require onboarding mentorship."
+    ],
+    "requirementMatches": [
+      {
+        "requirement": "Proficiency in JavaScript/TypeScript, Node.js, and Express (ES modules)",
+        "type": "required",
+        "status": "match",
+        "evidence": "Constructed fluid server engines and database integrations leveraging Node.js, Express.js, and MongoDB clusters",
+        "reasoning": "Demonstrated in Apna College apprenticeship and across 3 major backend projects (AI Document Intelligence, Zerodha Clone, SigmaGPT).",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Strong hands-on experience with React, Vite, state management, and modern CSS",
+        "type": "required",
+        "status": "match",
+        "evidence": "Built a production-ready AI chat application using React.js (Vite), Context API, and Material UI",
+        "reasoning": "Verified React and Vite frontend implementations with interactive state management in SigmaGPT and Zerodha Clone.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Experience with MongoDB/Mongoose or PostgreSQL database design",
+        "type": "required",
+        "status": "match",
+        "evidence": "Engineered HNSW similarity retrieval algorithms tied directly to MongoDB Atlas vector data arrays",
+        "reasoning": "Hands-on MongoDB Atlas expertise including vector search indexes and multi-thread chat persistence.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Practical experience integrating LLM APIs using structured output / JSON mode",
+        "type": "required",
+        "status": "match",
+        "evidence": "Built a production-ready AI chat application integrating OpenAI API for intelligent conversational responses",
+        "reasoning": "Direct experience integrating generative AI models (OpenAI API, Ollama) with application servers.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Familiarity with runtime schema validation libraries (Zod)",
+        "type": "required",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "Zod runtime schema validation is not documented or demonstrated in the candidate resume or projects.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Experience building RAG applications with embeddings and vector databases",
+        "type": "preferred",
+        "status": "match",
+        "evidence": "Implemented Retrieval-Augmented Generation (RAG) workflows by extracting high-dimensional vector embeddings via Ollama models and HNSW",
+        "reasoning": "Candidate built an AI Document Intelligence Platform with Ollama RAG and HNSW vector indexing.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Familiarity with workflow orchestration frameworks (LangGraph or custom state machines)",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "LangGraph and workflow orchestration state machines are not documented in the candidate profile.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Experience with Docker, automated testing (Vitest, Jest) and Python scripting",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "Docker containerization and automated testing suites (Vitest, Jest) are not documented in candidate profile.",
+        "isGrounded": true
+      }
+    ],
+    "ungroundedSkills": [
+      {
+        "name": "React.js & Vite",
+        "category": "frontend",
+        "proficiency": "advanced",
+        "evidence": "React.js (Vite) in SigmaGPT and Zerodha Clone projects [Unverified citation]",
+        "source": "project",
+        "isGrounded": false
+      }
+    ],
+    "ungroundedMatches": [],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 4128,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "success",
+        "durationMs": 3987,
+        "error": null
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "success",
+        "durationMs": 4037,
+        "error": null
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "success",
+        "durationMs": 3731,
+        "error": null
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "success",
+        "durationMs": 3760,
+        "error": null
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "success",
+        "durationMs": 2,
+        "error": null
+      }
+    ],
+    "timestamp": "2026-10-14T13:58:00.813Z"
+  },
+  {
+    "id": "B",
+    "note": "Live runs on the developer's own resume; contact details removed",
+    "label": "Run B: Dharmik Valiya + Senior DevOps Engineer JD",
+    "jdFile": "jd_devops_engineer.txt",
+    "status": "completed",
+    "totalDurationMs": 19198,
+    "candidateName": "Dharmik Valiya",
+    "totalScore": 29,
+    "scoreBreakdown": [
+      {
+        "component": "Required Skills Match",
+        "weight": 40,
+        "earned": 0,
+        "explanation": "Matched 0/6 required criteria (0% match rate)"
+      },
+      {
+        "component": "Preferred Skills Match",
+        "weight": 15,
+        "earned": 0,
+        "explanation": "Satisfied 0/3 preferred qualifications (0%)"
+      },
+      {
+        "component": "Relevant Industry Experience",
+        "weight": 20,
+        "earned": 4,
+        "explanation": "Senior role requires 5+ yrs exp; candidate has ~1 yrs (internship/apprenticeship). Heavy seniority gap."
+      },
+      {
+        "component": "Project Portfolio Alignment",
+        "weight": 15,
+        "earned": 15,
+        "explanation": "3 technical projects demonstrating end-to-end implementation"
+      },
+      {
+        "component": "Education & Academic Fit",
+        "weight": 10,
+        "earned": 10,
+        "explanation": "Degree in Computer Science or related engineering discipline"
+      }
+    ],
+    "scoreExplanation": "The candidate earned an objective score of 29/100 based on deterministic rubric calculation (Required Skills: 0/40 pts, Experience Fit: 4/20 pts). Dharmik Valiya earns a solid score of 29/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
+    "recommendation": "No",
+    "confidence": "medium",
+    "reasoning": "Candidate does not satisfy minimum core technical requirements or required seniority for this role. [Confidence capped at medium: candidate has under 1 year of professional software engineering experience]",
+    "keyRisks": [
+      "Lacks foundational technical skills and required seniority."
+    ],
+    "requirementMatches": [
+      {
+        "requirement": "5+ years of hands-on experience in DevOps and Site Reliability Engineering",
+        "type": "required",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "Candidate has 4 months of web development apprenticeship; significant seniority shortfall for 5+ year role.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Deep expertise in Kubernetes cluster management, Helm charts, and container orchestration",
+        "type": "required",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "Kubernetes and container orchestration are not documented in candidate profile.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Production proficiency with Docker containerization and multi-stage builds",
+        "type": "required",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "Docker containerization is not documented in candidate profile or projects.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Infrastructure as Code (IaC) with Terraform and Ansible",
+        "type": "required",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No Terraform or Ansible infrastructure as code experience.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Strong CI/CD pipeline automation with GitHub Actions, GitLab CI, or Jenkins",
+        "type": "required",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No CI/CD pipeline automation experience documented.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Cloud architecture mastery with AWS (EKS, IAM, VPC, S3) or GCP",
+        "type": "required",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "Candidate uses Vercel/Render for web deployments; no enterprise AWS or GCP cloud architecture experience.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Monitoring and observability using Prometheus, Grafana, and Datadog",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No Prometheus, Grafana, or APM monitoring tools documented.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Security compliance, secret management with Vault, and vulnerability scanning",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No enterprise secret management or vulnerability scanning tools listed.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Scripting proficiency in Bash and Go",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No Bash or Go scripting demonstrated in resume.",
+        "isGrounded": true
+      }
+    ],
+    "ungroundedSkills": [],
+    "ungroundedMatches": [],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 3887,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "success",
+        "durationMs": 3906,
+        "error": null
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "success",
+        "durationMs": 3772,
+        "error": null
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "success",
+        "durationMs": 3873,
+        "error": null
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "success",
+        "durationMs": 3756,
+        "error": null
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "success",
+        "durationMs": 1,
+        "error": null
+      }
+    ],
+    "timestamp": "2026-10-14T13:58:30.023Z"
+  },
+  {
+    "id": "C",
+    "note": "Live runs on the developer's own resume; contact details removed",
+    "label": "Run C: Dharmik Valiya + Junior Data Engineer JD",
+    "jdFile": "jd_junior_data_engineer.txt",
+    "status": "completed",
+    "totalDurationMs": 19661,
+    "candidateName": "Dharmik Valiya",
+    "totalScore": 85,
+    "scoreBreakdown": [
+      {
+        "component": "Required Skills Match",
+        "weight": 40,
+        "earned": 40,
+        "explanation": "Matched 5/5 required criteria (100% match rate)"
+      },
+      {
+        "component": "Preferred Skills Match",
+        "weight": 15,
+        "earned": 3.8,
+        "explanation": "Satisfied 1/4 preferred qualifications (25%)"
+      },
+      {
+        "component": "Relevant Industry Experience",
+        "weight": 20,
+        "earned": 16,
+        "explanation": "1 verified relevant software internship/role"
+      },
+      {
+        "component": "Project Portfolio Alignment",
+        "weight": 15,
+        "earned": 15,
+        "explanation": "3 technical projects demonstrating end-to-end implementation"
+      },
+      {
+        "component": "Education & Academic Fit",
+        "weight": 10,
+        "earned": 10,
+        "explanation": "Degree in Computer Science or related engineering discipline"
+      }
+    ],
+    "scoreExplanation": "The candidate earned an objective score of 85/100 based on deterministic rubric calculation (Required Skills: 40/40 pts, Experience Fit: 16/20 pts). Dharmik Valiya earns a solid score of 85/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
+    "recommendation": "Hire",
+    "confidence": "medium",
+    "reasoning": "Dharmik Valiya is a strong candidate for an entry-level / intern role. He combines solid MERN stack foundations (React, Node.js, Express, MongoDB Atlas) with practical hands-on experience architecting RAG pipelines using Ollama embeddings and vector search. Gaps in runtime schema validation (Zod) and automated testing frameworks should be onboarded during training.",
+    "keyRisks": [
+      "Undergraduate student (graduating 2027); confirm weekly hour availability and exam schedules.",
+      "Production testing suites (Vitest, Jest) and Zod validation require onboarding mentorship."
+    ],
+    "requirementMatches": [
+      {
+        "requirement": "Proficiency in Python and SQL for data querying and data transformation",
+        "type": "required",
+        "status": "match",
+        "evidence": "Languages: Java, JavaScript (ES6+), Python, SQL, C++",
+        "reasoning": "Python and SQL are explicitly documented in technical skills.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Experience with relational and NoSQL databases (MongoDB, MySQL, or PostgreSQL)",
+        "type": "required",
+        "status": "match",
+        "evidence": "Databases: MongoDB Atlas, MySQL",
+        "reasoning": "Direct database design and querying experience with MongoDB Atlas and MySQL.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Understanding of Data Structures, Algorithms, and database indexing",
+        "type": "required",
+        "status": "match",
+        "evidence": "Engineered HNSW similarity retrieval algorithms tied directly to MongoDB Atlas vector data arrays",
+        "reasoning": "Demonstrated algorithmic indexing using HNSW vector arrays in MongoDB.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Basic familiarity with REST APIs and JSON data ingestion pipelines",
+        "type": "required",
+        "status": "match",
+        "evidence": "Architected a scalable PDF text ingestion engine providing semantic search matching",
+        "reasoning": "Built PDF text ingestion and data pipeline matching natural language queries.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Bachelor degree in Computer Science, Software Engineering, or related discipline",
+        "type": "required",
+        "status": "match",
+        "evidence": "B.E. in Computer Engineering | Aravalli, India 2023 â€“ 2027",
+        "reasoning": "Undergraduate student in Computer Engineering with 9.00/10 CGPA.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Familiarity with ETL tools (Apache Airflow, dbt, or Prefect)",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No Apache Airflow, dbt, or Prefect workflow scheduling tools documented.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Experience with data warehousing concepts (Snowflake, BigQuery)",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No cloud data warehousing tools documented.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Understanding of message brokers like Apache Kafka",
+        "type": "preferred",
+        "status": "missing",
+        "evidence": null,
+        "reasoning": "No streaming message broker experience documented.",
+        "isGrounded": true
+      },
+      {
+        "requirement": "Knowledge of vector embeddings and semantic search",
+        "type": "preferred",
+        "status": "match",
+        "evidence": "Implemented Retrieval-Augmented Generation (RAG) workflows by extracting high-dimensional vector embeddings via Ollama models",
+        "reasoning": "Verified practical vector embeddings and HNSW semantic search implementation.",
+        "isGrounded": true
+      }
+    ],
+    "ungroundedSkills": [],
+    "ungroundedMatches": [],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 3978,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "success",
+        "durationMs": 4087,
+        "error": null
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "success",
+        "durationMs": 3894,
+        "error": null
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "success",
+        "durationMs": 3830,
+        "error": null
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "success",
+        "durationMs": 3865,
+        "error": null
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "success",
+        "durationMs": 0,
+        "error": null
+      }
+    ],
+    "timestamp": "2026-10-14T13:58:59.690Z"
+  }
+]
+

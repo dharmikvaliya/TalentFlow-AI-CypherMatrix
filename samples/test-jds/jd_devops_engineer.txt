@@ -1,0 +1,19 @@
+Job Title: Senior DevOps & Infrastructure Engineer
+Company: CloudScale Systems
+Location: Remote
+
+About the Role:
+We are seeking an experienced DevOps Engineer to design, deploy, and maintain scalable cloud infrastructure, CI/CD pipelines, and Kubernetes clusters.
+
+Required Qualifications & Skills:
+- 5+ years of hands-on experience in DevOps and Site Reliability Engineering.
+- Deep expertise in Kubernetes cluster management, Helm charts, and container orchestration.
+- Production proficiency with Docker containerization and multi-stage builds.
+- Infrastructure as Code (IaC) with Terraform and Ansible.
+- Strong CI/CD pipeline automation with GitHub Actions, GitLab CI, or Jenkins.
+- Cloud architecture mastery with AWS (EKS, IAM, VPC, S3) or GCP.
+
+Preferred / Nice-to-Have:
+- Monitoring and observability using Prometheus, Grafana, and Datadog.
+- Security compliance, secret management with Vault, and vulnerability scanning.
+- Scripting proficiency in Bash and Go.

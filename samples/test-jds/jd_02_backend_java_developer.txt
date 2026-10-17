@@ -1,0 +1,16 @@
+Job Title: Senior Backend Java Developer
+Company: Enterprise FinTech Systems
+Location: New York, NY
+
+Responsibilities:
+- Build mission-critical high-frequency transaction processing pipelines using Java 17 and Spring Boot microservices.
+- Design distributed event streaming architectures with Apache Kafka.
+- Model relational data schemas in PostgreSQL with Hibernate ORM.
+- Implement comprehensive unit and integration tests using JUnit 5 and Mockito.
+
+Required Skills:
+- 5+ years of core Java / J2EE development.
+- Spring Boot, Spring Cloud, and Spring Data.
+- Apache Kafka event streaming.
+- PostgreSQL database design and query tuning.
+- Docker and Kubernetes deployment.

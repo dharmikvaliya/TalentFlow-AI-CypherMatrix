@@ -1,0 +1,30 @@
+Job Title: Full-Stack AI Engineer / AI Automation Intern
+Company: Cypher Matrix Technologies
+Location: Remote / Hybrid
+Employment Type: Full-Time / Internship
+
+About the Role:
+We are seeking an enthusiastic and talented Full-Stack AI Engineer to design and implement cutting-edge agentic workflows, LLM orchestration pipelines, and scalable recruitment automation systems. You will work on real-world generative AI products combining React, Node.js, vector stores, and multi-agent coordination.
+
+Key Responsibilities:
+- Build reliable, end-to-end full-stack web applications using React, Node.js, Express, and MongoDB.
+- Architect multi-step agentic workflows and pipeline orchestration consuming structured JSON schemas.
+- Implement LLM provider integrations (OpenAI, Ollama) with robust prompt engineering and schema validation.
+- Design transparent, rubric-based deterministic scoring engines with evidence grounding.
+- Create responsive recruiter dashboards featuring workflow execution traces and candidate evaluation reports.
+- Write unit tests and maintain high standards of code quality, security, and documentation.
+
+Required Qualifications & Skills:
+- Proficiency in JavaScript/TypeScript, Node.js, and Express (ES modules).
+- Strong hands-on experience with React, Vite, state management, and modern CSS.
+- Experience with MongoDB/Mongoose or PostgreSQL database design.
+- Practical experience integrating LLM APIs (OpenAI or Anthropic) using structured output / JSON mode.
+- Familiarity with runtime schema validation libraries (Zod).
+- Solid grasp of REST API design, rate limiting, CORS, and authentication fundamentals.
+- Strong problem-solving skills, agent design thinking, and collaborative mindset.
+
+Preferred / Nice-to-Have:
+- Experience building RAG (Retrieval-Augmented Generation) applications with embeddings and vector databases.
+- Familiarity with workflow orchestration frameworks (LangGraph, Temporal, or custom state machines).
+- Experience with Docker, CI/CD pipelines, and cloud deployment (AWS/GCP/Vercel).
+- Knowledge of automated testing (Vitest, Jest) and Python scripting.

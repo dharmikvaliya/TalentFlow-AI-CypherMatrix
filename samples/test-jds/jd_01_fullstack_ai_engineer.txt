@@ -1,0 +1,18 @@
+Job Title: Full-Stack AI Engineer / AI Automation Intern
+Company: Cypher Matrix Technologies
+Location: Remote / Hybrid
+
+About the Role:
+We are seeking an enthusiastic Full-Stack AI Engineer to design and implement agentic workflows, LLM orchestration pipelines, and recruitment automation tools.
+
+Required Qualifications & Skills:
+- Proficiency in JavaScript/TypeScript, Node.js, and Express (ES modules).
+- Strong hands-on experience with React, Vite, state management, and modern CSS.
+- Experience with MongoDB/Mongoose or PostgreSQL database design.
+- Practical experience integrating LLM APIs using structured output / JSON mode.
+- Familiarity with runtime schema validation libraries (Zod).
+
+Preferred / Nice-to-Have:
+- Experience building RAG applications with embeddings and vector databases.
+- Familiarity with workflow orchestration frameworks (LangGraph or custom state machines).
+- Experience with Docker, automated testing (Vitest, Jest) and Python scripting.

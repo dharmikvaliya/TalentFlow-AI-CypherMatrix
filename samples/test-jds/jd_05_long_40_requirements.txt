@@ -1,0 +1,68 @@
+Job Title: Principal Enterprise Architect & Full-Stack Cloud Polyglot
+Company: Global MegaCorp Enterprises
+
+Comprehensive Requirements Checklist:
+
+[Frontend Requirements]
+1. Required capability in Frontend standard 1: advanced proficiency, architectural design, and production incident response.
+2. Required capability in Frontend standard 2: advanced proficiency, architectural design, and production incident response.
+3. Required capability in Frontend standard 3: advanced proficiency, architectural design, and production incident response.
+4. Required capability in Frontend standard 4: advanced proficiency, architectural design, and production incident response.
+5. Required capability in Frontend standard 5: advanced proficiency, architectural design, and production incident response.
+6. Required capability in Frontend standard 6: advanced proficiency, architectural design, and production incident response.
+
+[Backend Requirements]
+7. Required capability in Backend standard 1: advanced proficiency, architectural design, and production incident response.
+8. Required capability in Backend standard 2: advanced proficiency, architectural design, and production incident response.
+9. Required capability in Backend standard 3: advanced proficiency, architectural design, and production incident response.
+10. Required capability in Backend standard 4: advanced proficiency, architectural design, and production incident response.
+11. Required capability in Backend standard 5: advanced proficiency, architectural design, and production incident response.
+12. Required capability in Backend standard 6: advanced proficiency, architectural design, and production incident response.
+
+[Database Requirements]
+13. Required capability in Database standard 1: advanced proficiency, architectural design, and production incident response.
+14. Required capability in Database standard 2: advanced proficiency, architectural design, and production incident response.
+15. Required capability in Database standard 3: advanced proficiency, architectural design, and production incident response.
+16. Required capability in Database standard 4: advanced proficiency, architectural design, and production incident response.
+17. Required capability in Database standard 5: advanced proficiency, architectural design, and production incident response.
+18. Required capability in Database standard 6: advanced proficiency, architectural design, and production incident response.
+
+[Cloud & DevOps Requirements]
+19. Required capability in Cloud & DevOps standard 1: advanced proficiency, architectural design, and production incident response.
+20. Required capability in Cloud & DevOps standard 2: advanced proficiency, architectural design, and production incident response.
+21. Required capability in Cloud & DevOps standard 3: advanced proficiency, architectural design, and production incident response.
+22. Required capability in Cloud & DevOps standard 4: advanced proficiency, architectural design, and production incident response.
+23. Required capability in Cloud & DevOps standard 5: advanced proficiency, architectural design, and production incident response.
+24. Required capability in Cloud & DevOps standard 6: advanced proficiency, architectural design, and production incident response.
+
+[Security Requirements]
+25. Required capability in Security standard 1: advanced proficiency, architectural design, and production incident response.
+26. Required capability in Security standard 2: advanced proficiency, architectural design, and production incident response.
+27. Required capability in Security standard 3: advanced proficiency, architectural design, and production incident response.
+28. Required capability in Security standard 4: advanced proficiency, architectural design, and production incident response.
+29. Required capability in Security standard 5: advanced proficiency, architectural design, and production incident response.
+30. Required capability in Security standard 6: advanced proficiency, architectural design, and production incident response.
+
+[Testing Requirements]
+31. Required capability in Testing standard 1: advanced proficiency, architectural design, and production incident response.
+32. Required capability in Testing standard 2: advanced proficiency, architectural design, and production incident response.
+33. Required capability in Testing standard 3: advanced proficiency, architectural design, and production incident response.
+34. Required capability in Testing standard 4: advanced proficiency, architectural design, and production incident response.
+35. Required capability in Testing standard 5: advanced proficiency, architectural design, and production incident response.
+36. Required capability in Testing standard 6: advanced proficiency, architectural design, and production incident response.
+
+[AI & Data Requirements]
+37. Required capability in AI & Data standard 1: advanced proficiency, architectural design, and production incident response.
+38. Required capability in AI & Data standard 2: advanced proficiency, architectural design, and production incident response.
+39. Required capability in AI & Data standard 3: advanced proficiency, architectural design, and production incident response.
+40. Required capability in AI & Data standard 4: advanced proficiency, architectural design, and production incident response.
+41. Required capability in AI & Data standard 5: advanced proficiency, architectural design, and production incident response.
+42. Required capability in AI & Data standard 6: advanced proficiency, architectural design, and production incident response.
+
+[Soft Skills Requirements]
+43. Required capability in Soft Skills standard 1: advanced proficiency, architectural design, and production incident response.
+44. Required capability in Soft Skills standard 2: advanced proficiency, architectural design, and production incident response.
+45. Required capability in Soft Skills standard 3: advanced proficiency, architectural design, and production incident response.
+46. Required capability in Soft Skills standard 4: advanced proficiency, architectural design, and production incident response.
+47. Required capability in Soft Skills standard 5: advanced proficiency, architectural design, and production incident response.
+48. Required capability in Soft Skills standard 6: advanced proficiency, architectural design, and production incident response.

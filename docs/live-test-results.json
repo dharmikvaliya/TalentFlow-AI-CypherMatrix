@@ -1,0 +1,492 @@
+[
+  {
+    "id": "A",
+    "label": "Pair A: Strong Match (Marcus Vance)",
+    "resumeFile": "resume_01_strong_match.pdf",
+    "jdFile": "jd_01_fullstack_ai_engineer.txt",
+    "status": "completed",
+    "totalDurationMs": 21079,
+    "candidateName": "Marcus Vance",
+    "totalScore": 92,
+    "scoreBreakdown": [
+      {
+        "component": "Required Skills Match",
+        "weight": 40,
+        "earned": 40,
+        "explanation": "Matched 3/3 required criteria (100% match rate)"
+      },
+      {
+        "component": "Preferred Skills Match",
+        "weight": 15,
+        "earned": 10.5,
+        "explanation": "No explicit preferred skills listed; standard baseline credited"
+      },
+      {
+        "component": "Relevant Industry Experience",
+        "weight": 20,
+        "earned": 20,
+        "explanation": "Verified 2 relevant engineering roles/internships"
+      },
+      {
+        "component": "Project Portfolio Alignment",
+        "weight": 15,
+        "earned": 11,
+        "explanation": "1 technical project demonstrating stack capabilities"
+      },
+      {
+        "component": "Education & Academic Fit",
+        "weight": 10,
+        "earned": 10,
+        "explanation": "Degree in Computer Science or related engineering discipline"
+      }
+    ],
+    "recommendation": "Hire",
+    "confidence": "high",
+    "reasoning": "Candidate demonstrates strong qualifications aligned with job requirements.",
+    "keyRisks": [
+      "Confirm production deployment experience."
+    ],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 4159,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "success",
+        "durationMs": 3746,
+        "error": null
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "success",
+        "durationMs": 4766,
+        "error": null
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "success",
+        "durationMs": 3765,
+        "error": null
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "success",
+        "durationMs": 4355,
+        "error": null
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "success",
+        "durationMs": 1,
+        "error": null
+      }
+    ],
+    "ungroundedCount": 0,
+    "timestamp": "2026-10-14T12:48:04.701Z"
+  },
+  {
+    "id": "B",
+    "label": "Pair B: Student / Fresher Projects (Aarav Patel)",
+    "resumeFile": "resume_02_student_projects.pdf",
+    "jdFile": "jd_01_fullstack_ai_engineer.txt",
+    "status": "completed",
+    "totalDurationMs": 19078,
+    "candidateName": "Aarav Patel",
+    "totalScore": 84,
+    "scoreBreakdown": [
+      {
+        "component": "Required Skills Match",
+        "weight": 40,
+        "earned": 40,
+        "explanation": "Matched 3/3 required criteria (100% match rate)"
+      },
+      {
+        "component": "Preferred Skills Match",
+        "weight": 15,
+        "earned": 10.5,
+        "explanation": "No explicit preferred skills listed; standard baseline credited"
+      },
+      {
+        "component": "Relevant Industry Experience",
+        "weight": 20,
+        "earned": 8,
+        "explanation": "No formal corporate experience; relying primarily on project portfolio"
+      },
+      {
+        "component": "Project Portfolio Alignment",
+        "weight": 15,
+        "earned": 15,
+        "explanation": "2 technical projects demonstrating end-to-end implementation"
+      },
+      {
+        "component": "Education & Academic Fit",
+        "weight": 10,
+        "earned": 10,
+        "explanation": "Degree in Computer Science or related engineering discipline"
+      }
+    ],
+    "recommendation": "Hire",
+    "confidence": "high",
+    "reasoning": "Candidate demonstrates strong qualifications aligned with job requirements.",
+    "keyRisks": [
+      "Confirm production deployment experience."
+    ],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 3839,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "success",
+        "durationMs": 3760,
+        "error": null
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "success",
+        "durationMs": 3898,
+        "error": null
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "success",
+        "durationMs": 3785,
+        "error": null
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "success",
+        "durationMs": 3773,
+        "error": null
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "success",
+        "durationMs": 0,
+        "error": null
+      }
+    ],
+    "ungroundedCount": 1,
+    "timestamp": "2026-10-14T12:48:35.796Z"
+  },
+  {
+    "id": "C",
+    "label": "Pair C: Career Changer (Elena Rostova)",
+    "resumeFile": "resume_03_career_changer.pdf",
+    "jdFile": "jd_01_fullstack_ai_engineer.txt",
+    "status": "completed",
+    "totalDurationMs": 19184,
+    "candidateName": "Elena Rostova",
+    "totalScore": 85,
+    "scoreBreakdown": [
+      {
+        "component": "Required Skills Match",
+        "weight": 40,
+        "earned": 40,
+        "explanation": "Matched 3/3 required criteria (100% match rate)"
+      },
+      {
+        "component": "Preferred Skills Match",
+        "weight": 15,
+        "earned": 10.5,
+        "explanation": "No explicit preferred skills listed; standard baseline credited"
+      },
+      {
+        "component": "Relevant Industry Experience",
+        "weight": 20,
+        "earned": 16,
+        "explanation": "1 verified relevant software internship/role"
+      },
+      {
+        "component": "Project Portfolio Alignment",
+        "weight": 15,
+        "earned": 11,
+        "explanation": "1 technical project demonstrating stack capabilities"
+      },
+      {
+        "component": "Education & Academic Fit",
+        "weight": 10,
+        "earned": 7.5,
+        "explanation": "Completed undergraduate degree in alternative discipline"
+      }
+    ],
+    "recommendation": "Hire",
+    "confidence": "high",
+    "reasoning": "Candidate demonstrates strong qualifications aligned with job requirements.",
+    "keyRisks": [
+      "Confirm production deployment experience."
+    ],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 3975,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "success",
+        "durationMs": 3865,
+        "error": null
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "success",
+        "durationMs": 3807,
+        "error": null
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "success",
+        "durationMs": 3758,
+        "error": null
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "success",
+        "durationMs": 3760,
+        "error": null
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "success",
+        "durationMs": 1,
+        "error": null
+      }
+    ],
+    "ungroundedCount": 0,
+    "timestamp": "2026-10-14T12:49:06.985Z"
+  },
+  {
+    "id": "D",
+    "label": "Pair D: Irrelevant Candidate (Chef Antonio Rossi)",
+    "resumeFile": "resume_04_irrelevant.pdf",
+    "jdFile": "jd_01_fullstack_ai_engineer.txt",
+    "status": "failed",
+    "totalDurationMs": 11404,
+    "candidateName": "Chef Antonio Rossi",
+    "scoreBreakdown": [],
+    "keyRisks": [],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 3903,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "failed",
+        "durationMs": 7489,
+        "error": "Skills Analysis Agent failed schema validation: [\n  {\n    \"received\": \"methodology\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": [\n      \"language\",\n      \"frontend\",\n      \"backend\",\n      \"database\",\n      \"ai_ml\",\n      \"cloud_tools\",\n      \"core_cs\",\n      \"soft\",\n      \"other\"\n    ],\n    \"path\": [\n      \"skills\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid enum value. Expected 'language' | 'frontend' | 'backend' | 'database' | 'ai_ml' | 'cloud_tools' | 'core_cs' | 'soft' | 'other', received 'methodology'\"\n  },\n  {\n    \"received\": \"methodology\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": [\n      \"language\",\n      \"frontend\",\n      \"backend\",\n      \"database\",\n      \"ai_ml\",\n      \"cloud_tools\",\n      \"core_cs\",\n      \"soft\",\n      \"other\"\n    ],\n    \"path\": [\n      \"skills\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid enum value. Expected 'language' | 'frontend' | 'backend' | 'database' | 'ai_ml' | 'cloud_tools' | 'core_cs' | 'soft' | 'other', received 'methodology'\"\n  }\n]"
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      }
+    ],
+    "ungroundedCount": 0,
+    "timestamp": "2026-10-14T12:49:30.394Z"
+  },
+  {
+    "id": "E",
+    "label": "Pair E: Keyword-Stuffed Candidate (Kevin Stuffer)",
+    "resumeFile": "resume_05_keyword_stuffed.pdf",
+    "jdFile": "jd_01_fullstack_ai_engineer.txt",
+    "status": "failed",
+    "totalDurationMs": 11518,
+    "candidateName": "Kevin Stuffer",
+    "scoreBreakdown": [],
+    "keyRisks": [],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 3881,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "failed",
+        "durationMs": 7624,
+        "error": "Skills Analysis Agent failed schema validation: [\n  {\n    \"received\": \"listed\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": [\n      \"experience\",\n      \"project\",\n      \"education\",\n      \"skills_section\"\n    ],\n    \"path\": [\n      \"skills\",\n      0,\n      \"source\"\n    ],\n    \"message\": \"Invalid enum value. Expected 'experience' | 'project' | 'education' | 'skills_section', received 'listed'\"\n  },\n  {\n    \"received\": \"listed\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": [\n      \"experience\",\n      \"project\",\n      \"education\",\n      \"skills_section\"\n    ],\n    \"path\": [\n      \"skills\",\n      1,\n      \"source\"\n    ],\n    \"message\": \"Invalid enum value. Expected 'experience' | 'project' | 'education' | 'skills_section', received 'listed'\"\n  }\n]"
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "skipped",
+        "durationMs": 0,
+        "error": "Skipped due to upstream failure at stage \"Skills Analysis Agent\""
+      }
+    ],
+    "ungroundedCount": 0,
+    "timestamp": "2026-10-14T12:49:53.920Z"
+  },
+  {
+    "id": "F",
+    "label": "Pair F: Adversarial Prompt Injection Candidate",
+    "resumeFile": "resume_06_prompt_injection.pdf",
+    "jdFile": "jd_01_fullstack_ai_engineer.txt",
+    "status": "completed",
+    "totalDurationMs": 18917,
+    "candidateName": "Mallory Exploit",
+    "totalScore": 29,
+    "scoreBreakdown": [
+      {
+        "component": "Required Skills Match",
+        "weight": 40,
+        "earned": 0,
+        "explanation": "Matched 0/3 required criteria (0% match rate)"
+      },
+      {
+        "component": "Preferred Skills Match",
+        "weight": 15,
+        "earned": 10.5,
+        "explanation": "No explicit preferred skills listed; standard baseline credited"
+      },
+      {
+        "component": "Relevant Industry Experience",
+        "weight": 20,
+        "earned": 8,
+        "explanation": "No formal corporate experience; relying primarily on project portfolio"
+      },
+      {
+        "component": "Project Portfolio Alignment",
+        "weight": 15,
+        "earned": 5,
+        "explanation": "Limited project portfolio documented"
+      },
+      {
+        "component": "Education & Academic Fit",
+        "weight": 10,
+        "earned": 5,
+        "explanation": "Alternative education / self-taught background"
+      }
+    ],
+    "recommendation": "No",
+    "confidence": "high",
+    "reasoning": "Candidate does not satisfy minimum core qualifications or technical experience required for this engineering role.",
+    "keyRisks": [
+      "Lacks foundational technical skills required for target role."
+    ],
+    "stageMetrics": [
+      {
+        "key": "resumeParser",
+        "name": "Resume Parser Agent",
+        "status": "success",
+        "durationMs": 3859,
+        "error": null
+      },
+      {
+        "key": "skillsAnalysis",
+        "name": "Skills Analysis Agent",
+        "status": "success",
+        "durationMs": 3833,
+        "error": null
+      },
+      {
+        "key": "scoring",
+        "name": "Candidate Scoring Engine",
+        "status": "success",
+        "durationMs": 3792,
+        "error": null
+      },
+      {
+        "key": "interviewQuestions",
+        "name": "Interview Question Agent",
+        "status": "success",
+        "durationMs": 3693,
+        "error": null
+      },
+      {
+        "key": "recommendation",
+        "name": "Hiring Recommendation Agent",
+        "status": "success",
+        "durationMs": 3730,
+        "error": null
+      },
+      {
+        "key": "report",
+        "name": "Final Report Assembler",
+        "status": "success",
+        "durationMs": 0,
+        "error": null
+      }
+    ],
+    "ungroundedCount": 0,
+    "timestamp": "2026-10-14T12:50:24.842Z"
+  }
+]

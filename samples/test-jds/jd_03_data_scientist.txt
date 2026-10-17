@@ -1,0 +1,13 @@
+Job Title: Lead Data Scientist (NLP & Deep Learning)
+Company: HealthAI Labs
+Location: Boston, MA
+
+Overview:
+Looking for an experienced Data Scientist to train custom transformer models, analyze clinical text, and deploy predictive healthcare analytics.
+
+Required Qualifications:
+- M.S. or Ph.D. in Computer Science, Statistics, or Machine Learning.
+- Expertise in Python, PyTorch, Scikit-learn, and Hugging Face Transformers.
+- Strong background in Natural Language Processing (NLP), text classification, and embedding models.
+- Experience with SQL and large-scale data wrangling in Pandas/Spark.
+- Track record of deploying machine learning models into production.

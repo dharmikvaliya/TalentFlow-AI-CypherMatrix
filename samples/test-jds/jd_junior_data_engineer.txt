@@ -1,0 +1,19 @@
+Job Title: Junior Data Engineer
+Company: DataSphere Analytics
+Location: Hybrid
+
+About the Role:
+We are looking for a Junior Data Engineer / Entry-Level Data Developer to assist in building data pipelines, ETL workflows, and data storage solutions.
+
+Required Qualifications & Skills:
+- Proficiency in Python and SQL for data querying and data transformation.
+- Experience with relational and NoSQL databases (MongoDB, MySQL, or PostgreSQL).
+- Understanding of Data Structures, Algorithms, and database indexing.
+- Basic familiarity with REST APIs and JSON data ingestion pipelines.
+- Bachelor's degree in Computer Science, Software Engineering, or related discipline.
+
+Preferred / Nice-to-Have:
+- Familiarity with ETL tools (Apache Airflow, dbt, or Prefect).
+- Experience with data warehousing concepts (Snowflake, BigQuery).
+- Understanding of message brokers like Apache Kafka.
+- Knowledge of vector embeddings and semantic search.
