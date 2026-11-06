@@ -30,9 +30,11 @@ export function checkDemoRateLimits(clientIp) {
     runTimestamps.shift();
   }
 
-  // Max runs per day limit
+  // Max runs per day limit (defaults to 50 in production, 3 in test)
   const maxRunsPerDayEnv = process.env.MAX_RUNS_PER_DAY;
-  const maxRunsPerDay = maxRunsPerDayEnv !== undefined ? parseInt(maxRunsPerDayEnv, 10) : 3;
+  const maxRunsPerDay = maxRunsPerDayEnv !== undefined
+    ? parseInt(maxRunsPerDayEnv, 10)
+    : (process.env.NODE_ENV === 'test' ? 3 : 50);
 
   if (maxRunsPerDay > 0 && runTimestamps.length >= maxRunsPerDay) {
     const error = new Error('Demo analysis limit reached for today. Please try again tomorrow or run locally in mock mode.');
@@ -42,11 +44,16 @@ export function checkDemoRateLimits(clientIp) {
     throw error;
   }
 
-  // Per-IP limit (2 runs per hour)
-  if (clientIp) {
+  // Per-IP limit (defaults to 10 in production, 2 in test)
+  const maxRunsPerHourEnv = process.env.MAX_RUNS_PER_HOUR_PER_IP;
+  const maxRunsPerHour = maxRunsPerHourEnv !== undefined
+    ? parseInt(maxRunsPerHourEnv, 10)
+    : (process.env.NODE_ENV === 'test' ? 2 : 10);
+
+  if (maxRunsPerHour > 0 && clientIp) {
     const ipTimestamps = (ipRunMap.get(clientIp) || []).filter(t => t >= oneHourAgo);
-    if (ipTimestamps.length >= 2) {
-      const error = new Error('Rate limit exceeded: maximum 2 runs per hour per IP. Please try again later.');
+    if (ipTimestamps.length >= maxRunsPerHour) {
+      const error = new Error(`Rate limit exceeded: maximum ${maxRunsPerHour} runs per hour per IP. Please try again later.`);
       error.statusCode = 429;
       error.code = 'DEMO_IP_LIMIT_REACHED';
       error.isPublic = true;

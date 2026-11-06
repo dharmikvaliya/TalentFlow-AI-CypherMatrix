@@ -82,9 +82,11 @@ const FALLBACK_PROVIDERS = [
     name: 'NVIDIA NIM',
     badge: 'Enterprise Privacy (84 Models)',
     hasKey: true,
-    defaultModel: 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning',
+    defaultModel: 'meta/llama-3.3-70b-instruct',
     models: [
+      'meta/llama-3.3-70b-instruct',
       'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning',
+      'qwen/qwen2.5-coder-32b-instruct',
       'nvidia/llama-3.1-nemotron-70b-instruct',
       'mistralai/mistral-7b-instruct-v0.3'
     ]

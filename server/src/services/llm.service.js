@@ -443,13 +443,24 @@ class LLMService {
 
         const completion = await client.chat.completions.create(payload, { timeout: 60000 });
 
-        let content = completion.choices?.[0]?.message?.content?.trim();
+        const messageObj = completion.choices?.[0]?.message || {};
+        let content = (messageObj.content || '').trim();
+        // Fallback to reasoning_content if content is empty (common in reasoning models e.g. Nemotron/DeepSeek)
+        if (!content && (messageObj.reasoning_content || messageObj.reasoning)) {
+          content = (messageObj.reasoning_content || messageObj.reasoning).trim();
+        }
+
         if (!content) {
           throw new LLMProviderError({
             provider: config.provider,
             status: 422,
             message: `${config.name} returned empty message content for agent "${agentName}"`
           });
+        }
+
+        // Strip thinking blocks <think>...</think> if present
+        if (content.includes('<think>')) {
+          content = content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
         }
 
         if (content.startsWith('```')) {
@@ -489,7 +500,12 @@ class LLMService {
         const safeMessage = redactSecretPatterns(err.message || '');
         const status = err.status || err.statusCode || 500;
 
-        if (status === 400 && /failed to generate json/i.test(safeMessage) && attempt < maxAttempts) {
+        if (
+          status === 400 &&
+          (/failed to generate json/i.test(safeMessage) ||
+           /response_format|json_object|not supported|schema/i.test(safeMessage)) &&
+          attempt < maxAttempts
+        ) {
           console.warn(`[LLM Service] [${config.name}] Constrained JSON mode failed for agent "${agentName}"; retrying without response_format constraint...`);
           dropResponseFormat = true;
           continue;
