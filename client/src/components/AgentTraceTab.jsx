@@ -8,7 +8,11 @@ const STAGE_TRANSITIONS = {
   },
   skillsAnalysis: {
     purpose: 'Categorize skills with resume evidence and map qualifications against JD requirements.',
-    feedsInto: 'Feeds requirement matches into Stage 3 (Scoring) and verified skills into Stage 4 (Questions).'
+    feedsInto: 'Feeds requirement matches into Stage 3 (Resume Integrity) and Stage 4 (Scoring).'
+  },
+  resumeIntegrity: {
+    purpose: 'Deterministic heuristic analysis of textual signals (keyword repetition, JD phrase copying, unsupported skills, prompt injection).',
+    feedsInto: 'Feeds verification context into Stage 5 (Questions), Stage 6 (Recommendation), and Stage 7 (Final Report).'
   },
   scoring: {
     purpose: 'Compute deterministic 0-100 rubric score and generate grounded strengths & gaps explanation.',
@@ -32,6 +36,7 @@ export default function AgentTraceTab({ stages = [] }) {
   const [expandedStages, setExpandedStages] = useState({
     resumeParser: false,
     skillsAnalysis: false,
+    resumeIntegrity: false,
     scoring: false,
     interviewQuestions: false,
     recommendation: false,

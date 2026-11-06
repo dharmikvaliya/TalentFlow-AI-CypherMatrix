@@ -7,6 +7,8 @@ import interviewQuestionsAgent from '../agents/interviewQuestions.agent.js';
 import recommendationAgent from '../agents/recommendation.agent.js';
 import { assembleFinalReport } from '../report/reportAssembler.js';
 import { llmService } from '../services/llm.service.js';
+import { analyzeResumeIntegrity } from '../services/resumeIntegrity.service.js';
+import { resumeIntegrityOutputSchema } from '../validators/agentSchemas.js';
 
 // In-memory fallback cache if MongoDB is offline
 export const memoryWorkflowRuns = new Map();
@@ -14,6 +16,7 @@ export const memoryWorkflowRuns = new Map();
 export const STAGES_CONFIG = [
   { key: 'resumeParser', name: 'Resume Parser Agent', agent: resumeParserAgent },
   { key: 'skillsAnalysis', name: 'Skills Analysis Agent', agent: skillsAnalysisAgent },
+  { key: 'resumeIntegrity', name: 'Resume Integrity Engine', isCode: true },
   { key: 'scoring', name: 'Candidate Scoring Engine', agent: scoringAgent },
   { key: 'interviewQuestions', name: 'Interview Question Agent', agent: interviewQuestionsAgent },
   { key: 'recommendation', name: 'Hiring Recommendation Agent', agent: recommendationAgent },
@@ -28,6 +31,7 @@ export async function persistWorkflowRun(runDoc) {
 
   if (mongoose.connection.readyState === 1 && typeof runDoc.save === 'function') {
     try {
+      if (typeof runDoc.markModified === 'function') runDoc.markModified('stages');
       await runDoc.save();
     } catch (err) {
       console.error('[Workflow] Failed to persist run to MongoDB:', err.message);
@@ -49,7 +53,7 @@ export async function getRunById(runId) {
 /**
  * Creates a new WorkflowRun record and initializes all stages to pending.
  */
-export async function initializeWorkflowRun({ candidateId, jobDescription }) {
+export async function initializeWorkflowRun({ candidateId, jobDescription, provider = null, model = null }) {
   const initialStages = STAGES_CONFIG.map(st => ({
     key: st.key,
     name: st.name,
@@ -72,9 +76,12 @@ export async function initializeWorkflowRun({ candidateId, jobDescription }) {
   if (isDbConnected) {
     run = await WorkflowRun.create({
       candidateId,
+      provider: provider || null,
+      model: model || null,
       jobDescription,
       status: 'pending',
       stages: initialStages,
+      resumeIntegrity: null,
       finalReport: null
     });
   } else {
@@ -82,9 +89,12 @@ export async function initializeWorkflowRun({ candidateId, jobDescription }) {
     run = {
       _id: id,
       candidateId,
+      provider: provider || null,
+      model: model || null,
       jobDescription,
       status: 'pending',
       stages: initialStages,
+      resumeIntegrity: null,
       finalReport: null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
@@ -106,48 +116,114 @@ async function executeStage({ stageConfig, state, stageIndex, run }) {
 
   const startTime = Date.now();
   let retriesCount = 0;
+  let fallbackUsed = false;
 
   try {
     let output = null;
 
     if (stageConfig.key === 'resumeParser') {
       stageTrace.inputSummary = `Raw text: ${state.rawText.length} characters`;
-      output = await stageConfig.agent.run({ rawText: state.rawText });
+      output = await stageConfig.agent.run({ rawText: state.rawText, provider: state.provider, model: state.model });
       state.outputs.parser = output;
     } else if (stageConfig.key === 'skillsAnalysis') {
       stageTrace.inputSummary = `Profile: ${state.outputs.parser.name} | Target JD (${state.jobDescription.length} chars):\n${state.jobDescription}`;
       output = await stageConfig.agent.run({
         profile: state.outputs.parser,
         jobDescription: state.jobDescription,
-        rawText: state.rawText
+        rawText: state.rawText,
+        provider: state.provider,
+        model: state.model
       });
       state.outputs.skills = output;
+    } else if (stageConfig.key === 'resumeIntegrity') {
+      stageTrace.inputSummary = `Raw text: ${state.rawText?.length || 0} chars | Skills: ${state.outputs.skills?.skills?.length || 0} | Req Matches: ${state.outputs.skills?.requirementMatches?.length || 0}`;
+      try {
+        const rawIntegrityOutput = analyzeResumeIntegrity({
+          rawResumeText: state.rawText,
+          jobDescription: state.jobDescription,
+          candidateProfile: state.outputs.parser,
+          requirementMatches: state.outputs.skills?.requirementMatches || []
+        });
+        output = resumeIntegrityOutputSchema.parse(rawIntegrityOutput);
+      } catch (err) {
+        console.warn('[Workflow] Resume Integrity Analysis failed; activating safe fallback:', err.message);
+        output = {
+          // An unavailable analysis cannot support a low-risk conclusion.
+          // Use the neutral review tier and require a human assessment.
+          riskLevel: 'medium',
+          confidence: 0,
+          reviewRequired: true,
+          metrics: {
+            totalWords: 0,
+            uniqueWordRatio: 0,
+            repeatedTermRatio: 0,
+            jdPhraseOverlapRatio: 0,
+            unsupportedSkillRatio: 0,
+            promptInjectionIndicatorCount: 0,
+            genericPhraseCount: 0
+          },
+          flags: [
+            {
+              code: 'INTEGRITY_ANALYSIS_UNAVAILABLE',
+              severity: 'warning',
+              title: 'Integrity analysis unavailable',
+              explanation: 'Resume integrity analysis could not be completed. Manual review is required.',
+              evidence: [],
+              affectedSkills: []
+            }
+          ],
+          summary: 'Integrity analysis was unavailable. No low-risk conclusion should be inferred.',
+          limitations: [
+            'Manual review is required because automated integrity analysis was unavailable.'
+          ]
+        };
+        stageTrace.fallbackUsed = true;
+      }
+      state.outputs.integrity = output;
+      run.resumeIntegrity = output;
     } else if (stageConfig.key === 'scoring') {
       stageTrace.inputSummary = `Requirement matches: ${state.outputs.skills.requirementMatches.length} items | Target JD: ${state.jobDescription.length} chars`;
       output = await stageConfig.agent.run({
         profile: state.outputs.parser,
         skillsAnalysis: state.outputs.skills,
-        jobDescription: state.jobDescription
+        jobDescription: state.jobDescription,
+        provider: state.provider,
+        model: state.model
       });
       state.outputs.scoring = output;
     } else if (stageConfig.key === 'interviewQuestions') {
+      const hasIntegrityRisk = state.outputs.integrity && (state.outputs.integrity.riskLevel !== 'low' || state.outputs.integrity.reviewRequired);
       stageTrace.inputSummary = `Score: ${state.outputs.scoring.totalScore}, Strengths: ${state.outputs.scoring.strengths.length}, Gaps: ${state.outputs.scoring.gaps.length}`;
       output = await stageConfig.agent.run({
         profile: state.outputs.parser,
         skillsAnalysis: state.outputs.skills,
         strengths: state.outputs.scoring.strengths,
         gaps: state.outputs.scoring.gaps,
-        jobDescription: state.jobDescription
+        integrityFindings: hasIntegrityRisk ? state.outputs.integrity : null,
+        jobDescription: state.jobDescription,
+        provider: state.provider,
+        model: state.model
       });
       state.outputs.questions = output;
     } else if (stageConfig.key === 'recommendation') {
+      const integritySummary = state.outputs.integrity ? {
+        riskLevel: state.outputs.integrity.riskLevel,
+        confidence: state.outputs.integrity.confidence,
+        reviewRequired: state.outputs.integrity.reviewRequired,
+        summary: state.outputs.integrity.summary,
+        flagsCount: (state.outputs.integrity.flags || []).length,
+        flagCodes: (state.outputs.integrity.flags || []).map(f => f.code)
+      } : null;
       stageTrace.inputSummary = `Total score: ${state.outputs.scoring.totalScore}/100, Technical questions: ${state.outputs.questions.technical.length}`;
       output = await stageConfig.agent.run({
         profile: state.outputs.parser,
         skillsAnalysis: state.outputs.skills,
         scoring: state.outputs.scoring,
         interviewQuestions: state.outputs.questions,
-        jobDescription: state.jobDescription
+        integritySummary,
+        jobDescription: state.jobDescription,
+        provider: state.provider,
+        model: state.model
       });
       state.outputs.recommendation = output;
     } else if (stageConfig.key === 'report') {
@@ -160,14 +236,27 @@ async function executeStage({ stageConfig, state, stageIndex, run }) {
       run.finalReport = output;
     }
 
-    const meta = llmService.getLastMetadata() || {
+    const meta = (stageConfig.key === 'resumeIntegrity')
+      ? { provider: 'code', model: 'deterministic-integrity-engine', fallbackUsed: Boolean(stageTrace.fallbackUsed || fallbackUsed) }
+      : (stageConfig.key === 'report')
+        ? { provider: 'code', model: 'deterministic-assembler', fallbackUsed: false }
+        : (llmService.getLastMetadata() || {
       provider: stageConfig.isCode ? 'code' : llmService.provider,
       model: stageConfig.isCode ? 'deterministic-assembler' : llmService.modelName,
       fallbackUsed: false
-    };
+    });
     stageTrace.provider = meta.provider;
     stageTrace.model = meta.model;
-    stageTrace.fallbackUsed = meta.fallbackUsed;
+    stageTrace.fallbackUsed = Boolean(meta.fallbackUsed);
+    if (meta.fallbackUsed) {
+      stageTrace.fallbackWarning = 'Synthetic mock response substituted due to live provider failure';
+      if (output && typeof output === 'object' && !Array.isArray(output)) {
+        output._isSyntheticMock = true;
+      }
+    }
+    if (meta.repairedTruncation) {
+      stageTrace.repairedTruncation = true;
+    }
 
     const durationMs = Date.now() - startTime;
     stageTrace.status = 'success';
@@ -187,11 +276,15 @@ async function executeStage({ stageConfig, state, stageIndex, run }) {
     stageTrace.durationMs = durationMs;
     stageTrace.retries = retriesCount;
 
-    const meta = llmService.getLastMetadata() || {
+    const meta = (stageConfig.key === 'resumeIntegrity')
+      ? { provider: 'code', model: 'deterministic-integrity-engine', fallbackUsed: Boolean(stageTrace.fallbackUsed) }
+      : (stageConfig.key === 'report')
+        ? { provider: 'code', model: 'deterministic-assembler', fallbackUsed: false }
+        : (llmService.getLastMetadata() || {
       provider: llmService.provider,
       model: llmService.modelName,
       fallbackUsed: false
-    };
+    });
     stageTrace.provider = meta.provider;
     stageTrace.model = meta.model;
     stageTrace.fallbackUsed = meta.fallbackUsed;
@@ -219,11 +312,23 @@ async function executeStage({ stageConfig, state, stageIndex, run }) {
  * @param {string} params.jobDescription - Target JD
  * @param {number} [params.startFromStageIndex=0] - For retrying a specific stage
  */
-export async function executeRecruitmentWorkflow({ runId, rawText, jobDescription, startFromStageIndex = 0 }) {
+export async function executeRecruitmentWorkflow({
+  runId,
+  rawText,
+  jobDescription,
+  startFromStageIndex = 0,
+  provider = null,
+  model = null
+}) {
   const run = await getRunById(runId);
   if (!run) {
     throw new Error(`Workflow run ${runId} not found`);
   }
+
+  const effectiveProvider = provider || run.provider || null;
+  const effectiveModel = model || run.model || null;
+  if (effectiveProvider && !run.provider) run.provider = effectiveProvider;
+  if (effectiveModel && !run.model) run.model = effectiveModel;
 
   run.status = 'running';
   await persistWorkflowRun(run);
@@ -234,9 +339,12 @@ export async function executeRecruitmentWorkflow({ runId, rawText, jobDescriptio
     candidateId: run.candidateId,
     rawText,
     jobDescription,
+    provider: effectiveProvider,
+    model: effectiveModel,
     outputs: {
       parser: run.stages.find(s => s.key === 'resumeParser')?.output || null,
       skills: run.stages.find(s => s.key === 'skillsAnalysis')?.output || null,
+      integrity: run.stages.find(s => s.key === 'resumeIntegrity')?.output || run.resumeIntegrity || null,
       scoring: run.stages.find(s => s.key === 'scoring')?.output || null,
       questions: run.stages.find(s => s.key === 'interviewQuestions')?.output || null,
       recommendation: run.stages.find(s => s.key === 'recommendation')?.output || null,

@@ -48,22 +48,24 @@ describe('Step 2: Workflow Stage Retry Flow Suite (MOCK MODE)', () => {
 
     expect(failedRun.status).toBe('failed');
 
-    // Verify stages 0, 1, 2 succeeded
+    // Verify stages 0, 1, 2, 3 succeeded
     expect(failedRun.stages[0].status).toBe('success'); // resumeParser
     expect(failedRun.stages[1].status).toBe('success'); // skillsAnalysis
-    expect(failedRun.stages[2].status).toBe('success'); // scoring
+    expect(failedRun.stages[2].status).toBe('success'); // resumeIntegrity
+    expect(failedRun.stages[3].status).toBe('success'); // scoring
 
     const savedParserOutput = failedRun.stages[0].output;
     const savedSkillsOutput = failedRun.stages[1].output;
-    const savedScoringOutput = failedRun.stages[2].output;
+    const savedIntegrityOutput = failedRun.stages[2].output;
+    const savedScoringOutput = failedRun.stages[3].output;
 
-    // Verify stage 3 failed
-    expect(failedRun.stages[3].status).toBe('failed'); // interviewQuestions
-    expect(failedRun.stages[3].error).toContain('Simulated upstream API timeout');
+    // Verify stage 4 failed
+    expect(failedRun.stages[4].status).toBe('failed'); // interviewQuestions
+    expect(failedRun.stages[4].error).toContain('Simulated upstream API timeout');
 
-    // Verify stages 4 and 5 were skipped
-    expect(failedRun.stages[4].status).toBe('skipped'); // recommendation
-    expect(failedRun.stages[5].status).toBe('skipped'); // report
+    // Verify stages 5 and 6 were skipped
+    expect(failedRun.stages[5].status).toBe('skipped'); // recommendation
+    expect(failedRun.stages[6].status).toBe('skipped'); // report
 
     // 3. Now resolve failure condition and call retry endpoint
     shouldFailQuestions = false;
@@ -85,12 +87,13 @@ describe('Step 2: Workflow Stage Retry Flow Suite (MOCK MODE)', () => {
     // Confirm upstream outputs were NOT recalculated or wiped
     expect(finalRun.stages[0].output.name).toBe(savedParserOutput.name);
     expect(finalRun.stages[1].output.skills.length).toBe(savedSkillsOutput.skills.length);
-    expect(finalRun.stages[2].output.totalScore).toBe(savedScoringOutput.totalScore);
+    expect(finalRun.stages[2].output.riskLevel).toBe(savedIntegrityOutput.riskLevel);
+    expect(finalRun.stages[3].output.totalScore).toBe(savedScoringOutput.totalScore);
 
     // Confirm retried stage and all downstream stages succeeded
-    expect(finalRun.stages[3].status).toBe('success'); // interviewQuestions
-    expect(finalRun.stages[4].status).toBe('success'); // recommendation
-    expect(finalRun.stages[5].status).toBe('success'); // report
+    expect(finalRun.stages[4].status).toBe('success'); // interviewQuestions
+    expect(finalRun.stages[5].status).toBe('success'); // recommendation
+    expect(finalRun.stages[6].status).toBe('success'); // report
     expect(finalRun.finalReport).toBeDefined();
     expect(finalRun.finalReport.recommendation).toBeDefined();
     expect(['Hire', 'Maybe', 'No']).toContain(finalRun.finalReport.recommendation.recommendation);

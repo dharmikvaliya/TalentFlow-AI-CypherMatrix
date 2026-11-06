@@ -1,12 +1,15 @@
-﻿[
+[
   {
     "id": "A",
-    "note": "Live runs on the developer's own resume; contact details removed",
-    "label": "Run A: Dharmik Valiya + Full-Stack AI Engineer JD",
+    "syntheticCaseId": "CASE-01",
+    "dataClassification": "synthetic",
+    "containsRealCandidateData": false,
+    "note": "Sanitized synthetic evaluation benchmark record. All names and identifying details are synthetic fixtures.",
+    "label": "Run A: Synthetic Candidate A + jd_01_fullstack_ai_engineer.txt",
     "jdFile": "jd_01_fullstack_ai_engineer.txt",
     "status": "completed",
     "totalDurationMs": 19654,
-    "candidateName": "Dharmik Valiya",
+    "candidateName": "Synthetic Candidate A",
     "totalScore": 78,
     "scoreBreakdown": [
       {
@@ -40,10 +43,10 @@
         "explanation": "Degree in Computer Science or related engineering discipline"
       }
     ],
-    "scoreExplanation": "The candidate earned an objective score of 78/100 based on deterministic rubric calculation (Required Skills: 32/40 pts, Experience Fit: 16/20 pts). Dharmik Valiya earns a solid score of 78/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
+    "scoreExplanation": "The candidate earned an objective score of 78/100 based on deterministic rubric calculation (Required Skills: 32/40 pts, Experience Fit: 16/20 pts). Synthetic Candidate A earns a solid score of 78/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
     "recommendation": "Hire",
     "confidence": "medium",
-    "reasoning": "Dharmik Valiya is a strong candidate for an entry-level / intern role. He combines solid MERN stack foundations (React, Node.js, Express, MongoDB Atlas) with practical hands-on experience architecting RAG pipelines using Ollama embeddings and vector search. Gaps in runtime schema validation (Zod) and automated testing frameworks should be onboarded during training.",
+    "reasoning": "Synthetic Candidate A is a strong candidate for an entry-level / intern role. He combines solid MERN stack foundations (React, Node.js, Express, MongoDB Atlas) with practical hands-on experience architecting RAG pipelines using Ollama embeddings and vector search. Gaps in runtime schema validation (Zod) and automated testing frameworks should be onboarded during training.",
     "keyRisks": [
       "Undergraduate student (graduating 2027); confirm weekly hour availability and exam schedules.",
       "Production testing suites (Vitest, Jest) and Zod validation require onboarding mentorship."
@@ -173,12 +176,15 @@
   },
   {
     "id": "B",
-    "note": "Live runs on the developer's own resume; contact details removed",
-    "label": "Run B: Dharmik Valiya + Senior DevOps Engineer JD",
+    "syntheticCaseId": "CASE-08",
+    "dataClassification": "synthetic",
+    "containsRealCandidateData": false,
+    "note": "Sanitized synthetic evaluation benchmark record. All names and identifying details are synthetic fixtures.",
+    "label": "Run B: Synthetic Candidate B + jd_devops_engineer.txt",
     "jdFile": "jd_devops_engineer.txt",
     "status": "completed",
     "totalDurationMs": 19198,
-    "candidateName": "Dharmik Valiya",
+    "candidateName": "Synthetic Candidate B",
     "totalScore": 29,
     "scoreBreakdown": [
       {
@@ -212,7 +218,7 @@
         "explanation": "Degree in Computer Science or related engineering discipline"
       }
     ],
-    "scoreExplanation": "The candidate earned an objective score of 29/100 based on deterministic rubric calculation (Required Skills: 0/40 pts, Experience Fit: 4/20 pts). Dharmik Valiya earns a solid score of 29/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
+    "scoreExplanation": "The candidate earned an objective score of 29/100 based on deterministic rubric calculation (Required Skills: 0/40 pts, Experience Fit: 4/20 pts). Synthetic Candidate B earns a solid score of 29/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
     "recommendation": "No",
     "confidence": "medium",
     "reasoning": "Candidate does not satisfy minimum core technical requirements or required seniority for this role. [Confidence capped at medium: candidate has under 1 year of professional software engineering experience]",
@@ -343,12 +349,15 @@
   },
   {
     "id": "C",
-    "note": "Live runs on the developer's own resume; contact details removed",
-    "label": "Run C: Dharmik Valiya + Junior Data Engineer JD",
+    "syntheticCaseId": "CASE-02",
+    "dataClassification": "synthetic",
+    "containsRealCandidateData": false,
+    "note": "Sanitized synthetic evaluation benchmark record. All names and identifying details are synthetic fixtures.",
+    "label": "Run C: Synthetic Candidate C + jd_junior_data_engineer.txt",
     "jdFile": "jd_junior_data_engineer.txt",
     "status": "completed",
     "totalDurationMs": 19661,
-    "candidateName": "Dharmik Valiya",
+    "candidateName": "Synthetic Candidate C",
     "totalScore": 85,
     "scoreBreakdown": [
       {
@@ -382,10 +391,10 @@
         "explanation": "Degree in Computer Science or related engineering discipline"
       }
     ],
-    "scoreExplanation": "The candidate earned an objective score of 85/100 based on deterministic rubric calculation (Required Skills: 40/40 pts, Experience Fit: 16/20 pts). Dharmik Valiya earns a solid score of 85/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
+    "scoreExplanation": "The candidate earned an objective score of 85/100 based on deterministic rubric calculation (Required Skills: 40/40 pts, Experience Fit: 16/20 pts). Synthetic Candidate C earns a solid score of 85/100. He receives high marks for matching 4.5 of 5 required skills (36/40), excellent preferred qualification marks for his AI Document Intelligence RAG platform (13/15), full project points (15/15), and full academic fit (10/10).",
     "recommendation": "Hire",
     "confidence": "medium",
-    "reasoning": "Dharmik Valiya is a strong candidate for an entry-level / intern role. He combines solid MERN stack foundations (React, Node.js, Express, MongoDB Atlas) with practical hands-on experience architecting RAG pipelines using Ollama embeddings and vector search. Gaps in runtime schema validation (Zod) and automated testing frameworks should be onboarded during training.",
+    "reasoning": "Synthetic Candidate C is a strong candidate for an entry-level / intern role. He combines solid MERN stack foundations (React, Node.js, Express, MongoDB Atlas) with practical hands-on experience architecting RAG pipelines using Ollama embeddings and vector search. Gaps in runtime schema validation (Zod) and automated testing frameworks should be onboarded during training.",
     "keyRisks": [
       "Undergraduate student (graduating 2027); confirm weekly hour availability and exam schedules.",
       "Production testing suites (Vitest, Jest) and Zod validation require onboarding mentorship."
@@ -513,4 +522,3 @@
     "timestamp": "2026-10-14T13:58:59.690Z"
   }
 ]
-

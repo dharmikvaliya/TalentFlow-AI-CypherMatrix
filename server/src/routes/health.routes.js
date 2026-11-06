@@ -1,10 +1,17 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
 import { llmService } from '../services/llm.service.js';
+import {
+  getActiveProviderName,
+  setActiveProvider,
+  resolveProviderConfig,
+  syncEnvWithDisk
+} from '../config/llmProviders.js';
 
 const router = Router();
 
 router.get('/health', (req, res) => {
+  syncEnvWithDisk();
   const isDbConnected = mongoose.connection.readyState === 1;
 
   res.json({
@@ -26,6 +33,110 @@ router.get('/health', (req, res) => {
       database: isDbConnected ? 'connected' : 'disconnected'
     }
   });
+});
+
+router.get('/providers', (req, res) => {
+  const activeProvider = getActiveProviderName();
+
+  const providers = [
+    {
+      id: 'openai',
+      name: 'OpenAI',
+      badge: 'High Accuracy',
+      hasKey: Boolean(process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.trim()),
+      defaultModel: 'gpt-4.1-mini',
+      models: [
+        'gpt-4.1-mini',
+        'gpt-4o-mini',
+        'gpt-4o'
+      ]
+    },
+    {
+      id: 'groq',
+      name: 'Groq',
+      badge: 'Ultra Fast (~300 tok/s)',
+      hasKey: Boolean(process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim()),
+      defaultModel: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
+      models: [
+        'openai/gpt-oss-120b',
+        'openai/gpt-oss-20b',
+        'qwen/qwen3.8-27b',
+        'llama-3.3-70b-versatile'
+      ]
+    },
+    {
+      id: 'openrouter',
+      name: 'OpenRouter',
+      badge: '12 Free Models / 200+ Total',
+      hasKey: Boolean(process.env.OPENROUTER_API_KEY && process.env.OPENROUTER_API_KEY.trim()),
+      defaultModel: process.env.OPENROUTER_MODEL || 'openrouter/free',
+      models: [
+        'openrouter/free',
+        'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free',
+        'google/gemma-4-31b-it:free',
+        'meta-llama/llama-3.3-70b-instruct'
+      ]
+    },
+    {
+      id: 'nvidia',
+      name: 'NVIDIA NIM',
+      badge: 'Enterprise Privacy (84 Models)',
+      hasKey: Boolean(process.env.NVIDIA_API_KEY && process.env.NVIDIA_API_KEY.trim()),
+      defaultModel: process.env.NVIDIA_MODEL || 'nvidia/llama-3.1-nemotron-70b-instruct',
+      models: [
+        'nvidia/llama-3.1-nemotron-70b-instruct',
+        'openai/gpt-oss-20b',
+        'mistralai/mistral-7b-instruct-v0.3'
+      ]
+    },
+    {
+      id: 'ollama',
+      name: 'Ollama',
+      badge: '100% Local / Free',
+      hasKey: true,
+      defaultModel: process.env.OLLAMA_MODEL || 'llama3:latest',
+      models: [
+        'llama3:latest',
+        'llama3.2',
+        'mistral',
+        'phi3'
+      ]
+    },
+    {
+      id: 'mock',
+      name: 'Mock Engine',
+      badge: '100% Offline / Fast Test',
+      hasKey: true,
+      defaultModel: 'mock-deterministic',
+      models: [
+        'mock-deterministic'
+      ]
+    }
+  ];
+
+  res.json({
+    activeProvider,
+    providers
+  });
+});
+
+router.post('/providers/active', (req, res) => {
+  const { provider, model } = req.body;
+  if (!provider) {
+    return res.status(400).json({ error: { message: 'Provider name is required' } });
+  }
+  try {
+    setActiveProvider(provider, model);
+    const cfg = resolveProviderConfig();
+    res.json({
+      success: true,
+      activeProvider: cfg.provider,
+      modelConfigured: cfg.model,
+      llmMockMode: cfg.isMock
+    });
+  } catch (err) {
+    res.status(400).json({ error: { message: err.message } });
+  }
 });
 
 export default router;

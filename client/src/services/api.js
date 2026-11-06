@@ -37,8 +37,12 @@ export const getCandidate = async (candidateId) => {
   return api.get(`/candidates/${candidateId}`);
 };
 
-export const createWorkflowRun = async ({ candidateId, jobDescription }) => {
-  return api.post('/runs', { candidateId, jobDescription });
+export const createWorkflowRun = async ({ candidateId, jobDescription, provider, model }) => {
+  return api.post('/runs', { candidateId, jobDescription, provider, model });
+};
+
+export const getAvailableProviders = async () => {
+  return api.get('/providers');
 };
 
 export const getWorkflowRun = async (runId) => {
@@ -55,6 +59,10 @@ export const getWorkflowRunsHistory = async () => {
 
 export const getHealthStatus = async () => {
   return api.get('/health');
+};
+
+export const updateActiveProvider = async (provider, model = null) => {
+  return api.post('/providers/active', { provider, model });
 };
 
 export default api;

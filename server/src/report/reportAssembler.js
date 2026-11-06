@@ -31,6 +31,7 @@ export function assembleFinalReport(outputs, stageTraces = []) {
   const {
     parser = {},
     skills = {},
+    integrity = null,
     scoring = {},
     questions = {},
     recommendation = {}
@@ -62,6 +63,7 @@ export function assembleFinalReport(outputs, stageTraces = []) {
     strengths: scoring.strengths || [],
     skillGaps: scoring.gaps || [],
     interviewQuestions: questions || { technical: [], projectBased: [], behavioral: [], gapProbing: [] },
+    resumeIntegrity: integrity || null,
     recommendation: recommendation || {
       recommendation: 'Maybe',
       confidence: 'medium',
@@ -218,7 +220,39 @@ ${report.recommendation.suggestedNextSteps.map((s, idx) => `${idx + 1}. ${escape
 
 ---
 
-## 8. Workflow Execution Trace
+${report.resumeIntegrity ? `---
+
+## Resume Integrity Analysis
+- **Risk Level:** **${(report.resumeIntegrity.riskLevel || 'low').toUpperCase()}**
+- **Integrity Confidence:** **${report.resumeIntegrity.confidence}%**
+- **Human Review Required:** **${report.resumeIntegrity.reviewRequired ? 'YES' : 'NO'}**
+
+### Summary
+${escapeMarkdownAndHtml(report.resumeIntegrity.summary)}
+
+### Detected Signals & Flags
+${(report.resumeIntegrity.flags || []).length === 0 ? '_No suspicious integrity signals or anomalies detected._' : report.resumeIntegrity.flags.map(f => {
+  const code = escapeMarkdownAndHtml(f.code);
+  const title = escapeMarkdownAndHtml(f.title);
+  const explanation = escapeMarkdownAndHtml(f.explanation);
+  const skills = (f.affectedSkills || []).map(escapeMarkdownAndHtml).join(', ');
+  const evidenceList = (f.evidence || []).slice(0, 3).map(e => `     - "${escapeMarkdownAndHtml(e.length > 120 ? e.substring(0, 117) + '...' : e)}"`).join('\n');
+  return `- **[${f.severity.toUpperCase()}] ${title}** (\`${code}\`)\n  - *Details:* ${explanation}${skills ? `\n  - *Affected Skills:* ${skills}` : ''}${evidenceList ? `\n  - *Evidence Samples:*\n${evidenceList}` : ''}`;
+}).join('\n\n')}
+
+### Integrity Metrics
+- Total Resume Words: **${report.resumeIntegrity.metrics.totalWords}**
+- Unique Vocabulary Ratio: **${(report.resumeIntegrity.metrics.uniqueWordRatio * 100).toFixed(1)}%**
+- Overlapping JD Phrase Ratio: **${(report.resumeIntegrity.metrics.jdPhraseOverlapRatio * 100).toFixed(1)}%**
+- Uncorroborated Skill Claim Ratio: **${(report.resumeIntegrity.metrics.unsupportedSkillRatio * 100).toFixed(1)}%**
+- Prompt Injection Indicators: **${report.resumeIntegrity.metrics.promptInjectionIndicatorCount}**
+
+### Limitations & Separation Notice
+> **Important Distinction:** The capability score evaluates candidate job fit based on verified qualifications. Resume integrity analysis identifies textual risk signals that warrant human interview verification. An elevated integrity risk does NOT prove dishonesty, intent to deceive, or incompetence, and does not automatically deduct points from the capability score.
+
+${(report.resumeIntegrity.limitations || []).map(l => `- *${escapeMarkdownAndHtml(l)}*`).join('\n')}
+
+` : ''}## 8. Workflow Execution Trace
 
 | Stage | Name | Status | Execution Duration |
 | :--- | :--- | :---: | :---: |

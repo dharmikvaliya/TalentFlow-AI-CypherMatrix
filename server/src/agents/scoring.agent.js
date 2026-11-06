@@ -9,7 +9,9 @@ export const purpose = 'Compute a transparent, deterministic 0-100 rubric score 
 export const inputSchema = z.object({
   profile: resumeParserOutputSchema,
   skillsAnalysis: skillsAnalysisOutputSchema,
-  jobDescription: z.string().optional()
+  jobDescription: z.string().optional(),
+  provider: z.string().optional().nullable(),
+  model: z.string().optional().nullable()
 });
 
 export const outputSchema = fullScoringOutputSchema;
@@ -50,6 +52,17 @@ function sanitizeProfileForScoring(profile) {
  * @returns {Promise<Object>} Full scoring output with totalScore, breakdown, strengths, gaps, explanation
  */
 export async function run(input) {
+  // Invariant: Capability scoring must never consume synthetic mock data resulting from live provider failure
+  if (
+    input?.provider &&
+    input.provider !== 'mock' &&
+    (input.profile?._isSyntheticMock || input.skillsAnalysis?._isSyntheticMock)
+  ) {
+    throw new Error(
+      'Capability scoring rejected: Upstream stage received synthetic mock data due to a live-provider failure. Refusing to score simulated data in a live workflow.'
+    );
+  }
+
   // 1. Validate Input
   const validatedInput = inputSchema.parse(input);
 
@@ -90,7 +103,9 @@ Provide strengths, gaps, and score explanation according to instructions. Output
       breakdown: deterministicResult.breakdown,
       profile: validatedInput.profile,
       totalScore: deterministicResult.totalScore
-    }
+    },
+    provider: validatedInput.provider,
+    model: validatedInput.model
   });
 
   // 5. Validate LLM Output
@@ -113,7 +128,9 @@ ${JSON.stringify(parseResult.error.format(), null, 2)}`;
         breakdown: deterministicResult.breakdown,
         profile: validatedInput.profile,
         totalScore: deterministicResult.totalScore
-      }
+      },
+      provider: validatedInput.provider,
+      model: validatedInput.model
     });
 
     parseResult = scoringLLMExplanationSchema.safeParse(explanationResponse);

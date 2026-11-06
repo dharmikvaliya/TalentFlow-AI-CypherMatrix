@@ -84,7 +84,7 @@ describe('Step 2: Concurrency & Isolation Suite (MOCK MODE)', () => {
     // 3. Verify complete isolation
     completedRuns.forEach((run, index) => {
       expect(run.status).toBe('completed');
-      expect(run.stages).toHaveLength(6);
+      expect(run.stages).toHaveLength(7);
       expect(run.finalReport).toBeDefined();
 
       const expectedCandidate = candidates[index];

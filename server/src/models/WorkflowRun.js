@@ -53,6 +53,14 @@ const stageTraceSchema = new mongoose.Schema({
   fallbackUsed: {
     type: Boolean,
     default: false
+  },
+  fallbackWarning: {
+    type: String,
+    default: null
+  },
+  repairedTruncation: {
+    type: Boolean,
+    default: false
   }
 }, { _id: false });
 
@@ -73,6 +81,10 @@ const workflowRunSchema = new mongoose.Schema({
   stages: {
     type: [stageTraceSchema],
     default: []
+  },
+  resumeIntegrity: {
+    type: mongoose.Schema.Types.Mixed,
+    default: null
   },
   finalReport: {
     type: mongoose.Schema.Types.Mixed,

@@ -1,24 +1,56 @@
-# TalentFlow AI - .gitignore
-node_modules/
+# TalentFlow AI - Cypher Matrix .gitignore
+
+# Secrets
 .env
-.env.local
-.env.*.local
-server/uploads/*
-!server/uploads/.gitkeep
-uploads/*
-!uploads/.gitkeep
+.env.*
+!.env.example
+!.env.sample
+
+# Dependencies
+node_modules/
+
+# Build output
 dist/
 dist-ssr/
-*.local
-.DS_Store
+build/
+coverage/
+.next/
+out/
+
+# Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-coverage/
-.idea/
-.vscode/
-qa-audit/
 
+# Temporary files
+tmp/
+temp/
+uploads/*
+!uploads/.gitkeep
+temp_uploads/
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Candidate personal documents (synthetic evaluation fixtures are whitelisted)
+*.pdf
+*.doc
+*.docx
+*.docm
+!samples/test-resumes/*.pdf
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime
+*.pid
+*.seed
+*.local
+qa-audit/

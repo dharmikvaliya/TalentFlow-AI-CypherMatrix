@@ -72,7 +72,7 @@ export function recordDemoRun(clientIp) {
  */
 export async function createRun(req, res, next) {
   try {
-    const { candidateId, jobDescription } = req.body;
+    const { candidateId, jobDescription, provider, model } = req.body;
     const clientIp = req.ip || req.socket?.remoteAddress || '127.0.0.1';
 
     // Enforce demo rate limits (in production/live demo; bypassed during automated test suites unless enabled)
@@ -99,6 +99,8 @@ export async function createRun(req, res, next) {
     // Initialize run record
     const run = await initializeWorkflowRun({
       candidateId: candidate,
+      provider,
+      model,
       jobDescription
     });
 
@@ -114,6 +116,8 @@ export async function createRun(req, res, next) {
         await executeRecruitmentWorkflow({
           runId,
           rawText: candidate.rawText,
+          provider,
+          model,
           jobDescription
         });
       } catch (err) {

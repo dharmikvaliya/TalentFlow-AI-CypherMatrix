@@ -1,12 +1,15 @@
 import { z } from 'zod';
 import { resumeParserOutputSchema } from '../validators/agentSchemas.js';
 import llmService from '../services/llm.service.js';
+import { sanitizeUntrustedText } from '../services/untrustedContent.service.js';
 
 export const name = 'resumeParser';
 export const purpose = 'Turn raw extracted PDF text into a structured candidate profile with verified education, experience, projects, and skills';
 
 export const inputSchema = z.object({
-  rawText: z.string().min(20, 'Raw resume text must be at least 20 characters')
+  rawText: z.string().min(20, 'Raw resume text must be at least 20 characters'),
+  provider: z.string().optional().nullable(),
+  model: z.string().optional().nullable()
 });
 
 export const outputSchema = resumeParserOutputSchema;
@@ -23,6 +26,7 @@ RULES:
 1. Use ONLY information explicitly present in the input text. Do NOT invent, assume, or hallucinate qualifications.
 2. If any field (e.g. email, phone, grade, dates) is missing or unknown, use null or an empty array [].
 3. Maintain chronological accuracy for education and experience entries.
+4. Keep summaries, descriptions, and highlights concise (max 2 sentences each).
 4. Output ONLY valid JSON matching this exact top-level schema:
 {
   "name": "string",
@@ -65,6 +69,22 @@ RULES:
 /**
  * Normalizes variations in model output (e.g., nested personal_information or alternative key names).
  */
+/**
+ * Verifies that critical resume sections are explicitly present in raw output
+ * rather than synthesized by downstream defaults.
+ */
+export function isProfileRawComplete(rawJson) {
+  if (!rawJson || typeof rawJson !== 'object') return false;
+  const person = rawJson.personal_information || rawJson.personalInfo || rawJson;
+  const hasName = Boolean(rawJson.name || person.name);
+  const hasSkills = ('skillsListed' in rawJson) || ('skills' in rawJson) || ('technical_skills' in rawJson) || ('skills' in person);
+  const hasExperience = ('experience' in rawJson) || ('work_experience' in rawJson) || ('experience' in person);
+  const hasEducation = ('education' in rawJson) || ('academic' in rawJson) || ('education' in person);
+  const hasProjects = ('projects' in rawJson) || ('technical_projects' in rawJson) || ('projects' in person);
+
+  return Boolean(hasName && hasSkills && hasExperience && hasEducation && hasProjects);
+}
+
 export function normalizeProfileOutput(rawJson) {
   if (!rawJson || typeof rawJson !== 'object') return rawJson;
 
@@ -147,7 +167,7 @@ export async function run(input) {
 
   const userPrompt = `Here is the raw text extracted from the candidate's resume:
 <UNTRUSTED_RESUME_TEXT>
-${validatedInput.rawText.substring(0, 10000)}
+${sanitizeUntrustedText(validatedInput.rawText).substring(0, 10000)}
 </UNTRUSTED_RESUME_TEXT>
 
 Extract the structured profile according to your system instructions. Output only valid JSON.`;
@@ -158,31 +178,61 @@ Extract the structured profile according to your system instructions. Output onl
     systemPrompt,
     userPrompt,
     temperature: 0.1,
-    context: { rawText: validatedInput.rawText }
+    context: { rawText: validatedInput.rawText },
+    provider: validatedInput.provider,
+    model: validatedInput.model
   });
 
-  // 3. Normalize and Validate Output with Zod
+  // 3. Completeness and Schema Check
+  const meta = llmService.getLastMetadata();
+  const wasRepaired = Boolean(meta?.repairedTruncation);
+  const isComplete = isProfileRawComplete(response);
+
   let normalized = normalizeProfileOutput(response);
   let parseResult = outputSchema.safeParse(normalized);
 
-  // 4. Retry Once if validation failed
-  if (!parseResult.success) {
-    console.warn(`[${name}] Initial output schema validation failed: ${parseResult.error.message}. Retrying once with error feedback...`);
-    
+  // 4. Force one clean provider retry if truncated, incomplete, or invalid schema
+  if (!parseResult.success || wasRepaired || !isComplete) {
+    const reason = !isComplete
+      ? 'Raw profile is incomplete or missing critical sections (experience/projects/education/skills) due to provider truncation'
+      : wasRepaired
+        ? 'Initial output was truncated and required syntactic repair'
+        : parseResult.error.message;
+
+    console.warn(`[${name}] Output completeness/schema check failed (${reason}). Forcing clean provider retry...`);
+
     const retryPrompt = `${userPrompt}
 
-IMPORTANT: Your previous output failed schema validation with these errors:
-${JSON.stringify(parseResult.error.format(), null, 2)}
+IMPORTANT: Your previous output was ${wasRepaired || !isComplete ? 'TRUNCATED OR MISSING REQUIRED SECTIONS' : 'INVALID'}.
+You MUST return a complete, non-truncated JSON object containing ALL critical sections:
+- name (string)
+- email (string or null)
+- phone (string or null)
+- links (array of strings)
+- summary (concise string or null)
+- education (array of objects; use [] if none)
+- experience (array of objects; use [] if none)
+- projects (array of objects; use [] if none)
+- skillsListed (array of strings; use [] if none)
+- achievements (array of strings; use [] if none)
 
-Please fix all schema violations and return the corrected JSON.`;
+Be concise so the entire response fits comfortably within token limits without truncation.`;
 
     response = await llmService.generateStructuredJSON({
       agentName: name,
       systemPrompt,
       userPrompt: retryPrompt,
       temperature: 0.0,
-      context: { rawText: validatedInput.rawText }
+      context: { rawText: validatedInput.rawText },
+      provider: validatedInput.provider,
+      model: validatedInput.model
     });
+
+    const retryMeta = llmService.getLastMetadata();
+    // The clean retry MUST NOT be truncated, MUST NOT require repair, and MUST have all critical fields
+    if (retryMeta?.repairedTruncation || !isProfileRawComplete(response)) {
+      throw new Error(`Resume Parser Agent clean retry failed: Response remained truncated or missing critical sections. Stage marked failed.`);
+    }
 
     normalized = normalizeProfileOutput(response);
     parseResult = outputSchema.safeParse(normalized);

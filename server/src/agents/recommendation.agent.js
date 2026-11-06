@@ -18,7 +18,15 @@ export const inputSchema = z.object({
   skillsAnalysis: skillsAnalysisOutputSchema,
   scoring: fullScoringOutputSchema,
   interviewQuestions: interviewQuestionsOutputSchema,
-  jobDescription: z.string().optional()
+  jobDescription: z.string().optional(),
+  integritySummary: z.object({
+    riskLevel: z.enum(['low', 'medium', 'high']),
+    confidence: z.number(),
+    reviewRequired: z.boolean(),
+    summary: z.string(),
+    flagsCount: z.number().default(0),
+    flagCodes: z.array(z.string()).default([])
+  }).optional().nullable()
 });
 
 export const outputSchema = recommendationOutputSchema;
@@ -43,13 +51,19 @@ ALIGNMENT RULES:
 - Low alignment (Score < 50) must NOT be recommended as "Hire".
 - CONFIDENCE RULE: Cap confidence at "medium" (never "high") when the candidate has under 1 year of professional experience (e.g. students, interns, apprentices).
 - NO HYPE: Do NOT use hype words ("outstanding", "rare", "remarkable", "stellar", "unmatched"). Maintain neutral, professional tone.
+- INTEGRITY ADVISORY RULES:
+  - When integritySummary indicates elevated risk (riskLevel is "medium" or "high", or reviewRequired is true):
+    - Do NOT automatically reject or downgrade recommendation to "No". Objective capability score remains unchanged.
+    - Recommend human verification in keyRisks and suggestedNextSteps.
+    - If confidence was "high", cap or reduce confidence to "medium" reflecting uncertainty around uncorroborated claims.
+    - Advise: "Proceed only after verifying flagged claims."
 - Output ONLY valid JSON matching the schema.`;
 
 /**
  * Code guardrail enforcing mathematical consistency between score and recommendation.
  * Prevents LLM hallucination from overriding objective scoring facts.
  */
-function enforceScoreGuardrail(recommendationData, totalScore, profile = {}) {
+function enforceScoreGuardrail(recommendationData, totalScore, profile = {}, integritySummary = null) {
   let adjustedRecommendation = recommendationData.recommendation;
   let adjustedConfidence = recommendationData.confidence;
   let reasonSuffix = '';
@@ -77,7 +91,27 @@ function enforceScoreGuardrail(recommendationData, totalScore, profile = {}) {
   let sanitizedReasoning = (recommendationData.reasoning + reasonSuffix)
     .replace(/\b(outstanding|rare|remarkable|stellar|unmatched)\b/gi, 'strong');
 
+  // 4. Integrity risk guardrail (advisory, does not change capability score)
+  const keyRisks = [...(recommendationData.keyRisks || [])];
+  const suggestedNextSteps = [...(recommendationData.suggestedNextSteps || [])];
+
+  if (integritySummary && (integritySummary.riskLevel === 'high' || integritySummary.reviewRequired)) {
+    if (adjustedConfidence === 'high') {
+      adjustedConfidence = 'medium';
+    }
+    const riskNote = 'Resume integrity risk signals detected: manual human review and verification of uncorroborated claims recommended prior to final hiring decision.';
+    if (!keyRisks.some(r => r.toLowerCase().includes('integrity'))) {
+      keyRisks.push(riskNote);
+    }
+    const nextStepNote = 'Conduct targeted technical verification during interview probing uncorroborated skills and claims.';
+    if (!suggestedNextSteps.some(s => s.toLowerCase().includes('verification'))) {
+      suggestedNextSteps.push(nextStepNote);
+    }
+  }
+
   return {
+    keyRisks,
+    suggestedNextSteps,
     ...recommendationData,
     recommendation: adjustedRecommendation,
     confidence: adjustedConfidence,
@@ -113,6 +147,14 @@ Requirement Matches:
 ${JSON.stringify(validatedInput.skillsAnalysis.requirementMatches, null, 2)}
 </UNTRUSTED_RESUME_DATA>
 
+${validatedInput.integritySummary ? `
+Resume Integrity Summary:
+Risk Level: ${validatedInput.integritySummary.riskLevel}
+Review Required: ${validatedInput.integritySummary.reviewRequired}
+Summary: ${validatedInput.integritySummary.summary}
+Flag Codes: ${validatedInput.integritySummary.flagCodes.join(', ') || 'None'}
+` : ''}
+
 Synthesize the final recommendation according to instructions. Output valid JSON.`;
 
   // 2. Call LLM
@@ -125,8 +167,11 @@ Synthesize the final recommendation according to instructions. Output valid JSON
       totalScore: validatedInput.scoring.totalScore,
       skillsAnalysis: validatedInput.skillsAnalysis,
       interviewQuestions: validatedInput.interviewQuestions,
-      profile: validatedInput.profile
-    }
+      profile: validatedInput.profile,
+      integritySummary: validatedInput.integritySummary
+    },
+    provider: validatedInput.provider,
+    model: validatedInput.model
   });
 
   // 3. Validate Output
@@ -149,7 +194,9 @@ ${JSON.stringify(parseResult.error.format(), null, 2)}`;
         totalScore: validatedInput.scoring.totalScore,
         skillsAnalysis: validatedInput.skillsAnalysis,
         interviewQuestions: validatedInput.interviewQuestions,
-        profile: validatedInput.profile
+        profile: validatedInput.profile,
+      integritySummary: validatedInput.integritySummary,
+        integritySummary: validatedInput.integritySummary
       }
     });
 
@@ -164,7 +211,8 @@ ${JSON.stringify(parseResult.error.format(), null, 2)}`;
   const guardedRecommendation = enforceScoreGuardrail(
     parseResult.data,
     validatedInput.scoring.totalScore,
-    validatedInput.profile
+    validatedInput.profile,
+    validatedInput.integritySummary
   );
 
   return guardedRecommendation;

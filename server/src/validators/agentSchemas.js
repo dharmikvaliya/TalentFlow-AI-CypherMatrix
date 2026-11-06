@@ -212,6 +212,7 @@ export const finalReportSchema = z.object({
   skillGaps: z.array(gapItemSchema),
   interviewQuestions: interviewQuestionsOutputSchema,
   recommendation: recommendationOutputSchema,
+  resumeIntegrity: z.lazy(() => resumeIntegrityOutputSchema).optional().nullable(),
   workflowTrace: z.object({
     totalDurationMs: z.number(),
     provider: z.string().optional(),
@@ -228,4 +229,37 @@ export const finalReportSchema = z.object({
     }))
   }),
   disclaimer: z.string()
+});
+
+
+/**
+ * Isolated Resume Integrity Analysis Output Schema
+ */
+export const integrityFlagSchema = z.object({
+  code: z.string(),
+  severity: z.enum(['info', 'warning', 'high']),
+  title: z.string(),
+  explanation: z.string(),
+  evidence: z.array(z.string()).default([]),
+  affectedSkills: z.array(z.string()).default([])
+});
+
+export const resumeIntegrityMetricsSchema = z.object({
+  totalWords: z.number().int().nonnegative(),
+  uniqueWordRatio: z.number().min(0).max(1),
+  repeatedTermRatio: z.number().min(0).max(1),
+  jdPhraseOverlapRatio: z.number().min(0).max(1),
+  unsupportedSkillRatio: z.number().min(0).max(1),
+  promptInjectionIndicatorCount: z.number().int().nonnegative(),
+  genericPhraseCount: z.number().int().nonnegative()
+});
+
+export const resumeIntegrityOutputSchema = z.object({
+  riskLevel: z.enum(['low', 'medium', 'high']),
+  confidence: z.number().min(0).max(100),
+  reviewRequired: z.boolean(),
+  metrics: resumeIntegrityMetricsSchema,
+  flags: z.array(integrityFlagSchema).default([]),
+  summary: z.string(),
+  limitations: z.array(z.string()).default([])
 });

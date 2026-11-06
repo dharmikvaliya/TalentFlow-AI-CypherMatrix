@@ -1,7 +1,20 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UploadCloud, FileText, CheckCircle2, AlertCircle, ArrowRight, Sparkles, RefreshCw } from 'lucide-react';
-import { uploadResume, createWorkflowRun } from '../services/api';
+import {
+  UploadCloud,
+  FileText,
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight,
+  Sparkles,
+  RefreshCw,
+  Cpu,
+  Zap,
+  Shield,
+  Key,
+  Globe
+} from 'lucide-react';
+import { uploadResume, createWorkflowRun, getAvailableProviders, updateActiveProvider } from '../services/api';
 
 const SAMPLE_JD = `Job Title: Full-Stack AI Engineer / AI Automation Intern
 Company: Cypher Matrix Technologies
@@ -29,6 +42,71 @@ Preferred / Nice-to-Have:
 - Familiarity with workflow orchestration frameworks (LangGraph or custom state machines).
 - Experience with Docker, automated testing (Vitest, Jest) and Python scripting.`;
 
+const FALLBACK_PROVIDERS = [
+  {
+    id: 'openai',
+    name: 'OpenAI',
+    badge: 'High Accuracy',
+    hasKey: true,
+    defaultModel: 'gpt-4.1-mini',
+    models: ['gpt-4.1-mini', 'gpt-4o-mini', 'gpt-4o']
+  },
+  {
+    id: 'groq',
+    name: 'Groq',
+    badge: 'Ultra Fast (~300 tok/s)',
+    hasKey: true,
+    defaultModel: 'openai/gpt-oss-120b',
+    models: [
+      'openai/gpt-oss-120b',
+      'openai/gpt-oss-20b',
+      'qwen/qwen3.8-27b',
+      'llama-3.3-70b-versatile'
+    ]
+  },
+  {
+    id: 'openrouter',
+    name: 'OpenRouter',
+    badge: '12 Free Models / 200+ Total',
+    hasKey: true,
+    defaultModel: 'openrouter/free',
+    models: [
+      'openrouter/free',
+      'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free',
+      'google/gemma-4-31b-it:free',
+      'meta-llama/llama-3.3-70b-instruct'
+    ]
+  },
+  {
+    id: 'nvidia',
+    name: 'NVIDIA NIM',
+    badge: 'Enterprise Privacy (84 Models)',
+    hasKey: true,
+    defaultModel: 'nvidia/llama-3.1-nemotron-70b-instruct',
+    models: [
+      'nvidia/llama-3.1-nemotron-70b-instruct',
+      'openai/gpt-oss-20b',
+      'mistralai/mistral-7b-instruct-v0.3'
+    ]
+  },
+  {
+    id: 'ollama',
+    name: 'Ollama',
+    badge: '100% Local / Free',
+    hasKey: true,
+    defaultModel: 'llama3:latest',
+    models: ['llama3:latest', 'llama3.2', 'mistral', 'phi3']
+  },
+  {
+    id: 'mock',
+    name: 'Mock Engine',
+    badge: '100% Offline / Fast Test',
+    hasKey: true,
+    defaultModel: 'mock-deterministic',
+    models: ['mock-deterministic']
+  }
+];
+
 export default function UploadPage() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -40,6 +118,57 @@ export default function UploadPage() {
   const [isStartingRun, setIsStartingRun] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState(null);
+
+  // Model & Provider Selection State
+  const [providers, setProviders] = useState(FALLBACK_PROVIDERS);
+  const [selectedProvider, setSelectedProvider] = useState('openai');
+  const [selectedModel, setSelectedModel] = useState('gpt-4.1-mini');
+  const [isCustomModel, setIsCustomModel] = useState(false);
+  const [customModelName, setCustomModelName] = useState('');
+
+  // Fetch available providers & active configured provider from server
+  useEffect(() => {
+    let isMounted = true;
+    async function loadProviders() {
+      try {
+        const res = await getAvailableProviders();
+        if (isMounted && res && res.providers && res.providers.length > 0) {
+          setProviders(res.providers);
+          const active = res.activeProvider || 'openai';
+          const matched = res.providers.find(p => p.id === active) || res.providers[0];
+          setSelectedProvider(matched.id);
+          setSelectedModel(matched.defaultModel || matched.models[0] || '');
+        }
+      } catch (err) {
+        console.warn('Could not fetch providers from server; using defaults:', err);
+      }
+    }
+    loadProviders();
+    return () => { isMounted = false; };
+  }, []);
+
+  const handleProviderSelect = async (prov) => {
+    setSelectedProvider(prov.id);
+    const targetModel = prov.defaultModel || (prov.models && prov.models[0]) || '';
+    setSelectedModel(targetModel);
+    setIsCustomModel(false);
+    setCustomModelName('');
+
+    try {
+      await updateActiveProvider(prov.id, targetModel);
+      window.dispatchEvent(new CustomEvent('provider-changed', {
+        detail: {
+          provider: prov.id,
+          model: targetModel,
+          llmMockMode: prov.id === 'mock'
+        }
+      }));
+    } catch (err) {
+      console.warn('Could not update active provider on server:', err);
+    }
+  };
+
+  const currentProviderObj = providers.find(p => p.id === selectedProvider) || providers[0];
 
   // File drag & drop handlers
   const handleDrag = (e) => {
@@ -113,13 +242,19 @@ export default function UploadPage() {
       return;
     }
 
+    const finalModel = (isCustomModel && customModelName.trim())
+      ? customModelName.trim()
+      : selectedModel;
+
     setIsStartingRun(true);
     setError(null);
 
     try {
       const res = await createWorkflowRun({
         candidateId: candidate.candidateId,
-        jobDescription: jobDescription.trim()
+        jobDescription: jobDescription.trim(),
+        provider: selectedProvider,
+        model: finalModel
       });
       // Navigate to the live run dashboard
       navigate(`/runs/${res.runId}`);
@@ -294,6 +429,190 @@ export default function UploadPage() {
             <span>{jobDescription.length} characters</span>
           </div>
         </div>
+      </div>
+
+      {/* Step 3: AI Provider & Model Configuration */}
+      <div className="card">
+        <div className="card-header">
+          <h2 className="card-title">
+            <span style={{
+              background: 'var(--primary)',
+              color: 'white',
+              borderRadius: '50%',
+              width: '24px',
+              height: '24px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.8rem'
+            }}>3</span>
+            AI Provider &amp; Model Selection
+          </h2>
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            Interactive Multi-Provider Selection
+          </span>
+        </div>
+
+        {/* Provider Cards Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: '0.85rem',
+          marginBottom: '1.25rem'
+        }}>
+          {providers.map((prov) => {
+            const isSelected = selectedProvider === prov.id;
+            return (
+              <div
+                key={prov.id}
+                onClick={() => handleProviderSelect(prov)}
+                style={{
+                  border: isSelected ? '2px solid var(--primary)' : '1px solid var(--border)',
+                  background: isSelected ? 'var(--primary-light)' : '#ffffff',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '0.85rem 1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.35rem'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontWeight: '700', fontSize: '0.95rem', color: isSelected ? 'var(--primary)' : 'var(--text-main)' }}>
+                    {prov.name}
+                  </span>
+                  {isSelected && (
+                    <span style={{
+                      background: 'var(--primary)',
+                      color: '#ffffff',
+                      borderRadius: '50%',
+                      width: '18px',
+                      height: '18px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.7rem',
+                      fontWeight: '700'
+                    }}>
+                      ✓
+                    </span>
+                  )}
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  <span style={{
+                    fontSize: '0.725rem',
+                    background: isSelected ? '#ffffff' : '#f1f5f9',
+                    color: 'var(--text-main)',
+                    padding: '0.15rem 0.5rem',
+                    borderRadius: '4px',
+                    fontWeight: '500'
+                  }}>
+                    {prov.badge}
+                  </span>
+                  {prov.hasKey ? (
+                    <span style={{ fontSize: '0.725rem', color: '#16a34a', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                      ● Key Ready
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: '0.725rem', color: '#d97706', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                      ○ No Key in .env
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Model Selection Row */}
+        {currentProviderObj && (
+          <div style={{
+            background: '#f8fafc',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-md)',
+            padding: '1rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.75rem'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.875rem', fontWeight: '600', color: 'var(--text-main)' }}>
+                Target Model for {currentProviderObj.name}:
+              </label>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.8rem' }}>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="modelMode"
+                    checked={!isCustomModel}
+                    onChange={() => setIsCustomModel(false)}
+                  />
+                  Curated List
+                </label>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="modelMode"
+                    checked={isCustomModel}
+                    onChange={() => setIsCustomModel(true)}
+                  />
+                  Custom Model ID
+                </label>
+              </div>
+            </div>
+
+            {!isCustomModel ? (
+              <select
+                className="form-textarea"
+                style={{ minHeight: 'auto', padding: '0.5rem 0.75rem', fontSize: '0.9rem', cursor: 'pointer' }}
+                value={selectedModel}
+                onChange={async (e) => {
+                  const newModel = e.target.value;
+                  setSelectedModel(newModel);
+                  try {
+                    await updateActiveProvider(selectedProvider, newModel);
+                    window.dispatchEvent(new CustomEvent('provider-changed', {
+                      detail: {
+                        provider: selectedProvider,
+                        model: newModel,
+                        llmMockMode: selectedProvider === 'mock'
+                      }
+                    }));
+                  } catch (err) {
+                    console.warn('Could not update active model on server:', err);
+                  }
+                }}
+              >
+                {(currentProviderObj.models || [currentProviderObj.defaultModel]).map((m) => (
+                  <option key={m} value={m}>
+                    {m} {m === currentProviderObj.defaultModel ? '(Default)' : ''}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                className="form-textarea"
+                style={{ minHeight: 'auto', padding: '0.5rem 0.75rem', fontSize: '0.9rem' }}
+                placeholder={`Enter any ${currentProviderObj.name} model ID (e.g. ${currentProviderObj.defaultModel})`}
+                value={customModelName}
+                onChange={(e) => setCustomModelName(e.target.value)}
+              />
+            )}
+
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span>
+                Active Execution: <strong>{currentProviderObj.name}</strong> • Model: <code>{isCustomModel && customModelName.trim() ? customModelName.trim() : selectedModel}</code>
+              </span>
+              {selectedProvider === 'mock' && (
+                <span style={{ color: '#d97706', fontWeight: '500' }}>Offline deterministic fixtures (0 API costs)</span>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Action Banner */}

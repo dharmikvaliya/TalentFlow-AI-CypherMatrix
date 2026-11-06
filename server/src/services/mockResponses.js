@@ -330,7 +330,7 @@ export function getMockResumeParserResponse(rawText = '') {
           role: 'Executive Chef',
           startDate: '2018',
           endDate: 'Present',
-          description: 'Oversee 35 back-of-house kitchen staff, managing nightly service of 300+ covers with a 4.9-star rating.',
+          description: 'Oversee 35 back-of-house kitchen staff, managing culinary arts, kitchen management, menu engineering, food safety, and HACCP compliance for nightly service of 300+ covers with vendor negotiation.',
           highlights: [
             'Reduced food waste by 18% through inventory precision and farm-to-table ingredient rotation.',
             'Designed seasonal tasting menus pairing regional wines with artisanal handmade pasta and sauces.'
@@ -403,6 +403,168 @@ export function getMockResumeParserResponse(rawText = '') {
       experience: [],
       projects: [],
       skillsListed: [],
+      achievements: []
+    };
+  }
+
+  if (rawText.includes('Copier Candidate')) {
+    return {
+      name: 'Copier Candidate',
+      email: 'copier.candidate@example.com',
+      phone: '(555) 222-3333',
+      links: [],
+      summary: 'We are seeking an enthusiastic Full-Stack AI Engineer to design and implement agentic workflows, LLM orchestration pipelines, and recruitment automation tools.',
+      education: [],
+      experience: [
+        {
+          company: 'Tech Copier LLC',
+          role: 'Web Assistant',
+          startDate: '2022',
+          endDate: 'Present',
+          description: 'Assisted team in reading technical requirements and copying specifications.',
+          highlights: []
+        }
+      ],
+      projects: [],
+      skillsListed: ['JavaScript', 'TypeScript', 'Node.js', 'Express', 'React', 'Vite', 'MongoDB', 'Zod', 'RAG', 'Docker', 'Vitest', 'Python'],
+      achievements: []
+    };
+  }
+
+  if (rawText.includes('Alex Rivera')) {
+    return {
+      name: 'Alex Rivera',
+      email: 'alex.rivera.architect@example.com',
+      phone: '(555) 888-9999',
+      links: ['https://github.com/alexrivera-cloud'],
+      summary: 'Principal Cloud & Systems Architect with 9 years of production expertise building resilient microservices and distributed data platforms.',
+      education: [
+        {
+          institution: 'University of Texas at Austin',
+          degree: 'B.S. in Computer Science',
+          field: 'Computer Science',
+          startYear: '2012',
+          endYear: '2016',
+          grade: '3.9'
+        }
+      ],
+      experience: [
+        {
+          company: 'Apex Cloud Infrastructure',
+          role: 'Principal Cloud Architect',
+          startDate: '2021',
+          endDate: 'Present',
+          description: 'Architected Kubernetes clusters across AWS EKS managing 140+ microservices in production with 99.99% availability. Standardized Terraform infrastructure as code templates automating VPC, IAM, and S3 provisioning. Built event-driven backend services with Node.js and Express processing 12M events daily. Tuned high-concurrency MongoDB clusters and partitioned PostgreSQL databases. Led migration to React 18 and Vite with comprehensive Vitest unit and integration suites.',
+          highlights: ['AWS EKS Kubernetes migration', 'Terraform infrastructure automation']
+        },
+        {
+          company: 'DataFlow Technologies',
+          role: 'Senior Systems Engineer',
+          startDate: '2017',
+          endDate: '2021',
+          description: 'Engineered multi-region Docker CI/CD pipelines in GitLab reducing build times from 45m to 7m. Deployed Redis caching clusters handling session state for 2M concurrent active users.',
+          highlights: ['Docker CI/CD automation', 'Redis high throughput caching']
+        }
+      ],
+      projects: [
+        {
+          name: 'Distributed Cloud Orchestration Engine',
+          description: 'Kubernetes and Terraform deployment automation tool with React dashboard.',
+          technologies: ['Kubernetes', 'Docker', 'Terraform', 'AWS', 'Node.js', 'Express', 'React', 'MongoDB', 'PostgreSQL', 'Redis', 'Vitest'],
+          highlights: ['Multi-cloud automated failover', 'Production infrastructure as code']
+        }
+      ],
+      skillsListed: ['Kubernetes', 'Docker', 'Terraform', 'AWS', 'Node.js', 'Express', 'React', 'Vite', 'TypeScript', 'JavaScript', 'MongoDB', 'PostgreSQL', 'Redis', 'Vitest', 'CI/CD'],
+      achievements: ['AWS Certified Solutions Architect Professional', 'Kubernetes CKA Certified']
+    };
+  }
+
+  if (rawText.includes('Taylor Generic')) {
+    return {
+      name: 'Taylor Generic',
+      email: 'taylor.generic@example.com',
+      phone: '(555) 444-5555',
+      links: [],
+      summary: 'Results-driven self-starter and dynamic team player with proven track record of out-of-the-box thinking. Highly motivated professional leveraging core competencies to drive paradigm shifts, synergize cross-functional deliverables, and maximize operational leverage.',
+      education: [],
+      experience: [
+        {
+          company: 'Corporate Horizons',
+          role: 'Synergy Associate',
+          startDate: '2022',
+          endDate: 'Present',
+          description: 'Collaborated with stakeholders leveraging strategic thinking, leadership, cross-functional alignment, problem solving, communication, and time management. Championed best-of-breed methodologies in day-to-day corporate communication and task execution. Spearheaded proactive initiatives to optimize team alignment and customer satisfaction metrics.',
+          highlights: []
+        }
+      ],
+      projects: [],
+      skillsListed: ['Strategic Thinking', 'Leadership', 'Cross-Functional Alignment', 'Problem Solving', 'Communication', 'Time Management'],
+      achievements: []
+    };
+  }
+
+  if (rawText.includes('Sam Claimer')) {
+    return {
+      name: 'Sam Claimer',
+      email: 'sam.claimer@example.com',
+      phone: '(555) 777-1111',
+      links: [],
+      summary: 'World-class expert in AWS, Kubernetes, Terraform, and Distributed Cloud Microservices with deep mastery of cloud infrastructure.',
+      education: [
+        {
+          institution: 'City Community College',
+          degree: 'Associate Degree',
+          field: 'General Studies',
+          startYear: '2018',
+          endYear: '2020',
+          grade: null
+        }
+      ],
+      experience: [
+        {
+          company: 'Apex Quality Labs',
+          role: 'Manual QA Tester',
+          startDate: '2021',
+          endDate: 'Present',
+          description: 'Executed manual UI regression test scripts for marketing landing pages. Logged visual cosmetic defects and typos into Jira tracking tickets. Verified website links and form submission validation on staging environments.',
+          highlights: ['Logged 300+ cosmetic Jira bugs', 'Tested form submissions manually']
+        }
+      ],
+      projects: [],
+      skillsListed: ['AWS', 'Kubernetes', 'Terraform', 'Docker', 'Microservices', 'Cloud Security', 'Python'],
+      achievements: []
+    };
+  }
+
+  if (rawText.includes('Morgan Aliases')) {
+    return {
+      name: 'Morgan Aliases',
+      email: 'morgan.aliases@example.com',
+      phone: '(555) 333-8888',
+      links: [],
+      summary: 'Software Engineer with 4 years building web backends and UI components.',
+      education: [
+        {
+          institution: 'State University',
+          degree: 'B.S. in Software Engineering',
+          field: 'Software Engineering',
+          startYear: '2017',
+          endYear: '2021',
+          grade: '3.7'
+        }
+      ],
+      experience: [
+        {
+          company: 'Pioneer Web Labs',
+          role: 'Software Developer',
+          startDate: '2021',
+          endDate: 'Present',
+          description: 'Built microservices in Node and Express serving 500k API requests per day. Developed single-page web applications utilizing ReactJS and Vite. Provisioned container services with K8s and Docker. Managed database persistence with Postgres and Mongo.',
+          highlights: ['Node microservices backend', 'ReactJS frontend']
+        }
+      ],
+      projects: [],
+      skillsListed: ['Node', 'ReactJS', 'Express', 'K8s', 'Docker', 'Postgres', 'Mongo', 'Golang', 'Git'],
       achievements: []
     };
   }
@@ -1169,11 +1331,77 @@ export function getMockScoringExplanation(breakdown, profile) {
   };
 }
 
-export function getMockInterviewQuestions(profile, skillsAnalysis, strengths, gaps) {
+
+function applyIntegrityQuestions(result, integrityFindings) {
+  if (!integrityFindings || (integrityFindings.riskLevel === 'low' && !integrityFindings.reviewRequired)) {
+    return result;
+  }
+  const affectedSkills = integrityFindings.flags?.flatMap(f => f.affectedSkills || []) || [];
+  const uniqueAffected = [...new Set(affectedSkills)].filter(Boolean);
+
+  const technical = [...(result.technical || [])];
+  const gapProbing = [...(result.gapProbing || [])];
+
+  if (uniqueAffected.length > 0) {
+    const targetSkill = uniqueAffected[0];
+    technical.unshift({
+      question: "You listed " + targetSkill + " as a skill. Describe a production deployment where you used it, your specific responsibilities, and the outcome.",
+      targetSkill,
+      difficulty: 'intermediate',
+      reason: "Verification probe for uncorroborated resume claim (" + targetSkill + ").",
+      whatToLookFor: 'Specific production examples, architectural decisions, and personal implementation details.'
+    });
+  }
+
+  const hasInjection = integrityFindings.flags?.some(f => f.code === 'PROMPT_INJECTION_DETECTED' || f.code === 'SUSPICIOUS_SYSTEM_DIRECTIVES');
+  if (hasInjection) {
+    gapProbing.unshift({
+      question: 'Describe a requirement from this role that matches your prior work, using a concrete example not already written in your resume.',
+      relatedGap: 'Candidate background verification',
+      reason: 'Verifies authentic technical experience independently of submitted textual instructions.'
+    });
+  }
+
+  return {
+    ...result,
+    technical,
+    gapProbing
+  };
+}
+
+function applyIntegrityAdvisoryToRecommendation(rec, integritySummary) {
+  if (!integritySummary || (integritySummary.riskLevel === 'low' && !integritySummary.reviewRequired)) {
+    return rec;
+  }
+  let adjustedConfidence = rec.confidence;
+  if (adjustedConfidence === 'high') {
+    adjustedConfidence = 'medium';
+  }
+  const keyRisks = [...(rec.keyRisks || [])];
+  const suggestedNextSteps = [...(rec.suggestedNextSteps || [])];
+
+  const riskMsg = 'Resume integrity risk signals detected: manual human review and verification of uncorroborated claims recommended prior to final hiring decision.';
+  if (!keyRisks.some(r => r.toLowerCase().includes('integrity'))) {
+    keyRisks.push(riskMsg);
+  }
+  const nextStepMsg = 'Conduct targeted technical verification during interview probing uncorroborated skills and claims.';
+  if (!suggestedNextSteps.some(s => s.toLowerCase().includes('verification'))) {
+    suggestedNextSteps.push(nextStepMsg);
+  }
+
+  return {
+    ...rec,
+    confidence: adjustedConfidence,
+    keyRisks,
+    suggestedNextSteps
+  };
+}
+
+export function getMockInterviewQuestions(profile, skillsAnalysis, strengths, gaps, integrityFindings = null) {
   const isAlex = (profile?.name || '').includes('Alex');
 
   if (isAlex) {
-    return {
+    return applyIntegrityQuestions({
       technical: [
         {
           question: 'In your AI Document Intelligence Platform, how did you tune the HNSW index parameters (M and efConstruction) for low-latency similarity retrieval in MongoDB Atlas?',
@@ -1246,10 +1474,10 @@ export function getMockInterviewQuestions(profile, skillsAnalysis, strengths, ga
           reason: 'Confirms timeline and workload feasibility.'
         }
       ]
-    };
+    }, integrityFindings);
   }
 
-  return {
+  return applyIntegrityQuestions({
     technical: [
       {
         question: 'How do you handle schema drift or malformed JSON responses when using Gemini structured outputs with Zod?',
@@ -1280,35 +1508,35 @@ export function getMockInterviewQuestions(profile, skillsAnalysis, strengths, ga
         reason: 'Checks containerization depth.'
       }
     ]
-  };
+  }, integrityFindings);
 }
 
-export function getMockRecommendation(score, skillsAnalysis, questions, profile) {
+export function getMockRecommendation(score, skillsAnalysis, questions, profile, integritySummary = null) {
   const isAlex = (profile?.name || '').includes('Alex');
   const numScore = typeof score === 'number' ? score : (score?.totalScore ?? 80);
 
   // 1. Guardrail: Score < 45 MUST produce 'No'
   if (numScore < 45) {
-    return {
+    return applyIntegrityAdvisoryToRecommendation({
       recommendation: 'No',
       confidence: 'high',
       reasoning: 'Candidate does not satisfy minimum core technical requirements or required seniority for this role.',
       keyRisks: ['Lacks foundational technical skills and required seniority.'],
       suggestedNextSteps: ['Consider for alternative entry-level web development functions.'],
       disclaimer: 'This AI-generated recommendation is advisory only. Hiring decisions must be made by qualified human recruiters.'
-    };
+    }, integritySummary);
   }
 
   // 2. Guardrail: Score 45-74 produces 'Maybe'
   if (numScore < 75) {
-    return {
+    return applyIntegrityAdvisoryToRecommendation({
       recommendation: 'Maybe',
       confidence: 'medium',
       reasoning: 'Candidate meets foundational criteria but exhibits notable skill or experience gaps requiring focused technical screening.',
       keyRisks: ['Verify production deployment experience and missing tool competencies.'],
       suggestedNextSteps: ['Proceed to technical screen focusing on core required architecture.'],
       disclaimer: 'This AI-generated recommendation is advisory only. Hiring decisions must be made by qualified human recruiters.'
-    };
+    }, integritySummary);
   }
 
   // 3. Score >= 75: 'Hire'
@@ -1316,7 +1544,7 @@ export function getMockRecommendation(score, skillsAnalysis, questions, profile)
   const isStudentOrJunior = isAlex || (profile?.summary || '').toLowerCase().includes('student') || (profile?.experience || []).length < 2;
 
   if (isAlex) {
-    return {
+    return applyIntegrityAdvisoryToRecommendation({
       recommendation: 'Hire',
       confidence: 'medium',
       reasoning: 'Alex Morgan is a strong candidate for an entry-level / intern role. He combines solid MERN stack foundations (React, Node.js, Express, MongoDB Atlas) with practical hands-on experience architecting RAG pipelines using Ollama embeddings and vector search. Gaps in runtime schema validation (Zod) and automated testing frameworks should be onboarded during training.',
@@ -1330,15 +1558,15 @@ export function getMockRecommendation(score, skillsAnalysis, questions, profile)
         'Confirm internship start date, weekly availability, and remote collaboration logistics.'
       ],
       disclaimer: 'This AI-generated hiring recommendation is advisory only. Hiring decisions must be made by qualified human recruiters in accordance with organizational policies and applicable laws.'
-    };
+    }, integritySummary);
   }
 
-  return {
+  return applyIntegrityAdvisoryToRecommendation({
     recommendation: 'Hire',
     confidence: isStudentOrJunior ? 'medium' : 'high',
     reasoning: 'Candidate demonstrates strong qualifications aligned with job requirements.',
     keyRisks: ['Confirm production deployment experience.'],
     suggestedNextSteps: ['Proceed to technical interview.'],
     disclaimer: 'This AI-generated recommendation is advisory only.'
-  };
+  }, integritySummary);
 }

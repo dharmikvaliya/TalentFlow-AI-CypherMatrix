@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, FileText, CheckCircle2, ShieldCheck, Printer } from 'lucide-react';
+import { Download, FileText, CheckCircle2, ShieldCheck, Shield, Printer } from 'lucide-react';
 import { getApiBaseUrl } from '../services/api';
 
 export default function FinalReportTab({ report, runId }) {
@@ -165,6 +165,26 @@ export default function FinalReportTab({ report, runId }) {
             </ol>
           </div>
         </div>
+
+        {/* Resume Integrity Analysis Section */}
+        {report.resumeIntegrity && (
+          <div style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Shield size={18} color="var(--primary)" /> Resume Integrity Analysis
+            </h3>
+            <div style={{ fontSize: '0.875rem', marginBottom: '0.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <span><strong>Risk Level:</strong> <span className={`badge badge-${report.resumeIntegrity.riskLevel === 'high' ? 'failed' : report.resumeIntegrity.riskLevel === 'medium' ? 'skipped' : 'success'}`} style={{ fontSize: '0.75rem' }}>{report.resumeIntegrity.riskLevel?.toUpperCase()}</span></span>
+              <span><strong>Confidence:</strong> {Math.round((report.resumeIntegrity.confidence || 0) * 100)}%</span>
+              <span><strong>Review Required:</strong> {report.resumeIntegrity.reviewRequired ? 'Yes' : 'No'}</span>
+            </div>
+            <p style={{ fontSize: '0.9rem', color: '#334155', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+              {report.resumeIntegrity.summary}
+            </p>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontStyle: 'italic', borderTop: '1px solid #e2e8f0', paddingTop: '0.5rem' }}>
+              Notice: The capability score measures job-fit evidence. Resume-integrity analysis identifies textual signals that may require human verification. An elevated integrity risk does not prove dishonesty and does not automatically reduce the capability score.
+            </div>
+          </div>
+        )}
 
         {/* Responsible Hiring Advisory Disclaimer */}
         <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>

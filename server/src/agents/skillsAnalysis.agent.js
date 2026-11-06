@@ -8,7 +8,9 @@ export const purpose = 'Extract and categorize candidate skills with verbatim re
 export const inputSchema = z.object({
   profile: resumeParserOutputSchema,
   jobDescription: z.string().min(20, 'Job description must be at least 20 characters'),
-  rawText: z.string().optional()
+  rawText: z.string().optional(),
+  provider: z.string().optional().nullable(),
+  model: z.string().optional().nullable()
 });
 
 export const outputSchema = skillsAnalysisOutputSchema;
@@ -184,6 +186,16 @@ export function verifyEvidenceGrounding(skillsData, profile, rawText = '') {
  * @param {Object} input - { profile, jobDescription, rawText }
  * @returns {Promise<Object>} Validated skills analysis
  */
+export function isSkillsAnalysisRawComplete(rawJson) {
+  if (!rawJson || typeof rawJson !== 'object') return false;
+  return (
+    ('jobRequirements' in rawJson) &&
+    ('skills' in rawJson) &&
+    ('requirementMatches' in rawJson) &&
+    ('summary' in rawJson)
+  );
+}
+
 export async function run(input) {
   // 1. Validate Input
   const validatedInput = inputSchema.parse(input);
@@ -209,22 +221,36 @@ Perform the skills extraction and requirement match analysis according to instru
     context: {
       profile: validatedInput.profile,
       jobDescription: validatedInput.jobDescription
-    }
+    },
+    provider: validatedInput.provider,
+    model: validatedInput.model
   });
 
-  // 3. Validate Output with Zod
+  // 3. Completeness and Schema Check
+  const meta = llmService.getLastMetadata();
+  const wasRepaired = Boolean(meta?.repairedTruncation);
+  const isComplete = isSkillsAnalysisRawComplete(response);
+
   let parseResult = outputSchema.safeParse(response);
 
-  // 4. Retry Once if validation failed
-  if (!parseResult.success) {
-    console.warn(`[${name}] Initial output schema validation failed: ${parseResult.error.message}. Retrying once...`);
-    
+  // 4. Force clean retry if truncated, repaired, or incomplete
+  if (!parseResult.success || wasRepaired || !isComplete) {
+    const reason = !isComplete
+      ? 'Skills analysis is missing critical sections (jobRequirements/skills/requirementMatches/summary) due to provider truncation'
+      : wasRepaired
+        ? 'Skills analysis output was truncated and required syntactic repair'
+        : parseResult.error.message;
+
+    console.warn(`[${name}] Output completeness/schema check failed (${reason}). Forcing clean provider retry...`);
+
     const retryPrompt = `${userPrompt}
 
-IMPORTANT: Your previous output failed schema validation with these errors:
-${JSON.stringify(parseResult.error.format(), null, 2)}
-
-Please fix all schema violations and return the corrected JSON.`;
+IMPORTANT: Your previous output was ${wasRepaired || !isComplete ? 'TRUNCATED OR INCOMPLETE' : 'INVALID'}.
+You MUST return a complete, valid JSON object containing:
+- jobRequirements ({ required: string[], preferred: string[], experienceLevel: string | null })
+- skills (array of { name, category, proficiency, evidence, source })
+- requirementMatches (array of { requirement, type, status, evidence, reasoning })
+- summary (string)`;
 
     response = await llmService.generateStructuredJSON({
       agentName: name,
@@ -234,8 +260,15 @@ Please fix all schema violations and return the corrected JSON.`;
       context: {
         profile: validatedInput.profile,
         jobDescription: validatedInput.jobDescription
-      }
+      },
+      provider: validatedInput.provider,
+      model: validatedInput.model
     });
+
+    const retryMeta = llmService.getLastMetadata();
+    if (retryMeta?.repairedTruncation || !isSkillsAnalysisRawComplete(response)) {
+      throw new Error(`Skills Analysis Agent clean retry failed: Response remained truncated or missing critical sections. Stage marked failed.`);
+    }
 
     parseResult = outputSchema.safeParse(response);
   }

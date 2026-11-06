@@ -64,6 +64,11 @@ export default function PipelineView({ stages = [], onRetryStage }) {
                 <div style={{ fontWeight: '600', fontSize: '0.85rem', marginBottom: '0.35rem', color: 'var(--text-main)', lineHeight: 1.3 }}>
                   {st.name}
                 </div>
+                {(st.isCode || st.key === 'resumeIntegrity') && (
+                  <span style={{ fontSize: '0.7rem', color: 'var(--primary)', background: 'var(--primary-light)', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: '600', display: 'inline-block', marginBottom: '0.35rem' }}>
+                    Deterministic Code
+                  </span>
+                )}
               </div>
 
               <div style={{ marginTop: '0.5rem', paddingTop: '0.4rem', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

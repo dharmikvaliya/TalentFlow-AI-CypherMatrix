@@ -11,12 +11,14 @@ import {
   HelpCircle,
   CheckCircle2,
   Layers,
-  FileCheck2
+  FileCheck2,
+  Shield
 } from 'lucide-react';
 import { getWorkflowRun, retryWorkflowStage } from '../services/api';
 import PipelineView from '../components/PipelineView';
 import CandidateInfoTab from '../components/CandidateInfoTab';
 import SkillsTab from '../components/SkillsTab';
+import ResumeIntegrityTab from '../components/ResumeIntegrityTab';
 import EvaluationTab from '../components/EvaluationTab';
 import QuestionsTab from '../components/QuestionsTab';
 import RecommendationTab from '../components/RecommendationTab';
@@ -95,6 +97,7 @@ export default function RunPage() {
   // Extract stage outputs
   const parserOutput = run?.stages?.find(s => s.key === 'resumeParser')?.output;
   const skillsOutput = run?.stages?.find(s => s.key === 'skillsAnalysis')?.output;
+  const integrityOutput = run?.resumeIntegrity || run?.stages?.find(s => s.key === 'resumeIntegrity')?.output;
   const scoringOutput = run?.stages?.find(s => s.key === 'scoring')?.output;
   const questionsOutput = run?.stages?.find(s => s.key === 'interviewQuestions')?.output;
   const recommendationOutput = run?.stages?.find(s => s.key === 'recommendation')?.output;
@@ -117,16 +120,20 @@ export default function RunPage() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          {run?.workflowTrace?.provider && (
-            <span
-              className={`badge-mock ${run.workflowTrace.provider === 'mock' ? 'is-mock' : 'is-live'}`}
-              style={{ fontSize: '0.85rem', padding: '0.35rem 0.75rem' }}
-            >
-              {run.workflowTrace.provider === 'mock'
-                ? 'MOCK DATA'
-                : `LIVE (${(run.workflowTrace.provider || 'OPENAI').toUpperCase()} - ${run.workflowTrace.model || 'model'})`}
-            </span>
-          )}
+          {(run?.provider || run?.workflowTrace?.provider || run?.finalReport?.workflowTrace?.provider) && (() => {
+            const effectiveProv = run?.provider || run?.workflowTrace?.provider || run?.finalReport?.workflowTrace?.provider;
+            const effectiveMod = run?.model || run?.workflowTrace?.model || run?.finalReport?.workflowTrace?.model;
+            return (
+              <span
+                className={`badge-mock ${effectiveProv === 'mock' ? 'is-mock' : 'is-live'}`}
+                style={{ fontSize: '0.85rem', padding: '0.35rem 0.75rem' }}
+              >
+                {effectiveProv === 'mock'
+                  ? 'MOCK DATA'
+                  : `LIVE (${(effectiveProv || 'OPENAI').toUpperCase()} - ${effectiveMod || 'model'})`}
+              </span>
+            );
+          })()}
           <span className={`badge badge-${run?.status || 'pending'}`} style={{ fontSize: '0.85rem', padding: '0.35rem 0.75rem' }}>
             {run?.status === 'running' && <div className="spinner" style={{ width: '12px', height: '12px', marginRight: '5px' }} />}
             {run?.status}
@@ -171,6 +178,16 @@ export default function RunPage() {
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
             <Tag size={15} /> Skills ({skillsOutput?.skills?.length || 0})
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('integrity')}
+          className={`tab-btn ${activeTab === 'integrity' ? 'active' : ''}`}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <Shield size={15} /> Resume Integrity {integrityOutput ? `(${integrityOutput.riskLevel ? integrityOutput.riskLevel.toUpperCase() : 'ANALYZED'})` : ''}
           </span>
         </button>
 
@@ -229,6 +246,7 @@ export default function RunPage() {
       <div>
         {activeTab === 'candidateInfo' && <CandidateInfoTab profile={parserOutput} />}
         {activeTab === 'skills' && <SkillsTab skillsAnalysis={skillsOutput} />}
+        {activeTab === 'integrity' && <ResumeIntegrityTab integrity={integrityOutput} onSwitchToQuestions={() => setActiveTab('questions')} />}
         {activeTab === 'evaluation' && <EvaluationTab scoring={scoringOutput} />}
         {activeTab === 'questions' && <QuestionsTab questions={questionsOutput} />}
         {activeTab === 'recommendation' && <RecommendationTab recommendation={recommendationOutput} score={scoringOutput?.totalScore} />}

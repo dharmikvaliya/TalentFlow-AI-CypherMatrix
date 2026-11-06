@@ -41,7 +41,7 @@ describe('Full End-to-End Orchestrator Workflow API Tests', () => {
     });
   });
 
-  it('initializes workflow run and completes all 6 stages sequentially', async () => {
+  it('initializes workflow run and completes all 7 stages sequentially', async () => {
     const createRes = await fetch(`${baseUrl}/api/runs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -70,7 +70,14 @@ describe('Full End-to-End Orchestrator Workflow API Tests', () => {
 
     expect(finalRun).not.toBeNull();
     expect(finalRun.status).toBe('completed');
-    expect(finalRun.stages.length).toBe(6);
+    expect(finalRun.stages.length).toBe(7);
+
+    // Verify resumeIntegrity stage
+    const integrityStage = finalRun.stages.find(s => s.key === 'resumeIntegrity');
+    expect(integrityStage).toBeDefined();
+    expect(integrityStage.status).toBe('success');
+    expect(integrityStage.output).toBeDefined();
+    expect(finalRun.resumeIntegrity).toBeDefined();
 
     // Verify all stages succeeded
     finalRun.stages.forEach(st => {

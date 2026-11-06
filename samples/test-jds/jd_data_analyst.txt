@@ -1,0 +1,18 @@
+Job Title: Senior Data Analyst & BI Specialist
+Company: InsightMetrics Analytics
+Location: Remote / Hybrid
+
+About the Role:
+We are seeking a talented Data Analyst to transform complex business datasets into actionable operational intelligence, predictive models, and executive dashboards.
+
+Required Qualifications & Skills:
+- 3+ years of professional data analytics and business intelligence experience.
+- Advanced proficiency in SQL for complex data extraction, joins, and window functions.
+- Strong practical skills in Python (Pandas, NumPy) or R for statistical analysis.
+- Proven expertise in data visualization with Tableau, Power BI, or Looker.
+- Solid understanding of relational database schemas and data warehouse architecture (Snowflake, BigQuery).
+
+Preferred / Nice-to-Have:
+- Experience with A/B testing methodology and hypothesis testing.
+- Familiarity with dbt (data build tool) for data transformation pipelines.
+- Excellent stakeholder communication and storytelling with data.
