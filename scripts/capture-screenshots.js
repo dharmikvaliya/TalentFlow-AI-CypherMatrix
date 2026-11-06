@@ -77,7 +77,7 @@ async function captureAll() {
   console.log('4. Capturing 04-workflow-pipeline.png...');
   await page.goto(`${baseUrl}/how-it-works`, { waitUntil: 'networkidle2', timeout: 30000 });
   await new Promise(r => setTimeout(r, 600));
-  await page.screenshot({ path: path.join(outDir, '04-workflow-pipeline.png') });
+  await page.screenshot({ path: path.join(outDir, '04-workflow-pipeline.png'), fullPage: true });
 
   // 5. Evaluation History Portal
   console.log('5. Capturing 05-evaluation-history.png...');

@@ -140,7 +140,7 @@ The formal internship submission package is available in the `submission/` direc
   - `06-candidate-analysis.png`: Stage 1 Resume Parser extracted profile (education, experience, projects, skills).
   - `07-skill-matching.png`: Stage 2 Skills Analysis matrix across 9 domains with verbatim evidence grounding.
   - `08-integrity-detection.png`: Stage 3 Resume Integrity Engine with sub-2ms deterministic gaming detection and dual-signal fairness.
-  - `09-scoring-breakdown.png`: Stage 4 Candidate Capability Scoring with 35/25/20/10/10 rubric and radar breakdown.
+  - `09-scoring-breakdown.png`: Stage 4 Candidate Capability Scoring with 40/20/15/15/10 rubric and radar breakdown.
   - `10-interview-questions.png`: Stage 5 Adaptive Interview Questions with targeted integrity and skill-gap probing.
   - `11-strategic-recommendations.png`: Stage 6 Hiring Recommendation Agent with Human-in-the-Loop advisory guardrails.
   - `12-agent-execution-traces.png`: Stage 7 Execution Trace Visualizer with millisecond timings and token telemetry.

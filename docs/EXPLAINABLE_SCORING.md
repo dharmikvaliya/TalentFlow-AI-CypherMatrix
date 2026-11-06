@@ -36,10 +36,10 @@ $$S = \mathbf{W}_{\text{req}} \cdot S_{\text{req}} + \mathbf{W}_{\text{exp}} \cd
 +------------------------------------------------------------------------+
 | Dimension                                   | Weight | Maximum Points  |
 |---------------------------------------------+--------+-----------------|
-| Required Skill Evidence (S_req)             |  35%   |  35.0 Points    |
-| Relevant Professional Experience (S_exp)    |  25%   |  25.0 Points    |
-| Project Evidence & Technical Depth (S_proj) |  20%   |  20.0 Points    |
-| Preferred Skills Coverage (S_pref)          |  10%   |  10.0 Points    |
+| Required Skill Evidence (S_req)             |  40%   |  40.0 Points    |
+| Relevant Professional Experience (S_exp)    |  20%   |  20.0 Points    |
+| Preferred Skills Coverage (S_pref)          |  15%   |  15.0 Points    |
+| Project Evidence & Technical Depth (S_proj) |  15%   |  15.0 Points    |
 | Education & Qualifications (S_edu)          |  10%   |  10.0 Points    |
 |---------------------------------------------+--------+-----------------|
 | Total Capability Score                      | 100%   | 100.0 Points    |
@@ -48,7 +48,7 @@ $$S = \mathbf{W}_{\text{req}} \cdot S_{\text{req}} + \mathbf{W}_{\text{exp}} \cd
 
 ### 2.1 Component Formulations
 
-#### 1. Required Skill Evidence ($S_{\text{req}}$ — 35% Weight)
+#### 1. Required Skill Evidence ($S_{\text{req}}$ — 40% Weight)
 Evaluates candidate evidence across every required skill in the Job Description:
 $$S_{\text{req}} = \frac{1}{|R|} \sum_{r \in R} c(r) \times 100$$
 where $R$ is the set of required skills, and $c(r)$ is the support tier coefficient:
@@ -58,16 +58,19 @@ where $R$ is the set of required skills, and $c(r)$ is the support tier coeffici
 - **Claimed Without Evidence:** $c(r) = 0.10$ (Listed in summary/header only)
 - **Not Found:** $c(r) = 0.0$ (Absent from document)
 
-#### 2. Relevant Professional Experience ($S_{\text{exp}}$ — 25% Weight)
+#### 2. Relevant Professional Experience ($S_{\text{exp}}$ — 20% Weight)
 Evaluates the candidate's years of relevant professional tenure against the target JD requirement:
 $$S_{\text{exp}} = \min\left(100, \frac{\text{Candidate Relevant Years}}{\text{Required Years}} \times 100\right)$$
 If a JD requires 3 years and the candidate has 3+ years in matching software engineering titles, $S_{\text{exp}} = 100\%$. If the candidate has 1.5 years, $S_{\text{exp}} = 50\%$.
 
-#### 3. Project Evidence & Technical Depth ($S_{\text{proj}}$ — 20% Weight)
+#### 3. Preferred Skills Coverage ($S_{\text{pref}}$ — 15% Weight)
+Evaluates optional nice-to-have qualifications and secondary toolsets.
+
+#### 4. Project Evidence & Technical Depth ($S_{\text{proj}}$ — 15% Weight)
 Evaluates hands-on project deliverables, architectural implementations, and open-source contributions:
-- $\ge 2$ production/complex technical projects with full tech stack context: $100\%$ ($20.0$ pts)
-- 1 detailed technical project: $65\%$ ($13.0$ pts)
-- Basic coursework projects only: $35\%$ ($7.0$ pts)
+- $\ge 2$ production/complex technical projects with full tech stack context: $100\%$ ($15.0$ pts)
+- 1 detailed technical project: $65\%$ ($9.75$ pts)
+- Basic coursework projects only: $35\%$ ($5.25$ pts)
 - No technical projects documented: $0\%$ ($0.0$ pts)
 
 #### 4. Preferred Skills Coverage ($S_{\text{pref}}$ — 10% Weight)

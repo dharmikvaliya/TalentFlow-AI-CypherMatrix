@@ -93,11 +93,12 @@ graph TD
 - **Inputs:** Stage 2 skill matches, candidate experience, project count, and education.
 - **Responsibilities:**
   - Computes transparent 0–100 score using weighted formula:
-    - 35% Required Skills
-    - 25% Experience Relevance
-    - 20% Project Evidence
-    - 10% Preferred Skills
-    - 10% Education / Qualifications
+    - 40% Required Skills Match (40 pts)
+    - 20% Relevant Experience (20 pts)
+    - 15% Preferred Skills Match (15 pts)
+    - 15% Project Portfolio Alignment (15 pts)
+    - 10% Education / Qualifications (10 pts)
+    - Total: 100% (100 pts)
   - Generates transparent breakdown, strengths list, weaknesses list, and gap analysis.
 - **Output:** `scoringOutputSchema` (numerical score 0–100, component breakdowns, explanation).
 

@@ -70,11 +70,12 @@ graph LR
 
 ### 2.3 Explainable Candidate Capability Scoring (Stage 4)
 - Transparent mathematical formula with explicit component weights:
-  - **35%** Required Skill Evidence
-  - **25%** Relevant Professional Experience
-  - **20%** Project Evidence
-  - **10%** Preferred Skills Coverage
-  - **10%** Educational & Professional Qualifications
+  - **40%** Required Skill Evidence Match (40 pts)
+  - **20%** Relevant Professional Experience (20 pts)
+  - **15%** Preferred Skills Coverage (15 pts)
+  - **15%** Project Evidence & Technical Depth (15 pts)
+  - **10%** Educational & Professional Qualifications (10 pts)
+  - **Total:** 100% (100 Points)
 - No black-box score generation: Scores are computed deterministically in code from verified evidence tiers.
 
 ### 2.4 Enterprise Security & Privacy

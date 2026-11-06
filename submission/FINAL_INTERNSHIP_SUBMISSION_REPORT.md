@@ -222,15 +222,16 @@ A candidate is classified as **High Integrity Risk** if and only if $\ge 2$ inde
 
 ## Chapter 11: Explainable Candidate Capability Scoring Architecture
 
-Candidate capability is computed deterministically in code:
+Candidate capability is computed deterministically in code according to the verified 5-dimension rubric defined in `server/src/config/scoringRubric.js`:
 
-$$S_{\text{overall}} = 0.35 S_{\text{req}} + 0.25 S_{\text{exp}} + 0.20 S_{\text{proj}} + 0.10 S_{\text{pref}} + 0.10 S_{\text{edu}}$$
+$$S_{\text{overall}} = 0.40 S_{\text{req}} + 0.20 S_{\text{exp}} + 0.15 S_{\text{pref}} + 0.15 S_{\text{proj}} + 0.10 S_{\text{edu}}$$
 
-- **35% Required Skills ($S_{\text{req}}$):** Corroborated required skills over total requisition requirements.
-- **25% Experience Depth ($S_{\text{exp}}$):** Verified tenure vs role seniority target.
-- **20% Project Evidence ($S_{\text{proj}}$):** Demonstrated portfolio complexity.
-- **10% Preferred Skills ($S_{\text{pref}}$):** Bonus optional qualifications.
-- **10% Education & Accreditations ($S_{\text{edu}}$):** Degrees and certifications.
+- **40% Required Skills ($S_{\text{req}}$ — 40 pts):** Corroborated mandatory skills over total requisition requirements (match = 1.0, partial = 0.5, missing = 0.0).
+- **20% Relevant Experience ($S_{\text{exp}}$ — 20 pts):** Cumulative verified software engineering tenure vs. role seniority target.
+- **15% Preferred Skills ($S_{\text{pref}}$ — 15 pts):** Bonus optional qualifications and secondary tech stack alignment.
+- **15% Project Portfolio Alignment ($S_{\text{proj}}$ — 15 pts):** Hands-on engineering execution and architecture complexity demonstrated in candidate projects.
+- **10% Education & Accreditations ($S_{\text{edu}}$ — 10 pts):** Formal STEM / CS degrees and accredited certifications.
+- **Total: 100% (100 Points)**.
 
 **Score Insulation Guarantee:** Integrity findings never decrement capability scores, eliminating double jeopardy.
 
@@ -381,7 +382,7 @@ Authentic, high-resolution screenshots captured directly from the live running T
 | `06-candidate-analysis.png` | **Candidate Info Tab** (`/runs/:id`) | Stage 1 Resume Parser output: structured biographical demographics, education, professional experience chronology, and portfolio projects. |
 | `07-skill-matching.png` | **Skills Analysis Tab** (`/runs/:id`) | Stage 2 Skills Analysis matrix: technical skills classified across 9 domains, required vs. preferred mapping, match status, and verbatim resume evidence. |
 | `08-integrity-detection.png` | **Resume Integrity Tab** (`/runs/:id`) | Stage 3 Resume Integrity Engine: 0–100 integrity score, risk rating, keyword stuffing checks, contiguous verbatim JD copy matching, uncorroborated skill inflation flags, and dual-signal fairness rule. |
-| `09-scoring-breakdown.png` | **Capability Scoring Tab** (`/runs/:id`) | Stage 4 Capability Scoring Engine: deterministic 0–100 rubric (35% req, 25% exp, 20% proj, 10% pref, 10% edu), radar chart, grounded strengths, and gaps with score insulation. |
+| `09-scoring-breakdown.png` | **Capability Scoring Tab** (`/runs/:id`) | Stage 4 Capability Scoring Engine: deterministic 0–100 rubric (40% req, 20% exp, 15% pref, 15% proj, 10% edu = 100%), radar chart, grounded strengths, and gaps with score insulation. |
 | `10-interview-questions.png` | **Interview Questions Tab** (`/runs/:id`) | Stage 5 Interview Question Agent: dynamically generated technical questions, project-based probes, behavioral questions, and adaptive integrity verification challenges. |
 | `11-strategic-recommendations.png` | **Hiring Recommendation Tab** (`/runs/:id`) | Stage 6 Hiring Recommendation Agent: advisory hiring decision (`Maybe / Further Review`), confidence score, key risks, next steps, and hard code-level guardrail advisories. |
 | `12-agent-execution-traces.png` | **Agent Traces Tab** (`/runs/:id`) | Stage 7 Execution Trace Visualizer: millisecond execution duration telemetry, status badges, provider metadata, and intermediate JSON schemas across all 7 stages. |

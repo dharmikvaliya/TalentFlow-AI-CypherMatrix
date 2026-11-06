@@ -110,8 +110,14 @@ sequenceDiagram
 ### Stage 4: Mathematical Scoring Engine (`scoring.agent.js`)
 - **Execution Mode:** **100% Deterministic Code Formula (0–100 Scale)**.
 - **Score Insulation:** Candidate capability scores are mathematically insulated from integrity findings. A candidate who padded keywords but possesses 5 years of verified React experience receives an accurate technical score, while the padding is surfaced separately in the integrity report.
-- **Mathematical Weights:**
-  $$\text{Overall Score} = 0.35 S_{\text{req}} + 0.25 S_{\text{exp}} + 0.20 S_{\text{proj}} + 0.10 S_{\text{pref}} + 0.10 S_{\text{edu}}$$
+- **Mathematical Weights (Matching `scoringRubric.js`):**
+  $$\text{Overall Score} = 0.40 S_{\text{req}} + 0.20 S_{\text{exp}} + 0.15 S_{\text{pref}} + 0.15 S_{\text{proj}} + 0.10 S_{\text{edu}}$$
+  - **Required Skills Match:** 40% (40 points)
+  - **Relevant Experience:** 20% (20 points)
+  - **Preferred Skills Match:** 15% (15 points)
+  - **Project Portfolio Alignment:** 15% (15 points)
+  - **Education & Academic Fit:** 10% (10 points)
+  - **Total:** 100% (100 points)
 
 ### Stage 5: Adaptive Interview Question Agent (`interviewQuestions.agent.js`)
 - **Execution Mode:** Generative LLM with conditional agentic routing.

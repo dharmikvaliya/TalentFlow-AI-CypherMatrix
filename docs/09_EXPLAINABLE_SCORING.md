@@ -38,10 +38,10 @@ graph TD
     end
 
     subgraph Weighted_Formula ["Deterministic Code Engine"]
-        W1["35% Required Skills"]
-        W2["25% Experience Depth"]
-        W3["20% Project Evidence"]
-        W4["10% Preferred Skills"]
+        W1["40% Required Skills"]
+        W2["20% Experience Depth"]
+        W3["15% Preferred Skills"]
+        W4["15% Project Evidence"]
         W5["10% Education"]
         Formula["Overall Score (0 - 100)"]
     end
@@ -59,19 +59,19 @@ graph TD
 
 The overall candidate capability score $S_{\text{overall}} \in [0, 100]$ is computed as the weighted linear combination of five normalized sub-scores:
 
-$$S_{\text{overall}} = 0.35 S_{\text{req}} + 0.25 S_{\text{exp}} + 0.20 S_{\text{proj}} + 0.10 S_{\text{pref}} + 0.10 S_{\text{edu}}$$
+$$S_{\text{overall}} = 0.40 S_{\text{req}} + 0.20 S_{\text{exp}} + 0.15 S_{\text{pref}} + 0.15 S_{\text{proj}} + 0.10 S_{\text{edu}}$$
 
-### 3.1 Component 1: Required Skills Match ($S_{\text{req}}$ — 35% Weight)
+### 3.1 Component 1: Required Skills Match ($S_{\text{req}}$ — 40% Weight / 40 Points)
 
 Measures the proportion of mandatory job requirements corroborated by Tier 1 (employment) or Tier 2 (projects) evidence:
 
 $$S_{\text{req}} = 100 \times \frac{|\mathcal{K}_{\text{req, verified}}|}{|\mathcal{K}_{\text{req, total}}|}$$
 
-- $\mathcal{K}_{\text{req, verified}}$: Required skills corroborated in work history or projects.
+- $\mathcal{K}_{\text{req, verified}}$: Required skills corroborated in work history or projects (match = 1.0, partial = 0.5, missing = 0.0).
 - $\mathcal{K}_{\text{req, total}}$: Total required skills listed in the job requisition.
 - If a skill is listed only in a header blurb without employment backing, it is excluded from $\mathcal{K}_{\text{req, verified}}$.
 
-### 3.2 Component 2: Relevant Professional Experience ($S_{\text{exp}}$ — 25% Weight)
+### 3.2 Component 2: Relevant Professional Experience ($S_{\text{exp}}$ — 20% Weight / 20 Points)
 
 Evaluates candidate tenure relative to the role's required seniority target $Y_{\text{target}}$:
 
@@ -80,7 +80,13 @@ $$S_{\text{exp}} = \min\left(100, 100 \times \frac{Y_{\text{candidate}}}{Y_{\tex
 - $Y_{\text{candidate}}$: Cumulative verified years in relevant software engineering roles.
 - $\Phi_{\text{relevance}} \in [0.5, 1.0]$: Contextual relevance factor between candidate domain and target role.
 
-### 3.3 Component 3: Project Evidence ($S_{\text{proj}}$ — 20% Weight)
+### 3.3 Component 3: Preferred Skills Match ($S_{\text{pref}}$ — 15% Weight / 15 Points)
+
+Evaluates optional nice-to-have capabilities:
+
+$$S_{\text{pref}} = 100 \times \frac{|\mathcal{K}_{\text{pref, verified}}|}{\max(1, |\mathcal{K}_{\text{pref, total}}|)}$$
+
+### 3.4 Component 4: Project Evidence ($S_{\text{proj}}$ — 15% Weight / 15 Points)
 
 Assesses demonstrated hands-on technical execution through portfolio repositories, open-source contributions, or documented client deliverables:
 
@@ -89,13 +95,7 @@ $$S_{\text{proj}} = \min\left(100, 25 \times N_{\text{verified\_projects}} \time
 - $N_{\text{verified\_projects}}$: Number of distinct technical projects with documented architecture.
 - $\Lambda_{\text{complexity}} \in [0.8, 1.2]$: Multiplier based on project complexity (e.g., distributed systems, production deployment).
 
-### 3.4 Component 4: Preferred Skills Bonus ($S_{\text{pref}}$ — 10% Weight)
-
-Awards bonus points for optional nice-to-have capabilities:
-
-$$S_{\text{pref}} = 100 \times \frac{|\mathcal{K}_{\text{pref, verified}}|}{\max(1, |\mathcal{K}_{\text{pref, total}}|)}$$
-
-### 3.5 Component 5: Formal Education & Accreditations ($S_{\text{edu}}$ — 10% Weight)
+### 3.5 Component 5: Formal Education & Accreditations ($S_{\text{edu}}$ — 10% Weight / 10 Points)
 
 Evaluates academic degrees and accredited cloud/engineering certifications:
 
