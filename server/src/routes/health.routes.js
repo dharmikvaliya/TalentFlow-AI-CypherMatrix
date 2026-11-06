@@ -30,7 +30,8 @@ router.get('/health', (req, res) => {
         status: 'initialized',
         lastUsedAt: null
       },
-      database: isDbConnected ? 'connected' : 'disconnected'
+      database: isDbConnected ? 'connected' : 'disconnected',
+      databaseName: isDbConnected ? (mongoose.connection.name || 'talentflow_cyphermatrix') : null
     }
   });
 });

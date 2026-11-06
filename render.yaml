@@ -22,6 +22,8 @@ services:
         value: "false"
       - key: MAX_RUNS_PER_DAY
         value: "3"
+      - key: MONGODB_DB_NAME
+        value: talentflow_cyphermatrix
       - key: MONGODB_URI
         sync: false
       - key: CLIENT_ORIGIN

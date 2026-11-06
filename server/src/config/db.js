@@ -9,13 +9,15 @@ export async function connectDB() {
     process.exit(1);
   }
 
-  const effectiveUri = uri || 'mongodb://127.0.0.1:27017/talentflow';
+  const effectiveUri = uri || 'mongodb://127.0.0.1:27017/talentflow_cyphermatrix';
+  const targetDbName = (process.env.MONGODB_DB_NAME || 'talentflow_cyphermatrix').trim();
 
   try {
     const conn = await mongoose.connect(effectiveUri, {
+      dbName: targetDbName,
       serverSelectionTimeoutMS: 5000
     });
-    console.log(`[Database] MongoDB connected: ${conn.connection.host}`);
+    console.log(`[Database] MongoDB connected: ${conn.connection.host}/${conn.connection.name}`);
     return conn;
   } catch (err) {
     console.error(`[Database Error] MongoDB connection failed: ${err.message}`);
