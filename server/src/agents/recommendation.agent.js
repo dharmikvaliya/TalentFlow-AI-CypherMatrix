@@ -26,7 +26,9 @@ export const inputSchema = z.object({
     summary: z.string(),
     flagsCount: z.number().default(0),
     flagCodes: z.array(z.string()).default([])
-  }).optional().nullable()
+  }).optional().nullable(),
+  provider: z.string().optional().nullable(),
+  model: z.string().optional().nullable()
 });
 
 export const outputSchema = recommendationOutputSchema;

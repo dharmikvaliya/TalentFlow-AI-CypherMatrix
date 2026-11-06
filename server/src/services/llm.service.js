@@ -180,6 +180,83 @@ export function repairTruncatedJSON(str) {
   }
 }
 
+/**
+ * Extracts and parses a JSON object or array from LLM output, handling:
+ * 1. Clean JSON strings
+ * 2. Markdown code fences (```json ... ``` or ``` ... ```) even when embedded inside conversational or reasoning text
+ * 3. Stripping <think>...</think> and <thought>...</thought> tags
+ * 4. Automatic repair of truncated outputs
+ * 5. Outermost balanced { ... } or [ ... ]
+ */
+export function extractJSON(content) {
+  if (typeof content !== 'string' || !content.trim()) return null;
+
+  let text = content.trim();
+
+  // 1. Strip thinking tags <think>...</think> or <thought>...</thought>
+  text = text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+  text = text.replace(/<thought>[\s\S]*?<\/thought>/gi, '').trim();
+
+  // 2. Direct parse attempt if clean JSON
+  try {
+    return { data: JSON.parse(text), repaired: false };
+  } catch {}
+
+  // 3. Extract from markdown code fences: ```json ... ``` or ``` ... ```
+  // Handles multiple blocks, or blocks surrounded by conversational text/thinking process
+  const codeBlockRegex = /```(?:json)?\s*([\s\S]*?)\s*```/gi;
+  let match;
+  while ((match = codeBlockRegex.exec(text)) !== null) {
+    const candidate = match[1].trim();
+    try {
+      return { data: JSON.parse(candidate), repaired: false };
+    } catch {
+      const repairedCandidate = repairTruncatedJSON(candidate);
+      if (repairedCandidate && typeof repairedCandidate === 'object') {
+        return { data: repairedCandidate, repaired: true };
+      }
+    }
+  }
+
+  // 4. Look for outermost balanced JSON object { ... }
+  const firstBrace = text.indexOf('{');
+  const lastBrace = text.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    const candidate = text.substring(firstBrace, lastBrace + 1);
+    try {
+      return { data: JSON.parse(candidate), repaired: false };
+    } catch {
+      const repaired = repairTruncatedJSON(candidate);
+      if (repaired && typeof repaired === 'object') {
+        return { data: repaired, repaired: true };
+      }
+    }
+  }
+
+  // 5. Look for outermost balanced JSON array [ ... ]
+  const firstBracket = text.indexOf('[');
+  const lastBracket = text.lastIndexOf(']');
+  if (firstBracket !== -1 && lastBracket > firstBracket) {
+    const candidate = text.substring(firstBracket, lastBracket + 1);
+    try {
+      return { data: JSON.parse(candidate), repaired: false };
+    } catch {
+      const repaired = repairTruncatedJSON(candidate);
+      if (repaired && typeof repaired === 'object') {
+        return { data: repaired, repaired: true };
+      }
+    }
+  }
+
+  // 6. Last-ditch repair attempt on full text
+  const repaired = repairTruncatedJSON(text);
+  if (repaired && typeof repaired === 'object') {
+    return { data: repaired, repaired: true };
+  }
+
+  return null;
+}
+
 class LLMService {
   constructor() {
     this._clients = new Map();
@@ -423,6 +500,24 @@ class LLMService {
     const maxAttempts = 3;
     let dropResponseFormat = false;
 
+    // Detect models that produce internal thinking/reasoning traces
+    const isReasoningModel =
+      (config.model && (
+        config.model.includes('reasoning') ||
+        config.model.includes('nemotron') ||
+        config.model.includes('r1') ||
+        config.model.includes('deepseek') ||
+        config.model.includes('free')
+      )) ||
+      config.provider === 'nvidia';
+
+    const effectiveSystemPrompt = isReasoningModel
+      ? `${systemPrompt}\n\nIMPORTANT: Keep internal reasoning concise (under 300 words). Do not deliberate extensively; output the final valid JSON object directly.`
+      : systemPrompt;
+
+    const maxTokens = isReasoningModel ? 16384 : 4096;
+    const requestTimeoutMs = isReasoningModel ? 180000 : 60000;
+
     while (attempt < maxAttempts) {
       attempt++;
       try {
@@ -430,27 +525,48 @@ class LLMService {
         const payload = {
           model: config.model,
           messages: [
-            { role: 'system', content: systemPrompt },
+            { role: 'system', content: effectiveSystemPrompt },
             { role: 'user', content: safeUserPrompt }
           ],
           temperature,
-          max_tokens: 4096
+          max_tokens: maxTokens
         };
 
         if (config.supportsStructuredOutput && !dropResponseFormat) {
           payload.response_format = { type: 'json_object' };
         }
 
-        const completion = await client.chat.completions.create(payload, { timeout: 60000 });
+        const completion = await client.chat.completions.create(payload, { timeout: requestTimeoutMs });
 
         const messageObj = completion.choices?.[0]?.message || {};
         let content = (messageObj.content || '').trim();
-        // Fallback to reasoning_content if content is empty (common in reasoning models e.g. Nemotron/DeepSeek)
-        if (!content && (messageObj.reasoning_content || messageObj.reasoning)) {
-          content = (messageObj.reasoning_content || messageObj.reasoning).trim();
+        let reasoning = (messageObj.reasoning_content || messageObj.reasoning || '').trim();
+        if (!reasoning && messageObj.reasoning_details && Array.isArray(messageObj.reasoning_details)) {
+          reasoning = messageObj.reasoning_details.map(d => d.text || '').join('\n').trim();
         }
 
-        if (!content) {
+        // Try extracting JSON from message content first
+        let extraction = extractJSON(content);
+
+        // If content didn't yield JSON, try reasoning text (common when reasoning models put JSON in reasoning)
+        if (!extraction && reasoning) {
+          extraction = extractJSON(reasoning);
+        }
+
+        // If still not found, try combined content + reasoning
+        if (!extraction && content && reasoning) {
+          extraction = extractJSON(`${content}\n${reasoning}`);
+        }
+
+        if (extraction && extraction.data && typeof extraction.data === 'object') {
+          if (extraction.repaired) {
+            this._lastRepairedTruncation = true;
+            console.warn(`[LLM Service] [${config.name}] Successfully repaired truncated JSON for agent "${agentName}".`);
+          }
+          return extraction.data;
+        }
+
+        if (!content && !reasoning) {
           throw new LLMProviderError({
             provider: config.provider,
             status: 422,
@@ -458,42 +574,11 @@ class LLMService {
           });
         }
 
-        // Strip thinking blocks <think>...</think> if present
-        if (content.includes('<think>')) {
-          content = content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-        }
-
-        if (content.startsWith('```')) {
-          content = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
-        }
-
-        try {
-          return JSON.parse(content);
-        } catch (initialJsonErr) {
-          const jsonMatch = content.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
-          if (jsonMatch) {
-            try {
-              return JSON.parse(jsonMatch[0]);
-            } catch (innerErr) {
-              // ignore and try repair below
-            }
-          }
-
-          // Try automatic repair for truncated JSON outputs (handles token-limited models)
-          const repaired = repairTruncatedJSON(content);
-          if (repaired && typeof repaired === 'object') {
-            this._lastRepairedTruncation = true;
-            console.warn(`[LLM Service] [${config.name}] Successfully repaired truncated JSON for agent "${agentName}".`);
-            return repaired;
-          }
-
-          throw new LLMProviderError({
-            provider: config.provider,
-            status: 422,
-            message: `${config.name} returned invalid JSON for agent "${agentName}": ${initialJsonErr.message}`,
-            cause: initialJsonErr
-          });
-        }
+        throw new LLMProviderError({
+          provider: config.provider,
+          status: 422,
+          message: `${config.name} returned invalid JSON for agent "${agentName}". Raw content length: ${content.length}, reasoning length: ${reasoning.length}`
+        });
       } catch (err) {
         if (err instanceof LLMProviderError) throw err;
 
@@ -625,22 +710,20 @@ class LLMService {
           });
         }
 
-        let cleanText = content;
-        if (cleanText.startsWith('```')) {
-          cleanText = cleanText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
-        }
-
-        try {
-          return JSON.parse(cleanText);
-        } catch (ollamaParseErr) {
-          const repaired = repairTruncatedJSON(cleanText);
-          if (repaired && typeof repaired === 'object') {
+        const extraction = extractJSON(content);
+        if (extraction && extraction.data && typeof extraction.data === 'object') {
+          if (extraction.repaired) {
             this._lastRepairedTruncation = true;
             console.warn(`[LLM Service] [Ollama] Repaired truncated JSON for agent "${agentName}".`);
-            return repaired;
           }
-          throw ollamaParseErr;
+          return extraction.data;
         }
+
+        throw new LLMProviderError({
+          provider: 'ollama',
+          status: 422,
+          message: `Ollama returned invalid JSON for agent "${agentName}"`
+        });
       } catch (err) {
         clearTimeout(timeoutId);
         const isTimeout = err.name === 'AbortError' || (err.message && err.message.includes('timed out'));
