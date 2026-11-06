@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: talentflow-api
+    name: talentflow-cyphermatrix-api
     env: node
     rootDir: server
     buildCommand: npm install
