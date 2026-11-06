@@ -82,16 +82,13 @@ describe('Task 5: LLM Provider Abstraction & Multi-Provider Architecture Suite',
       expect(config.apiKey).toBe('nvapi-mock-nvidia-key-7777');
     });
 
-    it('5. resolves Together AI configuration as additional low-cost provider', () => {
+    it('5. safely rejects Together AI as unsupported research-only provider', () => {
       delete process.env.LLM_MOCK;
       process.env.LLM_PROVIDER = 'together';
-      process.env.TOGETHER_API_KEY = 'mock_together_key_3333';
 
-      const config = resolveProviderConfig('together');
-      expect(config.provider).toBe('together');
-      expect(config.baseURL).toBe('https://api.together.xyz/v1');
-      expect(config.model).toBe('meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo');
-      expect(config.apiKey).toBe('mock_together_key_3333');
+      expect(() => resolveProviderConfig('together')).toThrowError(
+        /Unsupported LLM provider "together"/
+      );
     });
 
     it('6. resolves Ollama configuration correctly with custom URL', () => {

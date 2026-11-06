@@ -19,7 +19,7 @@ Over the course of this assignment, the platform was systematically improved int
 - An insulated **0–100 Capability Scoring Engine** whose scores are mathematically computed and never diluted or decremented by integrity findings.
 - **Conditional Agentic Routing** that dynamically directs uncorroborated claims to the Interview Question Agent for neutral, targeted technical probing.
 - An interactive **Resume Integrity Tab** in the React frontend providing evidentiary transparency without making bad-faith accusations.
-- A universal **AI Provider Abstraction** supporting OpenAI, Groq, OpenRouter, NVIDIA NIM, Together AI, Ollama, and Mock.
+- A universal **AI Provider Abstraction** supporting OpenAI, Groq, OpenRouter, NVIDIA NIM, Ollama, and Mock (with Together AI researched).
 - Comprehensive **Security Hardening** including PDF magic-byte validation, PII minimization, and prompt-injection quarantine.
 - A 12-case **Synthetic Test Dataset** achieving **100% binary gaming-risk accuracy (12/12), 91.7% exact severity agreement (11/12; CASE-09 actual medium vs expected high), 100% precision, 100% recall, and 100% score stability on the synthetic development corpus** (calibrated against engineered threat vectors; not population-scale validation), with a 100% test pass rate across 210 tests in 26 test suites.
 
@@ -29,7 +29,7 @@ Over the course of this assignment, the platform was systematically improved int
 
 The Cypher Matrix assignment requires addressing 20 core architectural capabilities:
 1. AI provider research and dynamic provider switching.
-2. Integration support for OpenRouter, NVIDIA NIM, Groq, OpenAI, Ollama, Together AI, and Mock.
+2. Integration support for OpenRouter, NVIDIA NIM, Groq, OpenAI, Ollama, and Mock (Together AI research-only).
 3. Comparative evaluation of models, free tiers, rate limits, context windows, latency, tool calling, structured JSON output, reliability, pricing, and privacy.
 4. Meaningful agentic workflow behavior with dynamic decision routing.
 5. Intelligent resume and PDF extraction with boundary enforcement.
@@ -75,7 +75,7 @@ Prior to these improvements, the verified baseline stood at:
 | **2. Keyword Stuffing Vulnerability** | Excessive repetition artificially inflated search matches. | **Document-Aware Repetition Detection:** Flags terms >= 4% share and >= 7 occurrences, while discounting corroborated work history skills. |
 | **3. Verbatim JD Copying** | Candidates pasted job descriptions into their resumes to trick semantic matching. | **Contiguous N-Gram Matching:** Scans contiguous 3-to-6-word phrases against normalized JD text while preserving stop words. |
 | **4. Adversarial Prompt Injection** | Resumes containing jailbreak commands could subvert evaluator instructions. | **Quarantine Boundaries & Code Scoring:** Delimiter breakouts neutralized, raw exploit commands redacted, and capability scoring calculated exclusively in code. |
-| **5. Provider Lock-In** | High API costs and vendor dependency on OpenAI. | **Multi-Provider Matrix:** Standard OpenAI-compatible REST abstraction supporting Groq, OpenRouter, NVIDIA NIM, Together AI, Ollama, and Mock. |
+| **5. Provider Lock-In** | High API costs and vendor dependency on OpenAI. | **Multi-Provider Matrix:** Standard OpenAI-compatible REST abstraction supporting Groq, OpenRouter, NVIDIA NIM, Ollama, and Mock. |
 | **6. Unfair Algorithmic Penalization** | Heuristics risking false accusations against authentic high-density engineers. | **Fairness Safeguards:** High risk requires $\ge 2$ independent signals; legitimate high-density resumes are protected; scores are insulated. |
 
 ---
@@ -154,8 +154,8 @@ The `server/src/config/llmProviders.js` configuration layer enables instant prov
 | `openai` | OpenAI | **Full workflow verified** | `openai-compatible` | `https://api.openai.com/v1` | `gpt-4.1-mini` | Complete 7-stage live workflow verified (Run `6aec45fa541eda875a9b27c6`). |
 | `groq` | Groq | **Live auth & completion verified** | `openai-compatible` | `https://api.groq.com/openai/v1` | `openai/gpt-oss-120b` | Live authentication, model-list retrieval, and chat completion verified. Full seven-stage workflow not independently verified from retained, provider-attributed evidence. Model configurable and account-specific. |
 | `openrouter` | OpenRouter | **Live stage test verified** | `openai-compatible` | `https://openrouter.ai/api/v1` | `google/gemma-4-31b-it:free` | Stage 1 verified live. Truncation observed on `openrouter/free`. Full workflow not verified live. |
-| `nvidia` | NVIDIA NIM | **Live test failed** (Config supported) | `openai-compatible` | `https://integrate.api.nvidia.com/v1` | `mistralai/mistral-large-2-instruct` | Authentication header verified, but endpoint returned HTTP 410 on retired models; full workflow not verified. |
-| `together` | Together AI | **Offline config tested** | `openai-compatible` | `https://api.together.xyz/v1` | `meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo` | Adapter integrated and unit tested; requires active commercial credits. |
+| `nvidia` | NVIDIA NIM | **Full workflow verified** | `openai-compatible` | `https://integrate.api.nvidia.com/v1` | `meta/llama-3.3-70b-instruct` | Complete 7-stage live workflow verified (Run `6aedac9041e696fd5d5898ef`). Reasoning fallback & Instruct models supported. |
+| `together` | Together AI | **Research-Only** | `openai-compatible` | `https://api.together.xyz/v1` | `meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo` | Documented and evaluated as research-only. Not included in active runtime to prioritize free/budget-accessible providers. |
 | `ollama` | Ollama | **Offline config tested** | `ollama-native` | `http://localhost:11434` | `llama3.2` | 100% free open-source local REST adapter verified via unit test fixtures. |
 | `mock` | Mock Deterministic | **Full workflow verified** | `mock` | N/A | `mock-deterministic` | 100% offline, deterministic fixtures, 26 test suites, 210 tests passing. |
 

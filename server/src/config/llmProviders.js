@@ -83,7 +83,7 @@ export function persistActiveProviderToDisk(provider, model = null) {
 /**
  * AI Provider Configuration Matrix for TalentFlow AI
  *
- * Configures OpenAI, OpenRouter, Groq, NVIDIA NIM, Together AI, Ollama, and Mock.
+ * Configures OpenAI, OpenRouter, Groq, NVIDIA NIM, Ollama, and Mock.
  * All live cloud providers utilize OpenAI-compatible REST endpoints.
  */
 
@@ -128,17 +128,6 @@ export const PROVIDER_REGISTRY = {
     defaultModel: 'meta/llama-3.1-70b-instruct',
     supportsStructuredOutput: true,
     documentationUrl: 'https://build.nvidia.com'
-  },
-  together: {
-    name: 'Together AI',
-    protocol: 'openai-compatible',
-    baseURL: 'https://api.together.xyz/v1',
-    baseUrlEnv: 'TOGETHER_BASE_URL',
-    apiKeyEnv: 'TOGETHER_API_KEY',
-    modelEnv: 'TOGETHER_MODEL',
-    defaultModel: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',
-    supportsStructuredOutput: true,
-    documentationUrl: 'https://docs.together.ai'
   },
   ollama: {
     name: 'Ollama',

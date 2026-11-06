@@ -19,9 +19,11 @@
       "toolCallingUsedInTalentFlow": false,
       "documentationUrl": "https://platform.openai.com/docs/api-reference",
       "pricing1MTokensInputUSD": 0.15,
-      "pricing1MTokensOutputUSD": 0.60,
+      "pricing1MTokensOutputUSD": 0.6,
       "dataRetentionPolicy": "30 days default logging; zero-retention option available",
-      "recommendedUse": "Enterprise production with signed DPA"
+      "recommendedUse": "Enterprise production with signed DPA",
+      "status": "active",
+      "implementedInRuntime": true
     },
     {
       "id": "groq",
@@ -41,7 +43,9 @@
       "pricing1MTokensInputUSD": 0.59,
       "pricing1MTokensOutputUSD": 0.79,
       "dataRetentionPolicy": "Temporary processing in memory; no training on customer inputs",
-      "recommendedUse": "High-speed interactive recruiter demo and real-time screening"
+      "recommendedUse": "High-speed interactive recruiter demo and real-time screening",
+      "status": "active",
+      "implementedInRuntime": true
     },
     {
       "id": "openrouter",
@@ -58,10 +62,12 @@
       "toolCalling": true,
       "toolCallingUsedInTalentFlow": false,
       "documentationUrl": "https://openrouter.ai/docs",
-      "pricing1MTokensInputUSD": 0.20,
-      "pricing1MTokensOutputUSD": 0.40,
+      "pricing1MTokensInputUSD": 0.2,
+      "pricing1MTokensOutputUSD": 0.4,
       "dataRetentionPolicy": "Configurable privacy toggles; route-dependent retention",
-      "recommendedUse": "Multi-model aggregation and automated provider failover"
+      "recommendedUse": "Multi-model aggregation and automated provider failover",
+      "status": "active",
+      "implementedInRuntime": true
     },
     {
       "id": "nvidia",
@@ -81,7 +87,9 @@
       "pricing1MTokensInputUSD": "Subscription / Compute license post-trial",
       "pricing1MTokensOutputUSD": "Subscription / Compute license post-trial",
       "dataRetentionPolicy": "Self-hosted container guarantees complete private cloud boundary",
-      "recommendedUse": "Self-hosted private cloud enterprise deployments"
+      "recommendedUse": "Self-hosted private cloud enterprise deployments",
+      "status": "active",
+      "implementedInRuntime": true
     },
     {
       "id": "together",
@@ -101,7 +109,10 @@
       "pricing1MTokensInputUSD": 0.88,
       "pricing1MTokensOutputUSD": 0.88,
       "dataRetentionPolicy": "Zero data retention on inference; no training on user prompts",
-      "recommendedUse": "High-volume cost-efficient batch processing"
+      "recommendedUse": "High-volume cost-efficient batch processing",
+      "status": "research-only",
+      "implementedInRuntime": false,
+      "researchNotes": "Together AI was researched as part of the provider evaluation. It was not selected for active integration because the project is prioritizing providers and usage options that fit the available budget. Its API access and pricing can be reconsidered in future development."
     },
     {
       "id": "ollama",
@@ -118,10 +129,12 @@
       "toolCalling": true,
       "toolCallingUsedInTalentFlow": false,
       "documentationUrl": "https://github.com/ollama/ollama",
-      "pricing1MTokensInputUSD": 0.00,
-      "pricing1MTokensOutputUSD": 0.00,
+      "pricing1MTokensInputUSD": 0,
+      "pricing1MTokensOutputUSD": 0,
       "dataRetentionPolicy": "100% local air-gapped data privacy; no cloud data transfer",
-      "recommendedUse": "Privacy-mandated local recruiting and offline developer setups"
+      "recommendedUse": "Privacy-mandated local recruiting and offline developer setups",
+      "status": "active",
+      "implementedInRuntime": true
     },
     {
       "id": "mock",
@@ -138,10 +151,12 @@
       "toolCalling": false,
       "toolCallingUsedInTalentFlow": false,
       "documentationUrl": null,
-      "pricing1MTokensInputUSD": 0.00,
-      "pricing1MTokensOutputUSD": 0.00,
+      "pricing1MTokensInputUSD": 0,
+      "pricing1MTokensOutputUSD": 0,
       "dataRetentionPolicy": "Zero data transfer; runs entirely in-memory",
-      "recommendedUse": "Continuous Integration, automated regression tests, and zero-cost audits"
+      "recommendedUse": "Continuous Integration, automated regression tests, and zero-cost audits",
+      "status": "active",
+      "implementedInRuntime": true
     }
   ]
 }

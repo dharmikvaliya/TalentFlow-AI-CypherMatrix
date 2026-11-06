@@ -3,7 +3,7 @@
 > **Assessment Submission:** AI Automation Intern / Senior Systems Engineering — Cypher Matrix
 > **Candidate Stack:** React 18 (Vite), Node.js (Express), MongoDB Atlas / In-Memory Fallback, Zod Runtime Validation
 > **Workflow Architecture:** 7-Stage Sequential Orchestration with Deterministic Resume Integrity Engine & Capability Scoring
-> **AI Providers:** OpenAI (`gpt-4.1-mini`), Groq (`llama-3.3-70b-versatile`), OpenRouter (`openrouter/free`), NVIDIA NIM, Together AI, Ollama (`llama3:latest`), and 100% Offline Mock Engine
+> **AI Providers:** OpenAI (`gpt-4.1-mini`), Groq (`llama-3.3-70b-versatile`), OpenRouter (`openrouter/free`), NVIDIA NIM (`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`), Ollama (`llama3:latest`), and 100% Offline Mock Engine (Together AI evaluated as Research-Only)
 > **Repository Workspace:** `TalentFlow-AI-CypherMatrix`
 > **GitHub Repository:** [https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix](https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix)
 > **Test Status:** **26 Test Files Passed, 210 of 210 Tests Passed (100% Pass Rate)**
@@ -19,7 +19,7 @@ TalentFlow AI was enhanced from a 6-stage recruitment evaluator into an assignme
 2. **Strict Score Insulation:** Capability scores (0–100) are computed mathematically and **never diluted or decremented by integrity findings**.
 3. **Conditional Agentic Routing:** If textual risk is elevated (`reviewRequired: true`), the pipeline dynamically feeds affected skills to the Interview Question Agent for **targeted, neutral technical verification probing**.
 4. **Interactive Resume Integrity Frontend Tab:** An 8th tab in the recruiter interface (`ResumeIntegrityTab.jsx`) providing evidentiary transparency, metric distributions, and human review guidance without making bad-faith accusations.
-5. **Universal AI Provider Matrix:** `server/src/config/llmProviders.js` supports provider abstraction across **OpenAI, Groq, OpenRouter, NVIDIA NIM, Together AI, Ollama, and Mock**. Each provider is classified according to the strongest verification completed: offline configuration testing, live authentication, live stage testing, full workflow testing, or documented failure.
+5. **Universal AI Provider Matrix:** `server/src/config/llmProviders.js` supports provider abstraction across **OpenAI, Groq, OpenRouter, NVIDIA NIM, Ollama, and Mock** (with Together AI evaluated and documented as research-only). Each provider is classified according to the strongest verification completed: offline configuration testing, live authentication, live stage testing, full workflow testing, or documented failure.
 6. **Security & Candidate Privacy Hardening:** Enforced `%PDF-` magic-byte verification, 5MB file cap, candidate PII minimization (email, phone, address redaction before LLM transit), prompt-injection boundary escaping, and secret redaction.
 7. **Synthetic Evaluation Benchmark:** Evaluated against a 12-case synthetic manifest with zero real PII, achieving **100% binary gaming-risk accuracy (12/12 cases), 91.7% exact severity agreement (11/12 cases; CASE-09 actual medium vs expected high), 100% precision, 100% recall, 100% score stability, and 0.58ms median latency on the synthetic development corpus** (calibrated against engineered threat vectors; not population-scale validation; requires domain threshold tuning in production). Evaluation execution writes report files as a side-effect (suppressible via `--no-write`).
 
@@ -117,10 +117,10 @@ LLM_PROVIDER=openai
 OPENAI_API_KEY=your_openai_key
 OPENAI_MODEL=gpt-4.1-mini
 
-# 5. Low-Cost Open Model Inference (Together AI)
-LLM_PROVIDER=together
-TOGETHER_API_KEY=your_together_key
-TOGETHER_MODEL=meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo
+# 5. Enterprise Microservices (NVIDIA NIM)
+LLM_PROVIDER=nvidia
+NVIDIA_API_KEY=your_nvidia_key
+NVIDIA_MODEL=meta/llama-3.3-70b-instruct
 
 # 6. CI/CD & Automated Testing (Mock Engine - Zero Cost, Zero Network)
 LLM_PROVIDER=mock

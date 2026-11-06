@@ -364,7 +364,7 @@ class LLMService {
       }
     }
 
-    // 3. OpenAI-Compatible Providers (OpenAI, OpenRouter, Groq, NVIDIA NIM, Together AI)
+    // 3. OpenAI-Compatible Providers (OpenAI, OpenRouter, Groq, NVIDIA NIM)
     try {
       const parsedJson = await this._callOpenAICompatibleWithRetry({
         config,
