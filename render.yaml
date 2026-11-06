@@ -21,7 +21,7 @@ services:
       - key: LLM_ALLOW_MOCK_FALLBACK
         value: "false"
       - key: MAX_RUNS_PER_DAY
-        value: "3"
+        value: "50"
       - key: MONGODB_DB_NAME
         value: talentflow_cyphermatrix
       - key: MONGODB_URI
