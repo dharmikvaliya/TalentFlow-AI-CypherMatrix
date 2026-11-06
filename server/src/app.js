@@ -26,10 +26,18 @@ app.use(helmet({
 
 // CORS Configuration
 export function getAllowedOrigins() {
-  return (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
+  const envOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
     .split(',')
     .map(o => o.trim())
     .filter(Boolean);
+
+  const defaults = [
+    'https://talentflow-ai-cyphermatrix.vercel.app',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173'
+  ];
+
+  return Array.from(new Set([...defaults, ...envOrigins]));
 }
 
 app.use(cors({
