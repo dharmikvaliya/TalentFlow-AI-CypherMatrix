@@ -135,8 +135,22 @@ export default function UploadPage() {
         const res = await getAvailableProviders();
         if (isMounted && res && res.providers && res.providers.length > 0) {
           setProviders(res.providers);
-          const active = res.activeProvider || 'openai';
-          const matched = res.providers.find(p => p.id === active) || res.providers[0];
+
+          // Check if user has previously chosen a provider in this browser
+          const savedPref = localStorage.getItem('talentflow_selected_provider');
+          let targetId = savedPref;
+
+          if (!targetId || !res.providers.some(p => p.id === targetId)) {
+            // First-time user: default to 'openai' if it has an active API key, otherwise default to 'mock' (offline mode)
+            const openaiProv = res.providers.find(p => p.id === 'openai');
+            if (openaiProv && openaiProv.hasKey) {
+              targetId = 'openai';
+            } else {
+              targetId = 'mock';
+            }
+          }
+
+          const matched = res.providers.find(p => p.id === targetId) || res.providers[0];
           setSelectedProvider(matched.id);
           setSelectedModel(matched.defaultModel || matched.models[0] || '');
         }
@@ -150,6 +164,7 @@ export default function UploadPage() {
 
   const handleProviderSelect = async (prov) => {
     setSelectedProvider(prov.id);
+    localStorage.setItem('talentflow_selected_provider', prov.id);
     const targetModel = prov.defaultModel || (prov.models && prov.models[0]) || '';
     setSelectedModel(targetModel);
     setIsCustomModel(false);

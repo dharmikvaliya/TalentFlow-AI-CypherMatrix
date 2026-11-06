@@ -4,9 +4,10 @@ import { Bot, PlayCircle, History, BookOpen, ChevronDown, Check, Zap, Cpu, Globe
 import { getHealthStatus, updateActiveProvider } from '../services/api';
 
 const QUICK_PROVIDERS = [
-  { id: 'openai', name: 'OpenAI', model: 'gpt-4.1-mini', icon: Cpu, isMock: false },
-  { id: 'groq', name: 'Groq (Ultra-Fast)', model: 'openai/gpt-oss-120b', icon: Zap, isMock: false },
-  { id: 'openrouter', name: 'OpenRouter (Free)', model: 'google/gemma-4-31b-it:free', icon: Globe, isMock: false },
+  { id: 'openai', name: 'OpenAI (High Quality)', model: 'gpt-4.1-mini', icon: Cpu, isMock: false },
+  { id: 'groq', name: 'Groq (Ultra-Fast)', model: 'llama-3.3-70b-versatile', icon: Zap, isMock: false },
+  { id: 'openrouter', name: 'OpenRouter (12 Free)', model: 'openrouter/free', icon: Globe, isMock: false },
+  { id: 'nvidia', name: 'NVIDIA NIM (Privacy)', model: 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning', icon: Cpu, isMock: false },
   { id: 'mock', name: 'Mock Engine (Offline)', model: 'mock-deterministic', icon: Shield, isMock: true }
 ];
 
@@ -68,6 +69,7 @@ export default function Navbar() {
 
   const handleSelectQuickProvider = async (p) => {
     setDropdownOpen(false);
+    localStorage.setItem('talentflow_selected_provider', p.id);
     try {
       const res = await updateActiveProvider(p.id, p.model);
       setHealth((prev) => ({

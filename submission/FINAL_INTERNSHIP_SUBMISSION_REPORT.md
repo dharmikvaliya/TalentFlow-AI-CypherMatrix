@@ -369,15 +369,19 @@ npm run build
 
 ## Chapter 24: Visual Artifacts & Screenshot Catalog
 
-Authentic screenshots are preserved in `submission/screenshots/`:
-1. `01_pipeline_dashboard.png`: Recruiter pipeline dashboard and candidate queue.
-2. `02_stage_tracing.png`: Real-time execution visualizer and stage telemetry.
-3. `03_integrity_gaming_report.png`: Dedicated **Resume Integrity Tab** with detected gaming flags.
-4. `04_explainable_scoring.png`: Mathematical capability breakdown across 5 evidence tiers.
-5. `05_candidate_report.png`: Consolidated executive candidate dossier with tailored interview questions.
-6. `06_nvidia_nim_setup.jpg`: NVIDIA Build developer console with serverless NIM endpoints.
-7. `07_openrouter_free_models.jpg`: OpenRouter free model catalog and routing options.
-8. `08_openrouter_models_detail.jpg`: OpenRouter context window and token parameters.
+Authentic, high-resolution screenshots captured directly from the live TalentFlow AI – Cypher Matrix web application (`https://talentflow-ai-cyphermatrix.vercel.app`) are preserved in `submission/screenshots/`:
+
+1. `01_upload_and_provider_selection.png`: Recruiter intake dashboard with PDF resume upload, target job description requisition, and real-time AI Provider selection dropdown (`OpenAI`, `Groq`, `OpenRouter`, `NVIDIA NIM`, `Ollama`, `Mock`).
+2. `02_agentic_workflow_architecture.png`: Interactive **How It Works** architecture visualizer detailing the 7-stage multi-agent orchestration pipeline.
+3. `03_candidate_evaluation_history.png`: **Evaluation History** portal displaying past applicant evaluations, dynamic match scores, active inference providers, and status filters.
+4. `04_candidate_parsed_profile.png`: **Candidate Info Tab** displaying structured biographical facts, chronological employment roles, education history, and portfolio projects extracted in Stage 1.
+5. `05_skills_analysis_matches.png`: **Skills Match Tab** detailing categorized technical competencies mapped against required and preferred job requisition requirements.
+6. `06_resume_integrity_analysis.png`: Dedicated **Resume Integrity Tab** displaying deterministic detection of keyword stuffing, contiguous verbatim JD copying, uncorroborated skill inflation, and false-positive protection status.
+7. `07_explainable_scoring_rubric.png`: **Capability Scoring Tab** showing the transparent 0–100 rubric, radar visualization, strengths/gaps analysis, and score insulation guarantee.
+8. `08_adaptive_interview_questions.png`: **Interview Questions Tab** showing dynamically generated technical probes targeted at candidate skill gaps and integrity anomalies.
+9. `09_hiring_recommendation.png`: **Hiring Recommendation Tab** showing strategic hiring decisions (`Strong Hire`, `Hire`, `Maybe / Further Review`, `Reject`) with explicit guardrail advisories.
+10. `10_seven_stage_agent_traces.png`: **Agent Trace Visualizer** providing millisecond-accurate execution duration telemetry, token usage, and intermediate JSON schemas across all 7 stages.
+11. `11_final_candidate_report.png`: Consolidated executive **Final Report Tab** ready for review by recruiters and hiring managers.
 
 ---
 
