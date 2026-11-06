@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TalentFlow AI - Cypher Matrix Final Internship Technical Report</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: counter(page);
+        font-size: 9pt;
+        color: #718096;
+      }
+    }
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.55;
+      color: #1a202c;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    .report-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1.doc-title {
+      font-size: 24pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 15pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 5px;
+    }
+    h2.chapter-heading {
+      page-break-before: always;
+      color: #1d4ed8;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 6px;
+      margin-top: 30px;
+    }
+    h3 {
+      font-size: 12pt;
+      font-weight: 600;
+      color: #334155;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+    h4 {
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: #475569;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+    strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+    code {
+      font-family: "Cascadia Code", "Fira Code", Consolas, "Courier New", monospace;
+      font-size: 9pt;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    pre.code-block {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+      font-size: 8.5pt;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin: 12px 0;
+      border: 1px solid #1e293b;
+      page-break-inside: avoid;
+    }
+    pre.code-block code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+    .math-block {
+      background: #f8fafc;
+      border-left: 3px solid #3b82f6;
+      padding: 8px 12px;
+      margin: 10px 0;
+      font-family: "Cascadia Code", monospace;
+      font-size: 9.5pt;
+      page-break-inside: avoid;
+    }
+    .math-inline code {
+      background: #eef2ff;
+      border-color: #c7d2fe;
+      color: #312e81;
+    }
+    table.report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+    table.report-table th, table.report-table td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.report-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    table.report-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    blockquote {
+      margin: 10px 0;
+      padding: 10px 14px;
+      border-radius: 4px;
+      page-break-inside: avoid;
+    }
+    blockquote.quote-standard {
+      background: #f8fafc;
+      border-left: 4px solid #94a3b8;
+    }
+    blockquote.quote-note {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      color: #1e3a8a;
+    }
+    blockquote.quote-important {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      color: #78350f;
+    }
+    blockquote p {
+      margin: 0;
+    }
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding-left: 22px;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background: #e2e8f0;
+      margin: 20px 0;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    @media print {
+      body {
+        font-size: 9.5pt;
+      }
+      .chapter-heading {
+        page-break-before: always;
+      }
+      pre.code-block, table.report-table, blockquote {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="report-container">
+    <h1 class="doc-title">TalentFlow AI – Cypher Matrix</h1>
+<h2 class="">Autonomous Agentic AI Recruitment, Evidence-Based Verification & Multi-Provider Architecture</h2>
+<h3>Internship Research, Engineering Enhancements & Final Technical Submission Report</h3>
+<p><strong>Author / Candidate:</strong> Dharmik Valiya</p>
+<p><strong>Target Organization:</strong> Cypher Matrix</p>
+<p><strong>Recipient:</strong> HR Sushmita & Technical Evaluation Committee</p>
+<p><strong>Assignment Deadline:</strong> November 6, 2026 – End of Day</p>
+<p><strong>Repository:</strong> <a href="https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix">https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix</a></p>
+<p><strong>Active Branch:</strong> <code>main</code></p>
+<p><strong>Live Frontend:</strong> <a href="https://talentflow-ai-cyphermatrix.vercel.app">https://talentflow-ai-cyphermatrix.vercel.app</a></p>
+<p><strong>Live Backend API:</strong> <a href="https://talentflow-cyphermatrix-api.onrender.com">https://talentflow-cyphermatrix-api.onrender.com</a></p>
+<p><strong>Release Version:</strong> v2.0.0 (Production Release)</p>
+<hr />
+<h2 class="">Table of Contents</h2>
+<ol>
+<li><a href="#chapter-1-executive-summary">Chapter 1: Executive Summary</a></li>
+<li><a href="#chapter-2-assignment-context--hr-requirements-mapping">Chapter 2: Assignment Context & HR Requirements Mapping</a></li>
+<li><a href="#chapter-3-baseline-original-talentflow-vs-enhanced-cypher-matrix">Chapter 3: Baseline (Original TalentFlow) vs. Enhanced (Cypher Matrix)</a></li>
+<li><a href="#chapter-4-ai-provider-research--evaluation">Chapter 4: AI Provider Research & Evaluation</a></li>
+<li><a href="#chapter-5-comprehensive-provider-comparison-matrix">Chapter 5: Comprehensive Provider Comparison Matrix</a></li>
+<li><a href="#chapter-6-deep-dive-provider-technical-profiles--guidelines">Chapter 6: Deep-Dive Provider Technical Profiles & Guidelines</a></li>
+<li><a href="#chapter-7-system-architecture--component-design">Chapter 7: System Architecture & Component Design</a></li>
+<li><a href="#chapter-8-7-stage-agent-pipeline--multi-agent-orchestration">Chapter 8: 7-Stage Agent Pipeline & Multi-Agent Orchestration</a></li>
+<li><a href="#chapter-9-intelligent-resume--pdf-analysis-methodology">Chapter 9: Intelligent Resume & PDF Analysis Methodology</a></li>
+<li><a href="#chapter-10-resume-integrity--adversarial-gaming-detection-engine">Chapter 10: Resume Integrity & Adversarial Gaming Detection Engine</a></li>
+<li><a href="#chapter-11-explainable-candidate-capability-scoring-architecture">Chapter 11: Explainable Candidate Capability Scoring Architecture</a></li>
+<li><a href="#chapter-12-adaptive-interview-question-generation--probing">Chapter 12: Adaptive Interview Question Generation & Probing</a></li>
+<li><a href="#chapter-13-enterprise-security--threat-model">Chapter 13: Enterprise Security & Threat Model</a></li>
+<li><a href="#chapter-14-adversarial-prompt-injection-defense-architecture">Chapter 14: Adversarial Prompt-Injection Defense Architecture</a></li>
+<li><a href="#chapter-15-candidate-privacy-data-minimization--pii-redaction">Chapter 15: Candidate Privacy, Data Minimization & PII Redaction</a></li>
+<li><a href="#chapter-16-synthetic-test-dataset--benchmark-design">Chapter 16: Synthetic Test Dataset & Benchmark Design</a></li>
+<li><a href="#chapter-17-quantitative-evaluation-results--empirical-benchmarks">Chapter 17: Quantitative Evaluation Results & Empirical Benchmarks</a></li>
+<li><a href="#chapter-18-error-analysis-calibration--edge-cases">Chapter 18: Error Analysis, Calibration & Edge Cases</a></li>
+<li><a href="#chapter-19-known-technical--algorithmic-limitations">Chapter 19: Known Technical & Algorithmic Limitations</a></li>
+<li><a href="#chapter-20-future-improvements--production-engineering-roadmap">Chapter 20: Future Improvements & Production Engineering Roadmap</a></li>
+<li><a href="#chapter-21-production-deployment--cloud-infrastructure">Chapter 21: Production Deployment & Cloud Infrastructure</a></li>
+<li><a href="#chapter-22-operational-runbook--verification-guide">Chapter 22: Operational Runbook & Verification Guide</a></li>
+<li><a href="#chapter-23-developer--reviewer-guide">Chapter 23: Developer & Reviewer Guide</a></li>
+<li><a href="#chapter-24-visual-artifacts--screenshot-catalog">Chapter 24: Visual Artifacts & Screenshot Catalog</a></li>
+<li><a href="#chapter-25-academic-regulatory--technical-references">Chapter 25: Academic, Regulatory & Technical References</a></li>
+<li><a href="#chapter-26-conclusion--acknowledgments">Chapter 26: Conclusion & Acknowledgments</a></li>
+</ol>
+<hr />
+<h2 class="chapter-heading">Chapter 1: Executive Summary</h2>
+<p>Traditional Applicant Tracking Systems (ATS) and early generative AI screeners operate under a naive architectural paradigm: <strong>keyword matching and ungrounded prompt summaries</strong>. In contemporary employment markets, candidates actively exploit this model through keyword stuffing, verbatim copying of job requisitions, and claiming dozens of uncorroborated frameworks in top-level summary blurbs. Concurrently, generative screeners suffer from hallucinated qualifications, non-deterministic scoring variance, and vulnerability to adversarial prompt injections.</p>
+<p><strong>TalentFlow AI – Cypher Matrix</strong> was re-architected to replace keyword counting with <strong>evidence-grounded candidate profiling, deterministic integrity verification, explainable capability scoring, and adversarial security boundaries</strong>.</p>
+<p>The governing maxim of the platform is:</p>
+<p><div class="math-block"><code>\text{Demonstrated Professional Evidence} \gg \text{Keyword Presence}</code></div></p>
+<h3>Key Engineering Achievements:</h3>
+<ol>
+<li><strong>Multi-Provider AI Abstraction:</strong> Unified REST adapter supporting OpenAI, Groq, OpenRouter, NVIDIA NIM, Local Ollama, and Mock (Together AI researched).</li>
+<li><strong>Deterministic Resume Integrity Engine (Stage 3):</strong> Executes in <span class="math-inline"><code>< 2\text{ ms}</code></span> on local CPU, detecting keyword stuffing (<span class="math-inline"><code>\ge 4\%</code></span> share, <span class="math-inline"><code>\ge 7</code></span> count), verbatim JD copying (contiguous n-grams), and uncorroborated skill inflation with zero token costs.</li>
+<li><strong>False-Positive Senior Protection:</strong> Enforces a strict dual-signal rule (<span class="math-inline"><code>\ge 2</code></span> independent signals) preventing unfair penalization of high-density technical experts.</li>
+<li><strong>Mathematical Capability Scoring (Stage 4):</strong> Deterministic 0–100 formula across 5 weighted evidence tiers; scores are mathematically insulated from integrity flags to prevent double jeopardy.</li>
+<li><strong>Adaptive Interview Probing (Stage 5):</strong> Dynamically injects targeted technical verification questions for uncorroborated candidate claims.</li>
+<li><strong>Enterprise Security & Privacy:</strong> Quarantined prompt isolation (<code>&lt;untrusted_resume_content&gt;</code>), PDF magic-byte checks (<code>%PDF-</code>), and client/server PII scrubbing.</li>
+<li><strong>Empirical Verification:</strong> 100% binary gaming accuracy (12/12) and 100% score stability across a 12-case synthetic benchmark corpus, backed by 210/210 passing automated tests across 26 suites.</li>
+</ol>
+<hr />
+<h2 class="chapter-heading">Chapter 2: Assignment Context & HR Requirements Mapping</h2>
+<p>The Cypher Matrix Internship Assignment requires transforming the baseline TalentFlow screening tool into an enterprise-grade, agentic AI platform. The assignment encompasses 20 core capabilities mapped across five core engineering pillars:</p>
+<pre class="code-block mermaid"><code>graph TD
+    P1[Pillar 1: Multi-Provider AI Abstraction] --&gt; RTM[Requirement Traceability Matrix]
+    P2[Pillar 2: Intelligent Resume Analysis] --&gt; RTM
+    P3[Pillar 3: Resume Integrity Engine] --&gt; RTM
+    P4[Pillar 4: Explainable Scoring &amp; Routing] --&gt; RTM
+    P5[Pillar 5: Security, Privacy &amp; Benchmarks] --&gt; RTM</code></pre>
+<p>All 20 capabilities are fully implemented, verified, and mapped in <code>docs/02_REQUIREMENTS_AND_SCOPE.md</code> and <code>submission/DELIVERABLE_TRACEABILITY.md</code>.</p>
+<hr />
+<h2 class="chapter-heading">Chapter 3: Baseline (Original TalentFlow) vs. Enhanced (Cypher Matrix)</h2>
+<p>A systematic codebase diff was conducted comparing the original repository (<code>dharmikvaliya/talentflow-ai</code>) with the enhanced implementation (<code>TalentFlow-AI-CypherMatrix</code>):</p>
+<table class="report-table"><thead><tr><th>Evaluation Dimension</th><th>Original Baseline (<code>talentflow-ai</code>)</th><th>Enhanced Cypher Matrix Implementation</th></tr></thead><tbody><tr><td><strong>Pipeline Architecture</strong></td><td>6 stages, linear ungrounded execution.</td><td><strong>7 stages</strong> including deterministic Stage 3 Integrity Engine.</td></tr><tr><td><strong>Resume Integrity</strong></td><td>None; keyword stuffing easily bypassed screens.</td><td><strong>< 2ms deterministic CPU algorithms</strong> for stuffing, copying, and inflation.</td></tr><tr><td><strong>False-Positive Guard</strong></td><td>None; repetitive technical resumes caused errors.</td><td><strong>Dual-signal rule (<span class="math-inline"><code>\ge 2</code></span>)</strong> with work experience discounting.</td></tr><tr><td><strong>Capability Scoring</strong></td><td>Probabilistic LLM guessing (0–100).</td><td><strong>Deterministic mathematical formula</strong> across 5 evidence tiers.</td></tr><tr><td><strong>Score Insulation</strong></td><td>N/A.</td><td><strong>Strict isolation</strong>: Integrity flags never deduct capability points.</td></tr><tr><td><strong>Provider Support</strong></td><td>Hardcoded OpenAI only.</td><td><strong>OpenAI, Groq, OpenRouter, NVIDIA NIM, Ollama, Mock</strong> (Together AI researched).</td></tr><tr><td><strong>Runtime Switching</strong></td><td>Server restart required.</td><td><strong>Dynamic runtime switching</strong> via UI dropdown or REST API.</td></tr><tr><td><strong>Prompt Security</strong></td><td>Raw text concatenated into prompts.</td><td><strong><code>&lt;untrusted_resume_content&gt;</code> boundaries</strong> + jailbreak sanitization.</td></tr><tr><td><strong>Candidate Privacy</strong></td><td>Raw PII transmitted to third-party APIs.</td><td><strong>Client and server PII masking</strong>; demographic markers stripped.</td></tr><tr><td><strong>File Hardening</strong></td><td>File extension check only.</td><td><strong>PDF magic-byte validation (<code>%PDF-</code>)</strong>, 5MB memory buffer limit.</td></tr><tr><td><strong>Automated Tests</strong></td><td>19 test files, 82 tests.</td><td><strong>26 test files, 210/210 passing tests (100% coverage)</strong>.</td></tr><tr><td><strong>Database Persistence</strong></td><td>Monolithic database.</td><td>Isolated <strong>MongoDB Atlas cluster (<code>talentflow_cyphermatrix</code>)</strong> + memory fallback.</td></tr></tbody></table>
+<hr />
+<h2 class="chapter-heading">Chapter 4: AI Provider Research & Evaluation</h2>
+<p>We systematically evaluated foundation model providers across inference latency, structured JSON compliance, token pricing, rate limits, and reasoning token dynamics:</p>
+<ul>
+<li><strong>OpenAI (<code>gpt-4.1-mini</code>):</strong> Gold standard for strict JSON schema compliance; 44.5s full-pipeline execution time.</li>
+<li><strong>Groq (<code>llama-3.3-70b-versatile</code>):</strong> Sub-second token generation on LPUs (~300–500 tokens/sec); generous 14,400 daily requests free tier.</li>
+<li><strong>OpenRouter (<code>openrouter/free</code>):</strong> Multi-model meta-router with zero financial barrier. Tuned with <code>reasoning: { effort: &#39;low&#39; }</code> and regex JSON preambles.</li>
+<li><strong>NVIDIA NIM (<code>nemotron-3-nano-omni-30b-a3b-reasoning</code>):</strong> Serverless microservice on NGC. Tuned with <code>chat_template_kwargs: { enable_thinking: false }</code>, dropping Stage 2 latency from 114s down to 6.8s.</li>
+<li><strong>Local Ollama (<code>llama3.2</code>):</strong> 100% on-premises sovereign execution for privacy-sensitive defense and healthcare hiring.</li>
+<li><strong>Mock Provider:</strong> Deterministic in-memory simulation running all 210 tests in 2.48s offline.</li>
+<li><strong>Together AI (Research-Only):</strong> Evaluated and benchmarked, but excluded from runtime code to eliminate billing dependencies during evaluation.</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 5: Comprehensive Provider Comparison Matrix</h2>
+<table class="report-table"><thead><tr><th>Provider</th><th>Runtime Status</th><th>Primary Model</th><th>Avg Stage Latency</th><th>Free Quota</th><th>Context</th><th>JSON Mode</th><th>Cost (1M In/Out)</th><th>Privacy Policy</th></tr></thead><tbody><tr><td><strong>OpenAI</strong></td><td><strong>Active Production</strong></td><td><code>gpt-4.1-mini</code></td><td>3.5 – 5.0 s</td><td>\$5 trial (90d)</td><td>128k</td><td>Native <code>json_object</code></td><td>\<span class="math-inline"><code>0.15 / \</code></span>0.60</td><td>30d abuse log</td></tr><tr><td><strong>Groq</strong></td><td><strong>Active Production</strong></td><td><code>llama-3.3-70b-versatile</code></td><td><strong>1.2 – 3.0 s</strong></td><td><strong>14,400 req/day</strong></td><td>128k</td><td>Native <code>json_object</code></td><td>\<span class="math-inline"><code>0.59 / \</code></span>0.79</td><td>Volatile RAM only</td></tr><tr><td><strong>OpenRouter</strong></td><td><strong>Active Production</strong></td><td><code>openrouter/free</code></td><td>15 – 35 s</td><td><strong>200 req/day</strong></td><td>128k+</td><td>Filtered JSON</td><td>\$0.00 (free pool)</td><td>Upstream routed</td></tr><tr><td><strong>NVIDIA NIM</strong></td><td><strong>Active Production</strong></td><td><code>nemotron-3-nano</code></td><td>6.8 – 29.5 s</td><td>1,000 credits</td><td>128k</td><td>Native <code>json_object</code></td><td>Microservice</td><td>Cloud / On-Prem</td></tr><tr><td><strong>Ollama</strong></td><td><strong>Active Production</strong></td><td><code>llama3.2:3b</code></td><td>8.0 – 60 s</td><td><strong>Unlimited Local</strong></td><td>8k–128k</td><td>Native <code>format: &quot;json&quot;</code></td><td><strong>\$0.00</strong></td><td><strong>100% Air-Gapped</strong></td></tr><tr><td><strong>Mock</strong></td><td><strong>Active Production</strong></td><td><code>mock-deterministic</code></td><td><strong>< 1 ms</strong></td><td><strong>Unlimited Offline</strong></td><td>Infinite</td><td>Native Zod Schema</td><td><strong>\$0.00</strong></td><td><strong>100% Air-Gapped</strong></td></tr><tr><td><strong>Together AI</strong></td><td><strong>RESEARCH ONLY</strong></td><td><code>Meta-Llama-3.1-70B</code></td><td>2.5 – 4.0 s</td><td>\$5 trial (no free)</td><td>128k</td><td>Native <code>json_object</code></td><td>\<span class="math-inline"><code>0.88 / \</code></span>0.88</td><td>Volatile RAM only</td></tr></tbody></table>
+<hr />
+<h2 class="chapter-heading">Chapter 6: Deep-Dive Provider Technical Profiles & Guidelines</h2>
+<h3>Operational Guidance:</h3>
+<ol>
+<li><strong>Recruiter Live Interactive Demo:</strong> Deploy on <strong>Groq</strong> for sub-second agent transitions and zero recruiter cognitive latency.</li>
+<li><strong>Commercial Enterprise Screening:</strong> Deploy on <strong>OpenAI (<code>gpt-4.1-mini</code>)</strong> for enterprise SLA reliability and guaranteed schema adherence.</li>
+<li><strong>Free Academic Evaluation:</strong> Deploy on <strong>OpenRouter (<code>openrouter/free</code>)</strong> for zero-cost operation.</li>
+<li><strong>Air-Gapped Defense / Sovereign Recruiting:</strong> Deploy on <strong>Local Ollama</strong> to ensure zero candidate data leaves the premises.</li>
+<li><strong>Continuous Integration & Testing:</strong> Deploy on the <strong>Mock Provider</strong> for instantaneous, flake-free CI/CD builds.</li>
+</ol>
+<hr />
+<h2 class="chapter-heading">Chapter 7: System Architecture & Component Design</h2>
+<p>The platform uses a decoupled three-tier architecture:</p>
+<ul>
+<li><strong>Client Tier:</strong> React 18 SPA hosted on Vercel Edge Network.</li>
+<li><strong>API & Orchestration Tier:</strong> Stateless Node.js / Express backend deployed on Render.</li>
+<li><strong>Persistence Tier:</strong> Dedicated MongoDB Atlas database (<code>talentflow_cyphermatrix</code>) with an automatic in-memory JavaScript <code>Map</code> fallback.</li>
+</ul>
+<pre class="code-block mermaid"><code>graph LR
+    Client[React 18 SPA on Vercel] --&gt; API[Express.js Gateway on Render]
+    API --&gt; Agents[7-Stage Agent Orchestrator]
+    Agents --&gt; Gateway[Multi-Provider LLM Gateway]
+    Gateway --&gt; OpenAI &amp; Groq &amp; OpenRouter &amp; NVIDIA &amp; Ollama &amp; Mock
+    Agents --&gt; DB[(MongoDB Atlas Cloud)]</code></pre>
+<hr />
+<h2 class="chapter-heading">Chapter 8: 7-Stage Agent Pipeline & Multi-Agent Orchestration</h2>
+<p>The pipeline executes seven discrete stages combining generative inference and deterministic computation:</p>
+<pre class="code-block mermaid"><code>graph TD
+    S1[Stage 1: Resume Parser Agent] --&gt; S2[Stage 2: Skills Analysis Agent]
+    S2 --&gt; S3[Stage 3: Deterministic Integrity Engine]
+    S2 --&gt; S4[Stage 4: Mathematical Scoring Engine]
+    S3 --&gt; S5[Stage 5: Adaptive Interview Question Agent]
+    S4 --&gt; S5
+    S4 --&gt; S6[Stage 6: Strategic Recommendation Agent]
+    S5 --&gt; S6
+    S6 --&gt; S7[Stage 7: Final Report Assembler]</code></pre>
+<ol>
+<li><strong>Stage 1 (<code>resumeParser.agent.js</code>):</strong> Extracts education, experience, projects, and skills into structured Zod schemas.</li>
+<li><strong>Stage 2 (<code>skillsAnalysis.agent.js</code>):</strong> Matches candidate capabilities against job requisition requirements.</li>
+<li><strong>Stage 3 (<code>resumeIntegrity.agent.js</code>):</strong> Deterministic CPU algorithms (<2ms) inspect keyword stuffing, JD copying, and skill inflation.</li>
+<li><strong>Stage 4 (<code>scoring.agent.js</code>):</strong> Computes capability score (0–100) using 5 weighted evidence tiers in code.</li>
+<li><strong>Stage 5 (<code>interviewQuestions.agent.js</code>):</strong> Injects dynamic technical probes targeted at integrity flags and skill gaps.</li>
+<li><strong>Stage 6 (<code>recommendation.agent.js</code>):</strong> Synthesizes hiring recommendation (<code>strong_hire</code>, <code>hire</code>, <code>interview_further</code>, <code>reject</code>).</li>
+<li><strong>Stage 7 (<code>report.agent.js</code>):</strong> Compiles an audit-ready executive candidate evaluation dossier.</li>
+</ol>
+<hr />
+<h2 class="chapter-heading">Chapter 9: Intelligent Resume & PDF Analysis Methodology</h2>
+<p>TalentFlow AI enforces a <strong>Hierarchical Evidence Tier Model</strong>:</p>
+<ul>
+<li><strong>Tier 1 (Weight 1.0):</strong> Professional employment history with action verbs and quantifiable impact.</li>
+<li><strong>Tier 2 (Weight 0.8):</strong> Technical projects and open-source repositories.</li>
+<li><strong>Tier 3 (Weight 0.6):</strong> Formal degrees and accredited industry certifications.</li>
+<li><strong>Tier 0 (Weight 0.0):</strong> Top-level summary blurbs and unelaborated keyword chips.</li>
+</ul>
+<p>Skills appearing only in Tier 0 are categorized as self-proclaimed claims and excluded from direct capability scoring.</p>
+<hr />
+<h2 class="chapter-heading">Chapter 10: Resume Integrity & Adversarial Gaming Detection Engine</h2>
+<p>Stage 3 executes entirely on the local CPU without token costs:</p>
+<h3>1. Statistical Keyword Stuffing:</h3>
+<p><div class="math-block"><code>TF(t, d) = \frac{f(t, d)}{N_d} \ge 0.04 \quad \text{AND} \quad f(t, d) \ge 7</code></div></p>
+<p>Discounted by work history bullets: <span class="math-inline"><code>f_{\text{effective}} = f_{\text{total}} - 0.5 \times f_{\text{experience}}</code></span>.</p>
+<h3>2. Verbatim JD Copying:</h3>
+<p>Scans contiguous 3-to-6-word n-grams against normalized job description text. Flags when overlap <span class="math-inline"><code>\ge 30\%</code></span> or contiguous blocks <span class="math-inline"><code>\ge 25</code></span> words.</p>
+<h3>3. Uncorroborated Skill Inflation:</h3>
+<p>Identifies skills claimed in header summaries that have zero corroboration in work experience, projects, or education:</p>
+<p><div class="math-block"><code>S_{\text{unsupported}} = S_{\text{claimed}} \setminus (S_{\text{experience}} \cup S_{\text{projects}} \cup S_{\text{education}})</code></div></p>
+<h3>4. Dual-Signal Fairness Rule:</h3>
+<p>A candidate is classified as <strong>High Integrity Risk</strong> if and only if <span class="math-inline"><code>\ge 2</code></span> independent manipulation signals are corroborated. Authentic senior engineers with high natural vocabulary density are guaranteed immunity from false accusations.</p>
+<hr />
+<h2 class="chapter-heading">Chapter 11: Explainable Candidate Capability Scoring Architecture</h2>
+<p>Candidate capability is computed deterministically in code:</p>
+<p><div class="math-block"><code>S_{\text{overall}} = 0.35 S_{\text{req}} + 0.25 S_{\text{exp}} + 0.20 S_{\text{proj}} + 0.10 S_{\text{pref}} + 0.10 S_{\text{edu}}</code></div></p>
+<ul>
+<li><strong>35% Required Skills (<span class="math-inline"><code>S_{\text{req}}</code></span>):</strong> Corroborated required skills over total requisition requirements.</li>
+<li><strong>25% Experience Depth (<span class="math-inline"><code>S_{\text{exp}}</code></span>):</strong> Verified tenure vs role seniority target.</li>
+<li><strong>20% Project Evidence (<span class="math-inline"><code>S_{\text{proj}}</code></span>):</strong> Demonstrated portfolio complexity.</li>
+<li><strong>10% Preferred Skills (<span class="math-inline"><code>S_{\text{pref}}</code></span>):</strong> Bonus optional qualifications.</li>
+<li><strong>10% Education & Accreditations (<span class="math-inline"><code>S_{\text{edu}}</code></span>):</strong> Degrees and certifications.</li>
+</ul>
+<p><strong>Score Insulation Guarantee:</strong> Integrity findings never decrement capability scores, eliminating double jeopardy.</p>
+<hr />
+<h2 class="chapter-heading">Chapter 12: Adaptive Interview Question Generation & Probing</h2>
+<p>When Stage 3 identifies uncorroborated skills, Stage 5 automatically injects targeted, neutral technical verification probes:</p>
+<blockquote class="quote-standard"><p><em>"Your profile lists Kubernetes expertise. Could you describe a production cluster architecture you designed, detailing how you managed pod autoscaling and ingress controllers?"</em></p></blockquote>
+<p>This converts subjective recruiter skepticism into objective technical verification during live interviews.</p>
+<hr />
+<h2 class="chapter-heading">Chapter 13: Enterprise Security & Threat Model</h2>
+<p>Threat modeling follows the <strong>OWASP Top 10 for LLM Applications (2025/2026)</strong>:</p>
+<ul>
+<li><strong>LLM01 (Prompt Injection):</strong> Neutralized via <code>&lt;untrusted_resume_content&gt;</code> boundaries.</li>
+<li><strong>LLM02 (Sensitive Information Disclosure):</strong> Neutralized via PII scrubbing.</li>
+<li><strong>LLM04 (Denial of Service):</strong> Neutralized via thinking token caps and 5MB buffer limits.</li>
+<li><strong>LLM06 (Excessive Agency):</strong> Zero-tool execution policy on untrusted resume text.</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 14: Adversarial Prompt-Injection Defense Architecture</h2>
+<p>Resume text is encapsulated inside strict XML boundary tags:</p>
+<pre class="code-block markdown"><code>&lt;untrusted_resume_content&gt;
+{{sanitized_resume_text}}
+&lt;/untrusted_resume_content&gt;</code></pre>
+<p>System prompts explicitly instruct agents that content inside the quarantine boundary is un-trusted data and cannot alter evaluation rules, assign scores, or execute tools.</p>
+<hr />
+<h2 class="chapter-heading">Chapter 15: Candidate Privacy, Data Minimization & PII Redaction</h2>
+<p>Before transmitting resume text to cloud AI providers, regex scrubbing automatically redacts:</p>
+<ul>
+<li>Phone numbers <span class="math-inline"><code>\rightarrow</code></span> <code>[PHONE_REDACTED]</code></li>
+<li>Email addresses <span class="math-inline"><code>\rightarrow</code></span> <code>[EMAIL_REDACTED]</code></li>
+<li>Street addresses <span class="math-inline"><code>\rightarrow</code></span> <code>[ADDRESS_REDACTED]</code></li>
+<li>Government IDs <span class="math-inline"><code>\rightarrow</code></span> <code>[GOV_ID_REDACTED]</code></li>
+<li>Candidate age, gender, and demographic markers are stripped to enforce EEOC compliance.</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 16: Synthetic Test Dataset & Benchmark Design</h2>
+<p>A 12-case synthetic development benchmark (<code>server/tests/fixtures/synthetic-resumes.json</code>) was engineered free of real candidate PII:</p>
+<ul>
+<li><strong>CASE-01 to CASE-02:</strong> Authentic senior and junior profiles.</li>
+<li><strong>CASE-03 to CASE-06:</strong> Keyword stuffing, verbatim copying, and skill inflation.</li>
+<li><strong>CASE-07:</strong> Adversarial prompt injection jailbreak.</li>
+<li><strong>CASE-08:</strong> Hidden white-text keyword stuffing.</li>
+<li><strong>CASE-09:</strong> High-density senior cloud architect (False positive stress test).</li>
+<li><strong>CASE-10 to CASE-12:</strong> Career transitioner, generic resume, and truncated text.</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 17: Quantitative Evaluation Results & Empirical Benchmarks</h2>
+<ul>
+<li><strong>Binary Gaming-Risk Classification Accuracy:</strong> <strong>100.0% (12/12)</strong>.</li>
+<li><strong>Exact Severity Agreement:</strong> <strong>91.7% (11/12)</strong> (CASE-09 safely flagged medium due to high term frequency; dual-signal rule prevented false high-risk accusation).</li>
+<li><strong>Gaming Precision & Recall:</strong> <strong>100.0% Precision / 100.0% Recall</strong>.</li>
+<li><strong>Score Stability:</strong> <strong>100.0% (<span class="math-inline"><code>\text{Variance} = 0.0</code></span>)</strong> across repeat runs.</li>
+<li><strong>Automated Test Suite:</strong> <strong>210/210 passing tests across 26 suites</strong>.</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 18: Error Analysis, Calibration & Edge Cases</h2>
+<p>The sole variance in the synthetic benchmark occurred in CASE-09:</p>
+<ul>
+<li>Ground-truth target: <code>low</code> risk.</li>
+<li>Actual model output: <code>medium</code> risk.</li>
+<li><strong>Root Cause:</strong> The candidate mentioned AWS and Kubernetes 15+ times across 4 distinct enterprise employment roles. While employment discounting reduced the absolute count, the high term density triggered a single medium advisory flag.</li>
+<li><strong>Fairness Arbiter Success:</strong> The dual-signal rule successfully prevented a high-risk classification. The candidate received an accurate technical score of 88/100, proving the resilience of the safeguard.</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 19: Known Technical & Algorithmic Limitations</h2>
+<ol>
+<li><strong>Multi-Column PDF Flattening:</strong> Complex magazine-style layouts may interleave text streams.</li>
+<li><strong>Absence of Native OCR:</strong> Scanned raster images or vector graphics return empty text buffers.</li>
+<li><strong>Cross-Language Support:</strong> Taxonomy and stop-word dictionaries are calibrated for English technical roles.</li>
+<li><strong>Local Hardware Constraints:</strong> Ollama 8B models require 60–90 seconds per stage on consumer dual-core CPUs without dedicated tensor cores.</li>
+</ol>
+<hr />
+<h2 class="chapter-heading">Chapter 20: Future Improvements & Production Engineering Roadmap</h2>
+<ul>
+<li><strong>Phase 1 (Q1 2027):</strong> PaddleOCR integration for scanned PDFs; asynchronous BullMQ/Redis worker queues; PDF export for candidate dossiers.</li>
+<li><strong>Phase 2 (Q2 2027):</strong> Semantic GraphRAG (Neo4j) skill ontologies; multilingual parsing; Greenhouse/Lever ATS webhooks.</li>
+<li><strong>Phase 3 (Q3–Q4 2027):</strong> Autonomous GitHub repository code verification sandbox; multi-tenant enterprise RBAC; automated continuous EEOC bias auditing.</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 21: Production Deployment & Cloud Infrastructure</h2>
+<ul>
+<li><strong>Frontend Client:</strong> Deployed on Vercel Global Edge Network (<a href="https://talentflow-ai-cyphermatrix.vercel.app">https://talentflow-ai-cyphermatrix.vercel.app</a>).</li>
+<li><strong>Backend API:</strong> Deployed on Render Web Service (<a href="https://talentflow-cyphermatrix-api.onrender.com">https://talentflow-cyphermatrix-api.onrender.com</a>).</li>
+<li><strong>Database:</strong> Dedicated MongoDB Atlas Cluster (<code>talentflow_cyphermatrix</code>).</li>
+</ul>
+<hr />
+<h2 class="chapter-heading">Chapter 22: Operational Runbook & Verification Guide</h2>
+<h3>Live Health Check:</h3>
+<pre class="code-block bash"><code>curl -s https://talentflow-cyphermatrix-api.onrender.com/api/health</code></pre>
+<p><strong>Response:</strong> <code>{&quot;status&quot;:&quot;healthy&quot;,&quot;environment&quot;:&quot;production&quot;,&quot;activeProvider&quot;:&quot;openai&quot;,&quot;database&quot;:{&quot;status&quot;:&quot;connected&quot;,&quot;name&quot;:&quot;talentflow_cyphermatrix&quot;},&quot;version&quot;:&quot;2.0.0&quot;}</code></p>
+<h3>Dynamic Provider Switching:</h3>
+<pre class="code-block bash"><code>curl -X POST https://talentflow-cyphermatrix-api.onrender.com/api/providers/active \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;provider&quot;:&quot;groq&quot;,&quot;model&quot;:&quot;llama-3.3-70b-versatile&quot;}&#39;</code></pre>
+<hr />
+<h2 class="chapter-heading">Chapter 23: Developer & Reviewer Guide</h2>
+<h3>Executing Local Verification:</h3>
+<pre class="code-block bash"><code># 1. Run complete automated test suite (26 suites, 210 tests)
+cd server
+npm test
+
+# 2. Build production frontend bundle
+cd ../client
+npm run build</code></pre>
+<hr />
+<h2 class="chapter-heading">Chapter 24: Visual Artifacts & Screenshot Catalog</h2>
+<p>Authentic screenshots are preserved in <code>submission/screenshots/</code>:</p>
+<ol>
+<li><code>01_pipeline_dashboard.png</code>: Recruiter pipeline dashboard and candidate queue.</li>
+<li><code>02_stage_tracing.png</code>: Real-time execution visualizer and stage telemetry.</li>
+<li><code>03_integrity_gaming_report.png</code>: Dedicated <strong>Resume Integrity Tab</strong> with detected gaming flags.</li>
+<li><code>04_explainable_scoring.png</code>: Mathematical capability breakdown across 5 evidence tiers.</li>
+<li><code>05_candidate_report.png</code>: Consolidated executive candidate dossier with tailored interview questions.</li>
+<li><code>06_nvidia_nim_setup.jpg</code>: NVIDIA Build developer console with serverless NIM endpoints.</li>
+<li><code>07_openrouter_free_models.jpg</code>: OpenRouter free model catalog and routing options.</li>
+<li><code>08_openrouter_models_detail.jpg</code>: OpenRouter context window and token parameters.</li>
+</ol>
+<hr />
+<h2 class="chapter-heading">Chapter 25: Academic, Regulatory & Technical References</h2>
+<ol>
+<li><strong>Yao et al. (2023):</strong> <em>ReAct: Synergizing Reasoning and Acting in Language Models.</em> (ICLR 2023).</li>
+<li><strong>Greshake et al. (2023):</strong> <em>Compromising Real-World LLM Applications with Indirect Prompt Injection.</em> (ACM AISEC '23).</li>
+<li><strong>Salton & Buckley (1988):</strong> <em>Term-weighting approaches in automatic text retrieval.</em> (IP&M).</li>
+<li><strong>Raghavan et al. (2020):</strong> <em>Mitigating bias in algorithmic hiring.</em> (ACM FAccT '20).</li>
+<li><strong>EU Artificial Intelligence Act (2024):</strong> <em>High-Risk AI Systems in Employment.</em> (Regulation EU 2024/1689).</li>
+<li><strong>OWASP Foundation (2025/2026):</strong> <em>Top 10 for Large Language Model Applications.</em></li>
+</ol>
+<hr />
+<h2 class="chapter-heading">Chapter 26: Conclusion & Acknowledgments</h2>
+<p>TalentFlow AI – Cypher Matrix successfully transforms proof-of-concept AI screening into a production-hardened, auditable, and resilient recruitment intelligence platform. By pairing generative extraction with deterministic CPU-based integrity verification and mathematical score insulation, the platform delivers objective, transparent candidate evaluations while protecting technical talent and mitigating corporate liability.</p>
+<p><strong>Special Acknowledgments:</strong></p>
+<ul>
+<li>HR Sushmita and the Cypher Matrix Technical Evaluation Committee for the rigorous assignment challenge.</li>
+<li>The open-source AI community for pioneering open-weight foundation models and inference runtimes.</li>
+</ul>
+<p><em>Respectfully submitted,</em></p>
+<p><strong>Dharmik Valiya</strong></p>
+<p>November 6, 2026</p>
+  </div>
+</body>
+</html>

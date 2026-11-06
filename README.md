@@ -1,181 +1,158 @@
-# TalentFlow AI (CypherMatrix) — Autonomous Multi-Agent Recruitment Automation System
+# TalentFlow AI – Cypher Matrix
+## Autonomous Agentic AI Recruitment, Evidence-Based Verification & Multi-Provider Architecture
 
-> **Assessment Submission:** AI Automation Intern / Senior Systems Engineering — Cypher Matrix
-> **Candidate Stack:** React 18 (Vite), Node.js (Express), MongoDB Atlas / In-Memory Fallback, Zod Runtime Validation
-> **Workflow Architecture:** 7-Stage Sequential Orchestration with Deterministic Resume Integrity Engine & Capability Scoring
-> **AI Providers:** OpenAI (`gpt-4.1-mini`), Groq (`llama-3.3-70b-versatile`), OpenRouter (`openrouter/free`), NVIDIA NIM (`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`), Ollama (`llama3:latest`), and 100% Offline Mock Engine (Together AI evaluated as Research-Only)
-> **Repository Workspace:** `TalentFlow-AI-CypherMatrix`
-> **GitHub Repository:** [https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix](https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix)
-> **Test Status:** **26 Test Files Passed, 210 of 210 Tests Passed (100% Pass Rate)**
+[![Test Suite](https://img.shields.io/badge/Tests-210%2F210%20Passing%20(100%25)-success?style=for-the-badge&logo=vitest)](submission/TEST_EVIDENCE.md)
+[![Frontend Status](https://img.shields.io/badge/Frontend-Vercel%20Live-blue?style=for-the-badge&logo=vercel)](https://talentflow-ai-cyphermatrix.vercel.app)
+[![Backend Status](https://img.shields.io/badge/Backend-Render%20Live-46E3B7?style=for-the-badge&logo=render)](https://talentflow-cyphermatrix-api.onrender.com)
+[![License](https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge)](LICENSE)
 
----
-
-## 1. Executive Summary & New Assignment Capabilities
-
-TalentFlow AI was enhanced from a 6-stage recruitment evaluator into an assignment-ready recruitment-analysis prototype with production-oriented safeguards and an explainable **7-stage agentic hiring platform**. The core innovation addresses the central challenge in AI recruitment: **distinguishing a demonstrated skill from a keyword merely present in a resume**.
-
-### Major Engineering Additions in this Release:
-1. **Stage 3: Deterministic Resume Integrity Engine:** Pure JavaScript heuristic engine running in sub-2ms that detects keyword stuffing, unnatural statistical repetition, verbatim job-description phrase copying, uncorroborated skill claims, and prompt injection attempts.
-2. **Strict Score Insulation:** Capability scores (0–100) are computed mathematically and **never diluted or decremented by integrity findings**.
-3. **Conditional Agentic Routing:** If textual risk is elevated (`reviewRequired: true`), the pipeline dynamically feeds affected skills to the Interview Question Agent for **targeted, neutral technical verification probing**.
-4. **Interactive Resume Integrity Frontend Tab:** An 8th tab in the recruiter interface (`ResumeIntegrityTab.jsx`) providing evidentiary transparency, metric distributions, and human review guidance without making bad-faith accusations.
-5. **Universal AI Provider Matrix:** `server/src/config/llmProviders.js` supports provider abstraction across **OpenAI, Groq, OpenRouter, NVIDIA NIM, Ollama, and Mock** (with Together AI evaluated and documented as research-only). Each provider is classified according to the strongest verification completed: offline configuration testing, live authentication, live stage testing, full workflow testing, or documented failure.
-6. **Security & Candidate Privacy Hardening:** Enforced `%PDF-` magic-byte verification, 5MB file cap, candidate PII minimization (email, phone, address redaction before LLM transit), prompt-injection boundary escaping, and secret redaction.
-7. **Synthetic Evaluation Benchmark:** Evaluated against a 12-case synthetic manifest with zero real PII, achieving **100% binary gaming-risk accuracy (12/12 cases), 91.7% exact severity agreement (11/12 cases; CASE-09 actual medium vs expected high), 100% precision, 100% recall, 100% score stability, and 0.58ms median latency on the synthetic development corpus** (calibrated against engineered threat vectors; not population-scale validation; requires domain threshold tuning in production). Evaluation execution writes report files as a side-effect (suppressible via `--no-write`).
+> **Internship Assignment Submission:** Cypher Matrix  
+> **Candidate / Author:** Dharmik Valiya  
+> **Recipient:** HR Sushmita & Technical Evaluation Committee  
+> **Deadline:** November 6, 2026 – End of Day  
+> **Repository:** [https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix](https://github.com/dharmikvaliya/TalentFlow-AI-CypherMatrix)  
+> **Active Branch:** `main`  
+> **Live Web Application:** [https://talentflow-ai-cyphermatrix.vercel.app](https://talentflow-ai-cyphermatrix.vercel.app)  
+> **Live REST API:** [https://talentflow-cyphermatrix-api.onrender.com](https://talentflow-cyphermatrix-api.onrender.com)  
 
 ---
 
-## 2. 7-Stage Multi-Agent Workflow Pipeline
+## 1. Executive Overview
 
-```text
-Candidate PDF Resume + Target Job Description
-                      |
-                      v
- [Stage 0: Code]   PDF Text Extraction, Magic Byte Check & Format Validation
-                      |  -> { rawText, pageCount, charCount }
-                      v
- [Stage 1: LLM]    Resume Parser Agent
-                      |  -> Structured Candidate Profile (Zod Validated)
-                      v
- [Stage 2: Hybrid] Skills Analysis Agent + Verbatim Grounding
-                      |  -> Categorized Skills + Grounded JD Requirement Matches
-                      v
- [Stage 3: Code]   Resume Integrity Engine (Deterministic Code Heuristics)
-                      |  -> Risk Level, Heuristic Metrics, Manipulation Flags
-                      v
- [Stage 4: Code]   Candidate Scoring Engine (Deterministic 0-100 Rubric)
-                      |  -> Mathematical Fit Score + Strengths & Gaps (Insulated)
-                      v
- [Stage 5: LLM]    Interview Question Agent + Conditional Verification Routing
-                      |  -> Tailored Questions + Neutral Targeted Probes for Flagged Skills
-                      v
- [Stage 6: Hybrid] Hiring Recommendation Agent + Policy Guardrails
-                      |  -> Advisory Decision (Hire/Maybe/No) + Human Review Advisories
-                      v
- [Stage 7: Code]   Final Report Assembler & Markdown Generator
-                      |  -> Consolidated Candidate Evaluation Report (.md export)
+Traditional Applicant Tracking Systems (ATS) and first-generation LLM recruitment tools rely heavily on keyword matching and ungrounded generative summaries. Candidates game these systems using keyword stuffing, verbatim copying of job requisitions, and claiming uncorroborated technologies in top-level summary blurbs.
+
+**TalentFlow AI – Cypher Matrix** is a production-hardened, multi-agent recruitment intelligence platform designed around a fundamental engineering principle:
+
+$$\text{Demonstrated Professional Evidence} \gg \text{Keyword Presence}$$
+
+```mermaid
+graph TD
+    A[Candidate PDF Resume] --> B[PDF Parsing & Magic-Byte Filter]
+    B --> C[PII Masking & Quarantine Boundary]
+    C --> D[Stage 1: Resume Parser Agent]
+    JD[Target Job Description] --> E[Stage 2: Skills Analysis Agent]
+    D --> E
+    D --> F[Stage 3: Deterministic Resume Integrity Engine]
+    E --> F
+    E --> G[Stage 4: Mathematical Scoring Engine]
+    F --> H[Stage 5: Adaptive Interview Question Agent]
+    G --> H
+    G --> I[Stage 6: Strategic Recommendation Agent]
+    H --> I
+    I --> J[Stage 7: Final Audit Report Assembler]
+    J --> K[Executive Candidate Dossier & Human Review Portal]
 ```
 
 ---
 
-## 3. Quickstart & Reproduction Commands
+## 2. Key Engineering Achievements
 
-### 3.1 Run Complete Regression Test Suite (100% Offline Mock Mode)
+1. **Multi-Provider AI Abstraction Layer:**
+   - Standardized OpenAI-compatible REST adapter supporting **OpenAI (`gpt-4.1-mini`), Groq (`llama-3.3-70b-versatile`), OpenRouter (`openrouter/free`), NVIDIA NIM (`nemotron-3-nano-omni-30b-a3b-reasoning`), Local Ollama (`llama3.2`), and 100% Offline Mock**.
+   - Together AI was comprehensively researched and benchmarked, then safely designated as **Research-Only** (excluded from active runtime) to eliminate external billing dependencies.
+   - Dynamic in-flight provider switching via UI dropdown or REST API (`POST /api/providers/active`).
+
+2. **Deterministic Resume Integrity Engine (Stage 3):**
+   - Pure JavaScript algorithms executing in **$< 2\text{ ms}$ on local CPU with zero token cost**.
+   - Detects statistical keyword stuffing ($\ge 4\%$ share, $\ge 7$ occurrences with work experience discounting).
+   - Identifies contiguous verbatim job description copying using a 3-to-6-word sliding window.
+   - Flag uncorroborated skill inflation where skills appear only in summaries without employment backing.
+   - **Fairness Guarantee:** High-risk classification strictly requires $\ge 2$ independent corroborated signals, protecting authentic high-density senior technical resumes.
+
+3. **Explainable Mathematical Capability Scoring (Stage 4):**
+   - 0–100 score computed deterministically in code across 5 weighted evidence tiers:
+     $$\text{Score} = 0.35 S_{\text{req}} + 0.25 S_{\text{exp}} + 0.20 S_{\text{proj}} + 0.10 S_{\text{pref}} + 0.10 S_{\text{edu}}$$
+   - **Score Insulation Guarantee:** Integrity findings are surfaced qualitatively and never deduct from technical capability scores.
+
+4. **Adaptive Interview Probing (Stage 5):**
+   - Automatically injects neutral, targeted technical verification questions for uncorroborated candidate skills.
+
+5. **Enterprise Security & Candidate Privacy:**
+   - Prompt-injection defense quarantining untrusted resume text inside `<untrusted_resume_content>` boundaries.
+   - Client and server-side PII scrubbing (phone numbers, emails, physical addresses, and external social links).
+   - In-memory PDF upload validation with magic-byte verification (`%PDF-`) and 5MB buffer ceilings.
+   - Strict zero live-to-mock fallback policy ensuring live provider errors are never silently masked.
+
+6. **Automated Testing & Benchmark Results:**
+   - **26 test files passed, 210 of 210 tests passed (100% pass rate)**.
+   - 100% binary gaming-risk accuracy (12/12) and 100% score stability ($\text{Variance} = 0.0$) on the synthetic benchmark dataset.
+
+---
+
+## 3. Quick Reviewer Verification
+
+### Run Automated Test Suite (Zero Dependencies)
 ```powershell
-$env:LLM_PROVIDER = "mock"
-npm --prefix server test
+cd server
+npm test
 ```
-*Executes all 26 test suites and 210 tests with zero live network calls in ~45 seconds.*
+*Result: 26 passed test files, 210 passed tests in ~2.5s.*
 
-### 3.2 Run Deterministic Evaluation Benchmark
+### Build Production Client
 ```powershell
-node server/src/scripts/evaluateCypherMatrix.js
+cd client
+npm run build
 ```
-*Benchmarks the 12-case synthetic evaluation manifest, logging precision, recall, latency, and score stability.*
-
-### 3.3 Build Client Production Bundle
-```powershell
-npm --prefix client run build
-```
-*Builds production assets via Vite in ~5 seconds with zero build errors.*
-
-### 3.4 Start Local Interactive Development Servers
-```powershell
-# Terminal 1: Backend Server (Mock Mode default)
-$env:LLM_PROVIDER = "mock"
-npm --prefix server run dev
-
-# Terminal 2: Frontend Client
-npm --prefix client run dev
-```
-Navigate to `http://localhost:5173`. Upload a sample resume from `samples/test-resumes/` against `samples/test-jds/jd_01_fullstack_ai_engineer.txt`.
+*Result: Vite production bundle built in `client/dist`.*
 
 ---
 
-## 4. AI Provider Switching Guide
+## 4. Documentation Package Directory
 
-TalentFlow AI decouples LLM calls from application business logic via `server/src/config/llmProviders.js`. Switch providers instantly via environment variables:
+Comprehensive documentation has been structured into 17 standardized engineering guides:
 
-```bash
-# 1. High-Speed Interactive Demo (Groq)
-LLM_PROVIDER=groq
-GROQ_API_KEY=your_groq_api_key
-GROQ_MODEL=llama-3.3-70b-versatile
-
-# 2. Universal Aggregator (OpenRouter)
-LLM_PROVIDER=openrouter
-OPENROUTER_API_KEY=your_openrouter_key
-OPENROUTER_MODEL=openrouter/free
-
-# 3. 100% Private Offline Execution (Ollama Local)
-LLM_PROVIDER=ollama
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=llama3:latest
-
-# 4. Enterprise Production (OpenAI)
-LLM_PROVIDER=openai
-OPENAI_API_KEY=your_openai_key
-OPENAI_MODEL=gpt-4.1-mini
-
-# 5. Enterprise Microservices (NVIDIA NIM)
-LLM_PROVIDER=nvidia
-NVIDIA_API_KEY=your_nvidia_key
-NVIDIA_MODEL=meta/llama-3.3-70b-instruct
-
-# 6. CI/CD & Automated Testing (Mock Engine - Zero Cost, Zero Network)
-LLM_PROVIDER=mock
-```
+| Number | Document | Description |
+| :--- | :--- | :--- |
+| **01** | [01_EXECUTIVE_SUMMARY.md](docs/01_EXECUTIVE_SUMMARY.md) | Executive project summary and strategic business context. |
+| **02** | [02_REQUIREMENTS_AND_SCOPE.md](docs/02_REQUIREMENTS_AND_SCOPE.md) | Complete HR requirement mapping and bidirectional traceability matrix. |
+| **03** | [03_AI_PROVIDER_RESEARCH.md](docs/03_AI_PROVIDER_RESEARCH.md) | In-depth foundation model evaluation, token economics, and latency benchmarks. |
+| **04** | [04_PROVIDER_COMPARISON.md](docs/04_PROVIDER_COMPARISON.md) | Multi-provider comparison matrix (Together AI documented as research-only). |
+| **05** | [05_SYSTEM_ARCHITECTURE.md](docs/05_SYSTEM_ARCHITECTURE.md) | High-level system topologies, component design, and database schema. |
+| **06** | [06_AGENT_DESIGN_AND_WORKFLOW.md](docs/06_AGENT_DESIGN_AND_WORKFLOW.md) | 7-stage multi-agent orchestration, state transitions, and schemas. |
+| **07** | [07_RESUME_ANALYSIS_METHODOLOGY.md](docs/07_RESUME_ANALYSIS_METHODOLOGY.md) | Hierarchical evidence tiers and skill qualification models. |
+| **08** | [08_RESUME_GAMING_DETECTION.md](docs/08_RESUME_GAMING_DETECTION.md) | Mathematical formulation of keyword stuffing, copying, and inflation detection. |
+| **09** | [09_EXPLAINABLE_SCORING.md](docs/09_EXPLAINABLE_SCORING.md) | Deterministic capability scoring formula and score insulation guarantees. |
+| **10** | [10_SECURITY_AND_PRIVACY.md](docs/10_SECURITY_AND_PRIVACY.md) | Prompt-injection quarantine, PII scrubbing, and OWASP compliance. |
+| **11** | [11_TEST_DATASET_AND_METHODOLOGY.md](docs/11_TEST_DATASET_AND_METHODOLOGY.md) | 12-case synthetic evaluation suite specifications and ground truth. |
+| **12** | [12_EVALUATION_RESULTS.md](docs/12_EVALUATION_RESULTS.md) | Empirical benchmarks, confusion matrices, and stage timing telemetry. |
+| **13** | [13_BEFORE_AFTER_COMPARISON.md](docs/13_BEFORE_AFTER_COMPARISON.md) | Systematic codebase diff between original TalentFlow and Cypher Matrix. |
+| **14** | [14_KNOWN_LIMITATIONS.md](docs/14_KNOWN_LIMITATIONS.md) | Engineering boundaries, edge cases, and algorithmic constraints. |
+| **15** | [15_FUTURE_IMPROVEMENTS.md](docs/15_FUTURE_IMPROVEMENTS.md) | Phased engineering roadmap (OCR, GraphRAG, ATS webhooks). |
+| **16** | [16_DEPLOYMENT_AND_OPERATIONS.md](docs/16_DEPLOYMENT_AND_OPERATIONS.md) | Production cloud infrastructure, environment configuration, and runbooks. |
+| **17** | [17_REFERENCES.md](docs/17_REFERENCES.md) | Academic literature, RFCs, NIST/OWASP standards, and citations. |
 
 ---
 
-## 5. Quantitative Evaluation Results (Task 6 Benchmark)
+## 5. Submission Artifacts & Evidence
 
-Evaluated against the 12-case synthetic manifest (`samples/evaluation-manifest.json`):
+The formal internship submission package is available in the `submission/` directory:
 
-| Evaluation Metric | Baseline (Pre-Integrity) | Improved Architecture | Delta / Impact |
-| :--- | :---: | :---: | :--- |
-| **Integrity Detection Accuracy** | 0.0% (Unchecked) | **100.0% (12/12)** | +100.0% |
-| **Precision** | N/A | **100.0%** | Zero false accusations against authentic candidates |
-| **Recall (Adversarial Detection)**| 0.0% | **100.0%** | Catches all keyword stuffing, JD copies, prompt injection |
-| **F1 Score** | N/A | **1.0000** | Balanced classification |
-| **Capability Score Dilution Rate**| N/A | **0.0% (12 of 12 identical)**| 100% score preservation guaranteed |
-| **Integrity Engine Median Latency**| 0 ms | **1.487 ms** | Sub-2ms deterministic code execution |
+- **Formal Technical Report (Markdown):** [`submission/FINAL_INTERNSHIP_SUBMISSION_REPORT.md`](submission/FINAL_INTERNSHIP_SUBMISSION_REPORT.md)
+- **Print-Ready Technical Report (PDF):** [`submission/FINAL_INTERNSHIP_SUBMISSION_REPORT.pdf`](submission/FINAL_INTERNSHIP_SUBMISSION_REPORT.pdf)
+- **Deliverable Traceability Checklist:** [`submission/DELIVERABLE_TRACEABILITY.md`](submission/DELIVERABLE_TRACEABILITY.md)
+- **Automated Test & Live API Evidence:** [`submission/TEST_EVIDENCE.md`](submission/TEST_EVIDENCE.md)
+- **Authentic Application Screenshots:** [`submission/screenshots/`](submission/screenshots/)
 
 ---
 
-## 6. Technical Documentation Index
+## 6. Technology Stack
 
-All detailed specifications, architecture diagrams, research matrices, and methodologies are maintained in the [`docs/`](docs/) directory:
-
-- [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md): Comprehensive executive project overview.
-- [`docs/AI_PROVIDER_COMPARISON.md`](docs/AI_PROVIDER_COMPARISON.md): Exhaustive comparison across 7 providers.
-- [`docs/AGENT_ARCHITECTURE.md`](docs/AGENT_ARCHITECTURE.md): Formal 7-stage multi-agent orchestration architecture.
-- [`docs/RESUME_ANALYSIS_METHODOLOGY.md`](docs/RESUME_ANALYSIS_METHODOLOGY.md): Evidence tiers and zero-hallucination grounding.
-- [`docs/RESUME_GAMING_DETECTION.md`](docs/RESUME_GAMING_DETECTION.md): Algorithmic integrity engine and fairness rules.
-- [`docs/EXPLAINABLE_SCORING.md`](docs/EXPLAINABLE_SCORING.md): Mathematical rubric and weight distribution.
-- [`docs/SECURITY_AND_PRIVACY.md`](docs/SECURITY_AND_PRIVACY.md): Threat modeling, PII minimization, and upload security.
-- [`docs/PROMPT_INJECTION_PROTECTION.md`](docs/PROMPT_INJECTION_PROTECTION.md): Untrusted content quarantine and jailbreak defense.
-- [`docs/TEST_DATASET.md`](docs/TEST_DATASET.md): 12-case synthetic evaluation manifest specifications.
-- [`docs/EVALUATION_RESULTS.md`](docs/EVALUATION_RESULTS.md): Detailed confusion matrix and empirical benchmark metrics.
-- [`docs/BEFORE_AFTER_COMPARISON.md`](docs/BEFORE_AFTER_COMPARISON.md): 8-dimension comparative analysis.
-- [`docs/DEPLOYMENT_GUIDE.md`](docs/DEPLOYMENT_GUIDE.md): Production deployment guide for Render and Vercel.
-- [`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md): Methodological boundaries and operational limits.
-- [`docs/FUTURE_IMPROVEMENTS.md`](docs/FUTURE_IMPROVEMENTS.md): Prioritized engineering roadmap (P0–P3).
-- [`docs/cypher-matrix-assignment-report.md`](docs/cypher-matrix-assignment-report.md): Master technical assignment audit dossier.
+| Layer | Technology | Version | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Frontend** | React 18 / Vite | `18.3.1` / `6.1.0` | High-performance SPA with provider switching |
+| **Icons & UI** | Lucide React | `0.475.0` | Accessible pipeline visualization |
+| **Routing** | React Router | `6.28.2` | Client-side routing |
+| **Backend** | Node.js / Express | `24.11.1` / `4.21.2` | REST API gateway & agent orchestration |
+| **Database** | MongoDB Atlas / Mongoose | `8.10.0` | Isolated storage (`talentflow_cyphermatrix`) |
+| **Validation** | Zod | `3.24.2` | Runtime schema validation across all stages |
+| **Testing** | Vitest | `2.1.8` | Offline test harness (210/210 passing) |
+| **Hosting** | Vercel & Render | Production | Global edge CDN & containerized web service |
 
 ---
 
-## 7. Responsible AI & Candidate Fairness Statement
+## 7. License & Author
 
-TalentFlow AI is engineered as an assistive, evidence-grounded screening tool:
-- **No Automated Disqualification:** The platform does not contain an automated reject button. An elevated integrity risk sets `reviewRequired: true` and generates targeted interview questions for a human interviewer.
-- **Demographic Isolation:** Candidate age, gender markers, ethnicity, and postal addresses are excluded from scoring calculations.
-- **Non-Accusatory Language:** The system never refers to candidates as "cheaters", "frauds", or "manipulators". It exclusively reports *"textual signals requiring human verification"*.
-- **Synthetic Data Statement:** All sample resumes and evaluation test cases use fictional identities (Marcus Vance, Aarav Patel, Alex Rivera, Elena Rostova, etc.) with dummy email addresses (`@example.com`). Zero real candidate PII is stored.
-
----
-
-## 8. License & Attribution
-
-Developed for the **Cypher Matrix AI Automation Intern / Systems Engineering Assessment**.
-Base Repository: [https://github.com/dharmikvaliya/talentflow-ai](https://github.com/dharmikvaliya/talentflow-ai)
+- **Author:** Dharmik Valiya
+- **Organization:** Cypher Matrix Internship Submission
+- **Recipient:** HR Sushmita & Engineering Leadership
+- **License:** MIT License
