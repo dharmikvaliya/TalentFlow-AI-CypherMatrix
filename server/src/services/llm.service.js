@@ -499,6 +499,7 @@ class LLMService {
     let attempt = 0;
     const maxAttempts = 3;
     let dropResponseFormat = false;
+    let dropExtraParams = false;
 
     // Detect models that produce internal thinking/reasoning traces
     const isReasoningModel =
@@ -512,11 +513,11 @@ class LLMService {
       config.provider === 'nvidia';
 
     const effectiveSystemPrompt = isReasoningModel
-      ? `${systemPrompt}\n\nIMPORTANT: Keep internal reasoning concise (under 300 words). Do not deliberate extensively; output the final valid JSON object directly.`
+      ? `${systemPrompt}\n\nIMPORTANT: Be concise and direct. Keep internal reasoning under 200 words. Output the final valid JSON object directly without multi-page deliberation.`
       : systemPrompt;
 
-    const maxTokens = isReasoningModel ? 16384 : 4096;
-    const requestTimeoutMs = isReasoningModel ? 180000 : 60000;
+    const maxTokens = isReasoningModel ? 8192 : 4096;
+    const requestTimeoutMs = 60000;
 
     while (attempt < maxAttempts) {
       attempt++;
@@ -534,6 +535,15 @@ class LLMService {
 
         if (config.supportsStructuredOutput && !dropResponseFormat) {
           payload.response_format = { type: 'json_object' };
+        }
+
+        // Fast-inference parameters to prevent reasoning models from hanging in endless thinking loops
+        if (!dropExtraParams) {
+          if (config.provider === 'nvidia') {
+            payload.chat_template_kwargs = { enable_thinking: false };
+          } else if (config.provider === 'openrouter') {
+            payload.reasoning = { effort: 'low' };
+          }
         }
 
         const completion = await client.chat.completions.create(payload, { timeout: requestTimeoutMs });
@@ -593,6 +603,16 @@ class LLMService {
         ) {
           console.warn(`[LLM Service] [${config.name}] Constrained JSON mode failed for agent "${agentName}"; retrying without response_format constraint...`);
           dropResponseFormat = true;
+          continue;
+        }
+
+        if (
+          status === 400 &&
+          (/chat_template_kwargs|reasoning|extra_body/i.test(safeMessage)) &&
+          attempt < maxAttempts
+        ) {
+          console.warn(`[LLM Service] [${config.name}] Extra parameters not supported for agent "${agentName}"; retrying without them...`);
+          dropExtraParams = true;
           continue;
         }
         const isRateLimit = status === 429 || safeMessage.includes('429');

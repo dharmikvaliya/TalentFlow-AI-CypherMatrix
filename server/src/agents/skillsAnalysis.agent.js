@@ -28,7 +28,7 @@ Analyze and output a JSON object with:
    - "required": Array of mandatory skills/qualifications parsed directly from the JD.
    - "preferred": Array of nice-to-have/preferred qualifications parsed directly from the JD.
    - "experienceLevel": Estimated experience level (e.g. "Entry-Level", "Mid-Level", "Senior", "Internship", "5+ years").
-2. "skills": Array of identified candidate skills:
+2. "skills": Array of key candidate skills identified in the profile (focus on the 10-15 most relevant skills matched to the tech stack):
    - "name": Skill name.
    - "category": One of "language", "frontend", "backend", "database", "ai_ml", "cloud_tools", "core_cs", "soft", "other".
    - "proficiency": One of "beginner", "intermediate", "advanced", "unknown".
@@ -43,6 +43,7 @@ Analyze and output a JSON object with:
 4. "summary": Concise, objective 2-3 sentence overview of candidate qualification alignment.
 
 CRITICAL EVALUATION RULES:
+- BE FAST AND CONCISE: Directly evaluate the candidate and output the valid JSON. Do not deliberate endlessly. Keep requirement reasoning concise (1-2 sentences).
 - MISSING MEANS MISSING: If a specific technology, library, or tool (e.g. Docker, Vitest, Jest, Zod, LangGraph, Kubernetes, Terraform, etc.) is not explicitly named or clearly demonstrated in the candidate's resume or projects, its requirement status MUST be "missing" with evidence: null.
 - NEVER mark a requirement "partial" based on potential, willingness to learn, or "easy to learn". "Easy to learn" or "could pick it up quickly" is NOT evidence and is strictly prohibited.
 - "partial" is ONLY permitted if the candidate has directly worked with a closely related sub-tool explicitly cited from their resume (e.g. Mocha for a Jest requirement, or Express API validation for a Zod requirement), and MUST cite that exact text.
