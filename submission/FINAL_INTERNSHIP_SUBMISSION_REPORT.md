@@ -369,19 +369,23 @@ npm run build
 
 ## Chapter 24: Visual Artifacts & Screenshot Catalog
 
-Authentic, high-resolution screenshots captured directly from the live TalentFlow AI – Cypher Matrix web application (`https://talentflow-ai-cyphermatrix.vercel.app`) are preserved in `submission/screenshots/`:
+Authentic, high-resolution screenshots captured directly from the live running TalentFlow AI – Cypher Matrix application (Edge headless, 1920×1080 desktop resolution, device scale factor 1.5) are preserved in `submission/screenshots/`:
 
-1. `01_upload_and_provider_selection.png`: Recruiter intake dashboard with PDF resume upload, target job description requisition, and real-time AI Provider selection dropdown (`OpenAI`, `Groq`, `OpenRouter`, `NVIDIA NIM`, `Ollama`, `Mock`).
-2. `02_agentic_workflow_architecture.png`: Interactive **How It Works** architecture visualizer detailing the 7-stage multi-agent orchestration pipeline.
-3. `03_candidate_evaluation_history.png`: **Evaluation History** portal displaying past applicant evaluations, dynamic match scores, active inference providers, and status filters.
-4. `04_candidate_parsed_profile.png`: **Candidate Info Tab** displaying structured biographical facts, chronological employment roles, education history, and portfolio projects extracted in Stage 1.
-5. `05_skills_analysis_matches.png`: **Skills Match Tab** detailing categorized technical competencies mapped against required and preferred job requisition requirements.
-6. `06_resume_integrity_analysis.png`: Dedicated **Resume Integrity Tab** displaying deterministic detection of keyword stuffing, contiguous verbatim JD copying, uncorroborated skill inflation, and false-positive protection status.
-7. `07_explainable_scoring_rubric.png`: **Capability Scoring Tab** showing the transparent 0–100 rubric, radar visualization, strengths/gaps analysis, and score insulation guarantee.
-8. `08_adaptive_interview_questions.png`: **Interview Questions Tab** showing dynamically generated technical probes targeted at candidate skill gaps and integrity anomalies.
-9. `09_hiring_recommendation.png`: **Hiring Recommendation Tab** showing strategic hiring decisions (`Strong Hire`, `Hire`, `Maybe / Further Review`, `Reject`) with explicit guardrail advisories.
-10. `10_seven_stage_agent_traces.png`: **Agent Trace Visualizer** providing millisecond-accurate execution duration telemetry, token usage, and intermediate JSON schemas across all 7 stages.
-11. `11_final_candidate_report.png`: Consolidated executive **Final Report Tab** ready for review by recruiters and hiring managers.
+| File Name | UI View & Route | Page Description & Technical Significance |
+| :--- | :--- | :--- |
+| `01-dashboard.png` | **Intake & Provider Dashboard** (`/`) | Application landing page with AI provider selector (`OpenAI`, `Groq`, `OpenRouter`, `NVIDIA NIM`, `Ollama`, `Mock`), model cards, and system status indicator. |
+| `02-resume-upload.png` | **Resume Upload Dropzone** (`/`) | Candidate PDF intake interface demonstrating real file parsing (`DHARMIK_VALIYA_...pdf`), page count (1), and character count (3,732 chars) with magic-byte validation. |
+| `03-job-description-input.png` | **Job Description Requisition** (`/`) | Target job description input interface populated with the Cypher Matrix Full-Stack AI Engineer role criteria and analysis trigger. |
+| `04-workflow-pipeline.png` | **Architecture Pipeline** (`/how-it-works`) | "How TalentFlow AI Works" interactive view detailing the 4 architectural pillars and sequential 7-stage multi-agent orchestration data flow. |
+| `05-evaluation-history.png` | **Evaluation History Portal** (`/history`) | Recruiter evaluation history table displaying past applicant runs, match scores (0–100), recommendation tags, active AI providers, and report links. |
+| `06-candidate-analysis.png` | **Candidate Info Tab** (`/runs/:id`) | Stage 1 Resume Parser output: structured biographical demographics, education, professional experience chronology, and portfolio projects. |
+| `07-skill-matching.png` | **Skills Analysis Tab** (`/runs/:id`) | Stage 2 Skills Analysis matrix: technical skills classified across 9 domains, required vs. preferred mapping, match status, and verbatim resume evidence. |
+| `08-integrity-detection.png` | **Resume Integrity Tab** (`/runs/:id`) | Stage 3 Resume Integrity Engine: 0–100 integrity score, risk rating, keyword stuffing checks, contiguous verbatim JD copy matching, uncorroborated skill inflation flags, and dual-signal fairness rule. |
+| `09-scoring-breakdown.png` | **Capability Scoring Tab** (`/runs/:id`) | Stage 4 Capability Scoring Engine: deterministic 0–100 rubric (35% req, 25% exp, 20% proj, 10% pref, 10% edu), radar chart, grounded strengths, and gaps with score insulation. |
+| `10-interview-questions.png` | **Interview Questions Tab** (`/runs/:id`) | Stage 5 Interview Question Agent: dynamically generated technical questions, project-based probes, behavioral questions, and adaptive integrity verification challenges. |
+| `11-strategic-recommendations.png` | **Hiring Recommendation Tab** (`/runs/:id`) | Stage 6 Hiring Recommendation Agent: advisory hiring decision (`Maybe / Further Review`), confidence score, key risks, next steps, and hard code-level guardrail advisories. |
+| `12-agent-execution-traces.png` | **Agent Traces Tab** (`/runs/:id`) | Stage 7 Execution Trace Visualizer: millisecond execution duration telemetry, status badges, provider metadata, and intermediate JSON schemas across all 7 stages. |
+| `13-final-report.png` | **Final Candidate Report Tab** (`/runs/:id`) | Consolidated executive candidate report deliverable with full audit summary, Markdown download, and clipboard copy controls. |
 
 ---
 

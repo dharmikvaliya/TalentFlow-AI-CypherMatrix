@@ -131,7 +131,20 @@ The formal internship submission package is available in the `submission/` direc
 - **Print-Ready Technical Report (PDF):** [`submission/FINAL_INTERNSHIP_SUBMISSION_REPORT.pdf`](submission/FINAL_INTERNSHIP_SUBMISSION_REPORT.pdf)
 - **Deliverable Traceability Checklist:** [`submission/DELIVERABLE_TRACEABILITY.md`](submission/DELIVERABLE_TRACEABILITY.md)
 - **Automated Test & Live API Evidence:** [`submission/TEST_EVIDENCE.md`](submission/TEST_EVIDENCE.md)
-- **Authentic Application Screenshots:** [`submission/screenshots/`](submission/screenshots/)
+- **Authentic Application Screenshots (13 High-Resolution Full-HD Captures):** [`submission/screenshots/`](submission/screenshots/)
+  - `01-dashboard.png`: Recruiter intake dashboard with active AI provider selection (`OpenAI`, `Groq`, `OpenRouter`, `NVIDIA NIM`, `Ollama`, `Mock`).
+  - `02-resume-upload.png`: Resume upload interface with verified PDF metadata and magic-byte security checks.
+  - `03-job-description-input.png`: Target job description requisition interface with loaded role requirements.
+  - `04-workflow-pipeline.png`: Interactive "How TalentFlow AI Works" multi-agent architecture pipeline.
+  - `05-evaluation-history.png`: Candidate evaluation history table with scores, recommendation badges, and provider tags.
+  - `06-candidate-analysis.png`: Stage 1 Resume Parser extracted profile (education, experience, projects, skills).
+  - `07-skill-matching.png`: Stage 2 Skills Analysis matrix across 9 domains with verbatim evidence grounding.
+  - `08-integrity-detection.png`: Stage 3 Resume Integrity Engine with sub-2ms deterministic gaming detection and dual-signal fairness.
+  - `09-scoring-breakdown.png`: Stage 4 Candidate Capability Scoring with 35/25/20/10/10 rubric and radar breakdown.
+  - `10-interview-questions.png`: Stage 5 Adaptive Interview Questions with targeted integrity and skill-gap probing.
+  - `11-strategic-recommendations.png`: Stage 6 Hiring Recommendation Agent with Human-in-the-Loop advisory guardrails.
+  - `12-agent-execution-traces.png`: Stage 7 Execution Trace Visualizer with millisecond timings and token telemetry.
+  - `13-final-report.png`: Stage 7 Consolidated candidate report deliverable with Markdown export.
 
 ---
 
